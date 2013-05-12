@@ -1,0 +1,42 @@
+doctype html
+html
+  head
+    link href="/favicon.ico" rel="icon" type="image/x-icon"
+    link href="/css/bootstrap.min.css" rel="stylesheet"
+    link href="/css/bootstrap-responsive.min.css" rel="stylesheet"
+    link href="/css/font-awesome.min.css" rel="stylesheet"
+    link href="/css/styles.css" rel="stylesheet"
+    script src="/js/jquery.min.js"
+  body
+    a id="top"
+    .container
+      .row
+        .span6.offset3
+          .navbar
+            .navbar-inner
+              a.brand href="/" Coinpunk
+              ul.nav.pull-right
+                - if signed_in?
+                  li.navbar-text: strong style="color: #7AB800" #{@email}
+                  li: a href="/signout" style="color: #B94A48" Signout
+
+      - flash.keys.each do |key|
+        div class="alert alert-#{key}"
+          button.close type="button" data-dismiss="alert" &times;
+          = flash[key]
+
+      == yield
+
+  script src="/js/bootstrap.min.js"
+  script src="/js/jstz.min.js"
+  
+  - if @timezone.nil?
+
+    javascript:
+    
+      $(document).ready(function() {
+        var timezone = jstz.determine();
+        
+        $.post('/set_timezone', {"name": timezone.name()}, function(response) {});
+      });
+      

@@ -1,0 +1,15 @@
+development:
+  database: 'sqlite3://localhost/coinbase'
+  session_secret: TYPESOMETHINGUNIQUEHERE
+  bitcoind_rpcuser: YOURUSERNAME
+  bitcoind_rpcpassword: YOURPASSWORD
+test:
+  database: 'sqlite3://localhost/coinbase'
+  session_secret: TYPESOMETHINGUNIQUEHERE
+  bitcoind_rpcuser: YOURUSERNAME
+  bitcoind_rpcpassword: YOURPASSWORD
+production:
+  database: 'sqlite3://localhost/coinbase'
+  session_secret: TYPESOMETHINGUNIQUEHERE
+  bitcoind_rpcuser: YOURUSERNAME
+  bitcoind_rpcpassword: YOURPASSWORD

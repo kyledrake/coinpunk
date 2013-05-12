@@ -1,0 +1,12 @@
+body {
+    font-family: 'Droid Sans', Arial, sans;
+    color: #666;
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/fonts/DroidSans.eot');
+  src: local('Droid Sans'), local('DroidSans'), url('/fonts/DroidSans.ttf') format('truetype');
+}

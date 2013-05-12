@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+ENV['RACK_ENV'] = 'production'
+
+require 'bundler'
+require File.join(File.expand_path(File.dirname(__FILE__)), 'app.rb')
+require 'vegas'
+
+$0 = 'coinpunk'
+
+Vegas::Runner.new(App, 'coinpunk') do |runner, opts, app|
+  runner.options[:skip_launch] = true
+end
