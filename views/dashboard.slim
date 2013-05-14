@@ -37,7 +37,7 @@ javascript:
                   tr
                     td = transaction['address']
                     td = transaction['category'].capitalize
-                    td #{transaction['amount']} BTC
+                    td #{("%.6f" % transaction['amount']).sub(/\.?0*$/, "")} BTC
                     td #{transaction['confirmations']}
                     th = Time.at(transaction['timereceived']).getlocal(@timezone_offset).strftime('%b %-d, %Y %H:%M '+@timezone_identifier.to_s)
                     
@@ -59,7 +59,7 @@ javascript:
               tr
                 td TODO: IMPLEMENT
                 td = address
-                td #{@addresses_received[i]} BTC
+                td #{("%.6f" % @addresses_received[i]).sub(/\.?0*$/, "")} BTC
 
         h4 Create New Address
 
@@ -72,11 +72,16 @@ javascript:
         h3 Send Bitcoins:
 
         form method="POST" action="/send"
+          p Address to send to:
+          input name="tobitcoinaddress" type="text" placeholder="Bitcoin Address" style="width: 320px"
 
-        p Address to send to:
-        input type="text" placeholder="Bitcoin Address" style="width: 320px"
+          p Amount:
+          input name="amount" type="text" placeholder="0.00" style="width: 70px" &nbsp;&nbsp;BTC
+        
+          p Comment <small>optional</small>:
+          textarea name="comment"
+        
+          p Recipient Name/Info <small>optional</small>:
+          textarea name="comment-to"
 
-        p Amount:
-        input type="text" placeholder="0.00" style="width: 70px" &nbsp;&nbsp;BTC
-
-        div: button class="btn btn-large btn-primary" href="#" style="margin-top: 10px" Send
+          div: button class="btn btn-large btn-primary" href="#" style="margin-top: 10px" Send

@@ -1,6 +1,8 @@
 require './environment.rb'
 
 class App < Sinatra::Base
+  MINIMUM_SEND_CONFIRMATIONS = 1
+
   register Sinatra::Flash
 
   configure do
@@ -36,12 +38,25 @@ class App < Sinatra::Base
 
   get '/dashboard' do
     @email = session[:account_email]
-    @addresses = bitcoin_rpc 'getaddressesbyaccount', @email
-    @transactions = bitcoin_rpc 'listtransactions', @email
-    puts @transactions.inspect
-    @account_balance = bitcoin_rpc 'getbalance', @email
-    @addresses_received = @addresses.collect {|a| bitcoin_rpc('getreceivedbyaddress', a)}
     @time_zone = request.env["time.zone"]
+    
+    threads = []
+
+    threads << Thread.new {
+      @addresses = bitcoin_rpc 'getaddressesbyaccount', @email
+      @addresses_received = @addresses.collect {|a| bitcoin_rpc('getreceivedbyaddress', a)}
+    }
+
+    threads << Thread.new {
+      @transactions = bitcoin_rpc 'listtransactions', @email
+    }
+
+    threads << Thread.new {
+      @account_balance = bitcoin_rpc 'getbalance', @email
+    }
+
+    threads.each {|t| t.join}
+
     slim :dashboard
   end
 
@@ -54,6 +69,21 @@ class App < Sinatra::Base
   get '/signout' do
     session[:account_email] = nil
     session[:timezone] = nil
+    redirect '/'
+  end
+
+  post '/send' do
+    transaction_id = bitcoin_rpc(
+      'sendfrom',
+      session[:account_email],
+      params[:tobitcoinaddress],
+      params[:amount].to_f,
+      MINIMUM_SEND_CONFIRMATIONS,
+      params[:comment],
+      params[:'comment-to']
+    )
+
+    flash[:success] = "Sent #{params[:amount]} BTC to #{params[:tobitcoinaddress]}."
     redirect '/'
   end
 
