@@ -51,7 +51,7 @@ class App < Sinatra::Base
     }
 
     threads << Thread.new {
-      @transactions = bitcoin_rpc 'listtransactions', @email
+      @transactions = bitcoin_rpc('listtransactions', @email).reverse!
     }
 
     threads << Thread.new {
