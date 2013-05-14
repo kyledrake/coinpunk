@@ -37,6 +37,9 @@ class App < Sinatra::Base
   end
 
   get '/dashboard' do
+    redirect '/' unless signed_in?
+
+    @title = 'Dashboard'
     @email = session[:account_email]
     @time_zone = request.env["time.zone"]
     
