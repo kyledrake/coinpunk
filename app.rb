@@ -77,15 +77,20 @@ class App < Sinatra::Base
   end
 
   post '/send' do
-    transaction_id = bitcoin_rpc(
-      'sendfrom',
-      session[:account_email],
-      params[:tobitcoinaddress],
-      params[:amount].to_f,
-      MINIMUM_SEND_CONFIRMATIONS,
-      params[:comment],
-      params[:'comment-to']
-    )
+    begin
+      transaction_id = bitcoin_rpc(
+        'sendfrom',
+        session[:account_email],
+        params[:tobitcoinaddress],
+        params[:amount].to_f,
+        MINIMUM_SEND_CONFIRMATIONS,
+        params[:comment],
+        params[:'comment-to']
+      )
+    rescue Bitcoin::Errors::RPCError => e
+      flash[:error] = "Unable to send bitcoins: #{e.message}"
+      redirect '/'
+    end
 
     flash[:success] = "Sent #{params[:amount]} BTC to #{params[:tobitcoinaddress]}."
     redirect '/'
