@@ -154,6 +154,7 @@ class App < Sinatra::Base
   
   helpers do
     def timestamp_to_formatted_time(timestamp)
+      return '' if timestamp.nil?
       Time.at(timestamp).getlocal(@timezone_offset).strftime('%b %-d, %Y %H:%M '+@timezone_identifier.to_s)
     end
     
