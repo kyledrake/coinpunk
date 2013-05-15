@@ -2,7 +2,7 @@ javascript:
   $(document).ready(function() {
     $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(json) {
       var response = JSON.parse(json);
-      $('#balance_usd').html('≈ $' + (response.data.avg.value * $('#balance_btc').html()).toFixed(2) + ' USD');
+      $('#balance_usd').html('≈ $' + (response.data.last.value * $('#balance_btc').html()).toFixed(2) + ' USD');
     });
   });
 
