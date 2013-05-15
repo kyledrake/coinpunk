@@ -1,7 +1,7 @@
 require './environment.rb'
 
 class App < Sinatra::Base
-  MINIMUM_SEND_CONFIRMATIONS = 1
+  MINIMUM_SEND_CONFIRMATIONS = 0
 
   register Sinatra::Flash
 
@@ -27,10 +27,6 @@ class App < Sinatra::Base
     end
   end
 
-  post '/set_timezone' do
-    session[:timezone] = params[:name]
-  end
-
   get '/' do
     dashboard_if_signed_in
     slim :index
@@ -40,41 +36,25 @@ class App < Sinatra::Base
     redirect '/' unless signed_in?
 
     @title = 'Dashboard'
-    @account = Account[email: session[:account_email]]
-    email = session[:account_email]
-    @email = email
-    @time_zone = request.env["time.zone"]
 
-    @addresses_raw, @transactions_raw, @account_balance_raw = $bitcoin.batch do
-      rpc 'getaddressesbyaccount', email
-      rpc 'listtransactions', email
-      rpc 'getbalance', email
+    account = Account[email: session[:account_email]]
+
+    addresses_raw, transactions_raw, account_balance_raw = $bitcoin.batch do |client|
+      client.rpc 'getaddressesbyaccount', account.email
+      client.rpc 'listtransactions', account.email
+      client.rpc 'getbalance', account.email
     end
 
-    addresses = @addresses_raw['result']
-    @addresses = addresses
-    @transactions = @transactions_raw['result']
-    @account_balance = @account_balance_raw['result']
+    @addresses_received = $bitcoin.batch do
+      addresses_raw['result'].each {|a| rpc 'getreceivedbyaddress', a}
+    end.collect{|a| a['result']}
 
-    @addresses_received_raw = $bitcoin.batch do
-      addresses.each {|a| rpc 'getreceivedbyaddress', a}
-    end
-
-    @addresses_received = @addresses_received_raw.collect {|a| a['result']}
+    @account            = account
+    @addresses          = addresses_raw['result']
+    @transactions       = transactions_raw['result']
+    @account_balance    = account_balance_raw['result']
 
     slim :dashboard
-  end
-
-  get '/accounts/new' do
-    dashboard_if_signed_in
-    @account = Account.new
-    slim :'accounts/new'
-  end
-
-  get '/signout' do
-    session[:account_email] = nil
-    session[:timezone] = nil
-    redirect '/'
   end
 
   post '/send' do
@@ -95,6 +75,17 @@ class App < Sinatra::Base
 
     flash[:success] = "Sent #{params[:amount]} BTC to #{params[:tobitcoinaddress]}."
     redirect '/'
+  end
+
+  get '/transaction/:txid' do
+    @transaction = bitcoin_rpc 'gettransaction', params[:txid]
+    slim :'transactions/view'
+  end
+
+  get '/accounts/new' do
+    dashboard_if_signed_in
+    @account = Account.new
+    slim :'accounts/new'
   end
 
   post '/accounts/signin' do
@@ -134,6 +125,16 @@ class App < Sinatra::Base
     redirect '/dashboard'
   end
 
+  post '/set_timezone' do
+    session[:timezone] = params[:name]
+  end
+
+  get '/signout' do
+    session[:account_email] = nil
+    session[:timezone] = nil
+    redirect '/'
+  end
+
   def dashboard_if_signed_in
     redirect '/dashboard' if signed_in?
   end
@@ -145,9 +146,19 @@ class App < Sinatra::Base
   def bitcoin_rpc(meth, *args)
     $bitcoin.rpc(meth, *args)
   end
-  
+
   def render(engine, data, options = {}, locals = {}, &block)
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
+  end
+  
+  helpers do
+    def timestamp_to_formatted_time(timestamp)
+      Time.at(timestamp).getlocal(@timezone_offset).strftime('%b %-d, %Y %H:%M '+@timezone_identifier.to_s)
+    end
+    
+    def format_amount(amount)
+      ("%.6f" % amount).sub(/\.?0*$/, "")
+    end
   end
 end
