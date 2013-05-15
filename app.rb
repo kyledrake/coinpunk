@@ -41,25 +41,26 @@ class App < Sinatra::Base
 
     @title = 'Dashboard'
     @account = Account[email: session[:account_email]]
-    @email = session[:account_email]
+    email = session[:account_email]
+    @email = email
     @time_zone = request.env["time.zone"]
-    
-    threads = []
 
-    threads << Thread.new {
-      @addresses = bitcoin_rpc 'getaddressesbyaccount', @email
-      @addresses_received = @addresses.collect {|a| bitcoin_rpc('getreceivedbyaddress', a)}
-    }
+    @addresses_raw, @transactions_raw, @account_balance_raw = $bitcoin.batch do
+      rpc 'getaddressesbyaccount', email
+      rpc 'listtransactions', email
+      rpc 'getbalance', email
+    end
 
-    threads << Thread.new {
-      @transactions = bitcoin_rpc('listtransactions', @email).reverse!
-    }
+    addresses = @addresses_raw['result']
+    @addresses = addresses
+    @transactions = @transactions_raw['result']
+    @account_balance = @account_balance_raw['result']
 
-    threads << Thread.new {
-      @account_balance = bitcoin_rpc 'getbalance', @email
-    }
+    @addresses_received_raw = $bitcoin.batch do
+      addresses.each {|a| rpc 'getreceivedbyaddress', a}
+    end
 
-    threads.each {|t| t.join}
+    @addresses_received = @addresses_received_raw.collect {|a| a['result']}
 
     slim :dashboard
   end
@@ -87,7 +88,7 @@ class App < Sinatra::Base
         params[:comment],
         params[:'comment-to']
       )
-    rescue Bitcoin::Errors::RPCError => e
+    rescue Silkroad::Client::Error => e
       flash[:error] = "Unable to send bitcoins: #{e.message}"
       redirect '/'
     end
@@ -142,7 +143,7 @@ class App < Sinatra::Base
   end
 
   def bitcoin_rpc(meth, *args)
-    $bitcoin.send(meth, *args)
+    $bitcoin.rpc(meth, *args)
   end
   
   def render(engine, data, options = {}, locals = {}, &block)

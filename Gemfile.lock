@@ -1,11 +1,16 @@
+PATH
+  remote: /Users/kyledrake/code/silkroad
+  specs:
+    silkroad (0.0.1)
+      addressable
+      httpclient
+
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.4)
     ansi (1.4.3)
     bcrypt-ruby (3.0.1)
-    bitcoin-client (0.0.1)
-      rest-client (= 1.6.3)
     builder (3.2.0)
     celluloid (0.12.4)
       facter (>= 1.6.12)
@@ -25,6 +30,7 @@ GEM
     faker (1.1.2)
       i18n (~> 0.5)
     hashie (2.0.3)
+    httpclient (2.3.3)
     i18n (0.6.4)
     mail (2.5.3)
       i18n (>= 0.4.0)
@@ -68,8 +74,6 @@ GEM
     redis (3.0.3)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
-    rest-client (1.6.3)
-      mime-types (>= 1.16)
     sequel (3.46.0)
     shotgun (0.9)
       rack (>= 1.0)
@@ -111,7 +115,6 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby
-  bitcoin-client
   fabrication
   faker
   minitest
@@ -127,6 +130,7 @@ DEPENDENCIES
   sequel
   shotgun
   sidekiq
+  silkroad!
   simplecov
   sinatra
   sinatra-flash

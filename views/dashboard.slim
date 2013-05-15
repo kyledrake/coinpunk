@@ -61,7 +61,7 @@ javascript:
                 td = address.bitcoin_address
                 td #{("%.6f" % @addresses_received[@addresses.index(address.bitcoin_address)]).sub(/\.?0*$/, "")} BTC
 
-        h4 Create New Address
+        h4 Create New Receive Address
 
         form method="POST" action="/addresses/create"
           p Descriptive name <small>(optional but recommended)</small>:

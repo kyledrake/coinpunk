@@ -22,10 +22,10 @@ if defined?(Pry)
   Pry.commands.alias_command 'f', 'finish'
 end
 
-$bitcoin = Bitcoin::Client.new(
+$bitcoin = Silkroad::Client.new(
   $config['bitcoind_rpcuser'], 
   $config['bitcoind_rpcpassword'],
-  ($config['bitcoind_rpchost'] ? {host: $config['bitcoind_rpchost']} : {})
+  url: $config['bitcoind_rpchost']
 )
 
 Sequel.datetime_class = Time
