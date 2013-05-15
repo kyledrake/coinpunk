@@ -40,6 +40,7 @@ class App < Sinatra::Base
     redirect '/' unless signed_in?
 
     @title = 'Dashboard'
+    @account = Account[email: session[:account_email]]
     @email = session[:account_email]
     @time_zone = request.env["time.zone"]
     
@@ -108,7 +109,8 @@ class App < Sinatra::Base
 
       DB.transaction do
         @account.save
-        bitcoin_rpc 'getaccountaddress', params[:email]
+        address = bitcoin_rpc 'getaccountaddress', params[:email]
+        @account.add_receive_address name: 'Default', bitcoin_address: address
       end
 
       session[:account_email] = @account.email
@@ -121,7 +123,8 @@ class App < Sinatra::Base
 
   post '/addresses/create' do
     address = bitcoin_rpc 'getnewaddress', session[:account_email]
-    flash[:success] = "Created new address: #{address}"
+    Account[email: session[:account_email]].add_receive_address name: params[:name], bitcoin_address: address
+    flash[:success] = "Created new receive address \"#{params[:name]}\" with address \"#{address}\"."
     redirect '/dashboard'
   end
 

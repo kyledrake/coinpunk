@@ -10,3 +10,7 @@ body {
   src: url('/fonts/DroidSans.eot');
   src: local('Droid Sans'), local('DroidSans'), url('/fonts/DroidSans.ttf') format('truetype');
 }
+
+#balance_usd small {
+  font-size: 8pt;
+}

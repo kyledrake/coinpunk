@@ -2,6 +2,8 @@ class Account < Sequel::Model
   MINIMUM_PASSWORD_LENGTH = 5
   EMAIL_VALIDATION_REGEX = /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/i
 
+  one_to_many :receive_addresses
+
   class << self
     def valid_login?(email, plaintext)
       account = self[email: email]

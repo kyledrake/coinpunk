@@ -2,7 +2,7 @@ javascript:
   $(document).ready(function() {
     $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(json) {
       var response = JSON.parse(json);
-      $('#balance_usd').html('≈ $' + (response.data.last.value * $('#balance_btc').html()).toFixed(2) + ' USD');
+      $('#balance_usd').html('≈ $' + (response.data.last.value * $('#balance_btc').html()).toFixed(2) + ' USD <small>(Mt. Gox)</small>');
     });
   });
 
@@ -55,17 +55,17 @@ javascript:
                 th Address
                 th Received
             tbody
-            - @addresses.each_with_index do |address,i|
+            - @account.receive_addresses_dataset.order(:created_at.desc).all.each do |address|
               tr
-                td TODO: IMPLEMENT
-                td = address
-                td #{("%.6f" % @addresses_received[i]).sub(/\.?0*$/, "")} BTC
+                td = address.name
+                td = address.bitcoin_address
+                td #{("%.6f" % @addresses_received[@addresses.index(address.bitcoin_address)]).sub(/\.?0*$/, "")} BTC
 
         h4 Create New Address
 
         form method="POST" action="/addresses/create"
-          p Descriptive name:
-          div: input type="text" placeholder="Web Site Donations"
+          p Descriptive name <small>(optional but recommended)</small>:
+          div: input name="name" type="text" placeholder="Web Site Donations"
           button.btn.btn-primary Create Address
 
       .span5
