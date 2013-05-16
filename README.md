@@ -25,6 +25,10 @@ Coming soon:
 * Receiving notifications when new bitcoins arrive.
 * Send Bitcoins to users using e-mail (users collect the payment by getting a link to register with your service).
 
+## Screenshots
+
+[Click Here](https://www.dropbox.com/sh/d66dfzd5ehwae4g/leq-ca3fia).
+
 ## Get Started
 
 Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu 12.10`](./install-ubuntu.md) guide to get started.
