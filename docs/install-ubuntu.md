@@ -12,8 +12,6 @@ This guide sets up a production server running Coinpunk. The basic procedure inc
 * Installing and configuring the SQL database
 * Configuring Nginx
 
-
-
 ### Installing packages
 
 First, update your package list. If your `sudo` is not present, you should run the update commands as root, and then run `apt-get install sudo`:
@@ -27,7 +25,7 @@ Now you will need to install the necessary packages:
 
 Now, you need to install Ruby. There are two ways to do this. The first way is to install ruby using the package system:
 
-    sudo apt-get install ruby
+    sudo apt-get install ruby ruby-dev
 
 If you would rather compile ruby from source, [download the latest version of ruby](http://www.ruby-lang.org/en/downloads) and install from source:
 
@@ -89,7 +87,7 @@ Your `config.yml` should look something this (with an optional `development` and
 
 ### Installing and configuring the SQL database
 
-If you don't have a preference for SQL databases, you can use SQLite, which will just store data in a file in the root of your application. The config.yml is configured this way by default.
+If you don't have a preference for SQL databases, you can use SQLite, which will just store data in a file in the root of your application. The config.yml is configured this way by default. If you want to use PostgreSQL or MySQL, use `postgres` or `mysql2` for the schema, respectively.
 
 To install:
 
@@ -97,7 +95,9 @@ To install:
 
 If you would like to use MySQL or PostgreSQL, simply change the database config to point to your database. For example, with PostgreSQL, you would use `postgres://USER:PASS@localhost/coinpunk`.
 
-Now you will need to run `bundle install` to grab the required code.
+Now you will need to run `bundle install` to grab the required code. First, go to the `coinpunk` directory:
+
+    cd coinpunk
 
 If you are just using Sqlite3 (default), run this:
 
