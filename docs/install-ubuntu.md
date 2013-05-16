@@ -57,7 +57,7 @@ Create a `bitcoin.conf` file, and add the following values:
     echo "gen=0" > ~/.bitcoin/bitcoin.conf
     echo "rpcuser=YOURUSER" >> ~/.bitcoin/bitcoin.conf
     echo "rpcpassword=YOURPASSWORD" >> ~/.bitcoin/bitcoin.conf
-    echo "maxconnections=5" >> ~/.bitcoin/bitcoin.conf
+    echo "maxconnections=3" >> ~/.bitcoin/bitcoin.conf
 
 Start the bitcoind server:
 
@@ -125,5 +125,21 @@ If you are using MySQL:
 You can start Coinpunk with the following command:
 
     `./start`
-    
-    
+
+It starts on port `5678` by default, but you may want to set it to a specific port:
+
+    `./start -p 10000`
+
+You can ensure this application gets started on system reboot by adding an entry to `/etc/rc.local`:
+
+    sudo -u YOURSHELLUSERNAME sh -c "/home/YOURSHELLUSERNAME/coinpunk/start -p 10000"
+
+We will eventually have a service file you can install. If you would like to contribute one, please let us know!
+
+### Configuring Nginx
+
+Instead of running this service directly on port 80, most people opt to use NGINX. We will have an install guide for setting up nginx coming soon.
+
+### Final Thoughts
+
+This is an early install guide. It will become simpler eventually, and may have issues. If you run into any, please let us know so we can fix them (better yet, submit pull requests fixing them).

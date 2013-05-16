@@ -32,7 +32,7 @@ Coinpunk uses a "low" amount of memory (~70MB on 64-bit machines). However, bitc
 
 Bitcoind 0.8.2 is supposed to have much lower memory requirements, which will hopefully improve this problem. In the interim, if you need to run bitcoind on a lower memory instance (or are having issues with bitcoind crashing due to lack of memory) you can help to reduce memory usage by reducing the number of connections it makes to other bitcoin servers. Try adding this to your `bitcoin.conf` file:
 
-    maxconnections=5
+    maxconnections=3
 
 You can experiment with raising/lowering this, but keep in mind that lowering it will slow down your ability to keep up with the Bitcoin network.
 
