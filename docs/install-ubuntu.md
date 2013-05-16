@@ -13,7 +13,7 @@ This guide sets up a production server running Coinpunk. The basic procedure inc
 * Installing Ruby Gems
 * Configuring Nginx
 
-### Installing packages
+## Installing packages
 
 First, update your package list. If your `sudo` is not present, you should run the update commands as root, and then run `apt-get install sudo`:
 
@@ -40,7 +40,7 @@ Now you will need to install bundler, which will download and compile the needed
 
     sudo gem install bundler
 
-### Installing, configuring and starting bitcoind
+## Installing, configuring and starting bitcoind
 
 You can install bitcoind from the bitcoin package repository:
 
@@ -71,7 +71,7 @@ If you want bitcoind to run again, add this to `/etc/rc.local`:
 
 We will have a bitcoind service file you can install coming soon.
 
-### Installing Coinpunk
+## Installing Coinpunk
 
 Now you will need to clone Coinpunk:
 
@@ -92,7 +92,7 @@ Your `config.yml` should look something this (with an optional `development` and
       bitcoind_rpcuser: YOURRPCUSER
       bitcoind_rpcpassword: YOURRPCPASS
 
-### Installing and configuring the SQL database
+## Installing and configuring the SQL database
 
 If you don't have a preference for SQL databases, you can use SQLite, which will just store data in a file in the root of your application. The config.yml is configured this way by default. If you want to use PostgreSQL or MySQL, use `postgres` or `mysql2` for the schema, respectively.
 
@@ -102,7 +102,7 @@ To install:
 
 If you would like to use MySQL or PostgreSQL, simply change the database config to point to your database. For example, with PostgreSQL, you would use `postgres://USER:PASS@localhost/coinpunk`.
 
-### Installing Ruby Gems
+## Installing Ruby Gems
 
 Now you will need to run `bundle install` to grab the required code. First, go to the `coinpunk` directory:
 
@@ -120,7 +120,7 @@ If you are using MySQL:
 
     sudo bundle install --without development test sqlite postgres
 
-### Starting Coinpunk
+## Starting Coinpunk
 
 You can start Coinpunk with the following command:
 
@@ -136,10 +136,10 @@ You can ensure this application gets started on system reboot by adding an entry
 
 We will eventually have a service file you can install. If you would like to contribute one, please let us know!
 
-### Configuring Nginx
+## Configuring Nginx
 
 Instead of running this service directly on port 80, most people opt to use NGINX. We will have an install guide for setting up nginx coming soon.
 
-### Final Thoughts
+## Final Thoughts
 
 This is an early install guide. It will become simpler eventually, and may have issues. If you run into any, please let us know so we can fix them (better yet, submit pull requests fixing them).
