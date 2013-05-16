@@ -38,7 +38,7 @@ If you would rather compile ruby from source, [download the latest version of ru
     
 Now you will need to install bundler, which will download and compile the needed dependencies:
 
-    `sudo gem install bundler`
+    sudo gem install bundler
 
 ### Installing, configuring and starting bitcoind
 
@@ -124,11 +124,11 @@ If you are using MySQL:
 
 You can start Coinpunk with the following command:
 
-    `./start`
+    ./start
 
 It starts on port `5678` by default, but you may want to set it to a specific port:
 
-    `./start -p 10000`
+    ./start -p 10000
 
 You can ensure this application gets started on system reboot by adding an entry to `/etc/rc.local`:
 
