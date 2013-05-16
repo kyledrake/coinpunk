@@ -1,15 +1,15 @@
 development:
-  database: 'sqlite3://localhost/coinpunk'
+  database: 'sqlite://coinpunk_development.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
   bitcoind_rpcuser: YOURUSERNAME
   bitcoind_rpcpassword: YOURPASSWORD
 test:
-  database: 'sqlite3://localhost/coinpunk'
+  database: 'sqlite://coinpunk_test.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
   bitcoind_rpcuser: YOURUSERNAME
   bitcoind_rpcpassword: YOURPASSWORD
 production:
-  database: 'sqlite3://localhost/coinpunk'
+  database: 'sqlite://coinpunk.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
   bitcoind_rpcuser: YOURUSERNAME
   bitcoind_rpcpassword: YOURPASSWORD

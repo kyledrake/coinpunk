@@ -16,7 +16,9 @@ gem 'puma', require: nil
 gem 'vegas', require: nil
 
 platform :mri do
-  gem 'pg'
+  gem 'pg',      group: :postgres
+  gem 'mysql2',  group: :mysql
+  gem 'sqlite3', group: :sqlite
   
   group :development, :test do
     gem 'pry'
