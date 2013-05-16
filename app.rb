@@ -33,7 +33,7 @@ class App < Sinatra::Base
   end
 
   get '/dashboard' do
-    redirect '/' unless signed_in?
+    require_login
 
     @title = 'Dashboard'
 
@@ -58,6 +58,8 @@ class App < Sinatra::Base
   end
 
   post '/send' do
+    require_login
+
     begin
       transaction_id = bitcoin_rpc(
         'sendfrom',
@@ -78,6 +80,7 @@ class App < Sinatra::Base
   end
 
   get '/transaction/:txid' do
+    require_login
     @transaction = bitcoin_rpc 'gettransaction', params[:txid]
     slim :'transactions/view'
   end
@@ -119,6 +122,7 @@ class App < Sinatra::Base
   end
 
   post '/addresses/create' do
+    require_login
     address = bitcoin_rpc 'getnewaddress', session[:account_email]
     Account[email: session[:account_email]].add_receive_address name: params[:name], bitcoin_address: address
     flash[:success] = "Created new receive address \"#{params[:name]}\" with address \"#{address}\"."
@@ -130,6 +134,7 @@ class App < Sinatra::Base
   end
 
   get '/signout' do
+    require_login
     session[:account_email] = nil
     session[:timezone] = nil
     redirect '/'
@@ -137,6 +142,10 @@ class App < Sinatra::Base
 
   def dashboard_if_signed_in
     redirect '/dashboard' if signed_in?
+  end
+
+  def require_login
+    redirect '/' unless signed_in?
   end
 
   def signed_in?
