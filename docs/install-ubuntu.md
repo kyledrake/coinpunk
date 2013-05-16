@@ -55,8 +55,8 @@ Now you will need to create a `.bitcoin` folder to store your data and config fo
 Create a `bitcoin.conf` file, and add the following values:
 
     echo "gen=0" > ~/.bitcoin/bitcoin.conf
-    echo "rpcuser=YOURUSER" >> ~/.bitcoin/bitcoin.conf
-    echo "rpcpassword=YOURPASSWORD" >> ~/.bitcoin/bitcoin.conf
+    echo "rpcuser=YOURRPCUSER" >> ~/.bitcoin/bitcoin.conf
+    echo "rpcpassword=YOURRPCPASS" >> ~/.bitcoin/bitcoin.conf
     echo "maxconnections=3" >> ~/.bitcoin/bitcoin.conf
 
 Start the bitcoind server:
@@ -67,7 +67,7 @@ Bitcoind will take several hours to catch up with the bitcoin network, so please
 
 If you want bitcoind to run again, add this to `/etc/rc.local`:
 
-    sudo -u YOURSHELLUSERNAME sh -c "/usr/bin/bitcoind -daemon"
+    /usr/bin/sudo -u YOURSHELLUSERNAME sh -c "/usr/bin/bitcoind -daemon"
 
 We will have a bitcoind service file you can install coming soon.
 
@@ -132,7 +132,7 @@ It starts on port `5678` by default, but you may want to set it to a specific po
 
 You can ensure this application gets started on system reboot by adding an entry to `/etc/rc.local`:
 
-    sudo -u YOURSHELLUSERNAME sh -c "/home/YOURSHELLUSERNAME/coinpunk/start -p 10000"
+    /usr/bin/sudo -u YOURSHELLUSERNAME sh -c "/home/YOURSHELLUSERNAME/coinpunk/start -p 10000"
 
 We will eventually have a service file you can install. If you would like to contribute one, please let us know!
 
