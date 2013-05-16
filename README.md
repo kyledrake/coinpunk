@@ -27,11 +27,11 @@ Coming soon:
 
 ## Screenshots
 
-[Click Here](https://www.dropbox.com/sh/d66dfzd5ehwae4g/leq-ca3fia).
+[Click here to see screenshots gallery](https://www.dropbox.com/sh/d66dfzd5ehwae4g/leq-ca3fia)
 
 ## Get Started
 
-Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu 12.10`](./install-ubuntu.md) guide to get started.
+Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu 12.10`](./docs/install-ubuntu.md) guide to get started.
 
 ## Author
 
