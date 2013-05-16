@@ -1,4 +1,4 @@
-require './environment.rb'
+require File.join(File.expand_path(File.dirname(__FILE__)), 'environment.rb')
 
 class App < Sinatra::Base
   MINIMUM_SEND_CONFIRMATIONS = 0

@@ -13,7 +13,7 @@ $config = YAML.load_file(File.join(DIR_ROOT, 'config.yml'))[ENV['RACK_ENV']]
 
 DB = Sequel.connect $config['database']
 
-Dir.glob('workers/*.rb').each {|w| require "./#{w}" }
+Dir.glob('workers/*.rb').each {|w| require File.join(DIR_ROOT, "/#{w}") }
 
 if defined?(Pry)
   Pry.commands.alias_command 'c', 'continue'
@@ -40,6 +40,6 @@ Sequel::Model.plugin :defaults_setter
 Sequel.default_timezone = 'UTC'
 Sequel::Migrator.apply DB, './migrations'
 
-Dir.glob('models/*.rb').each {|m| require "./#{m}" }
+Dir.glob('models/*.rb').each {|m| require File.join(DIR_ROOT, "#{m}") }
 
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'

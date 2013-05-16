@@ -10,6 +10,7 @@ This guide sets up a production server running Coinpunk. The basic procedure inc
 * Installing, configuring and starting bitcoind
 * Installing Coinpunk
 * Installing and configuring the SQL database
+* Installing Ruby Gems
 * Configuring Nginx
 
 ### Installing packages
@@ -64,6 +65,12 @@ Start the bitcoind server:
     
 Bitcoind will take several hours to catch up with the bitcoin network, so please be patient.
 
+If you want bitcoind to run again, add this to `/etc/rc.local`:
+
+    sudo -u YOURSHELLUSERNAME sh -c "/usr/bin/bitcoind -daemon"
+
+We will have a bitcoind service file you can install coming soon.
+
 ### Installing Coinpunk
 
 Now you will need to clone Coinpunk:
@@ -95,6 +102,8 @@ To install:
 
 If you would like to use MySQL or PostgreSQL, simply change the database config to point to your database. For example, with PostgreSQL, you would use `postgres://USER:PASS@localhost/coinpunk`.
 
+### Installing Ruby Gems
+
 Now you will need to run `bundle install` to grab the required code. First, go to the `coinpunk` directory:
 
     cd coinpunk
@@ -111,4 +120,10 @@ If you are using MySQL:
 
     sudo bundle install --without development test sqlite postgres
 
+### Starting Coinpunk
 
+You can start Coinpunk with the following command:
+
+    `./start`
+    
+    
