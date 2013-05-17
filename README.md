@@ -38,7 +38,7 @@ Installation is relatively simple (and will get simpler in the future). See the 
 
 ## Author
 
-[Kyle Drake](http://kyledrake.net).
+[Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
 
 I will be at Bitcoin 2013, and will be introducing this project at the hackathon. I'd love to hear your thoughts/feedback! I'll be wearing a bright orange shirt so it will be easy for people to find me.
 
