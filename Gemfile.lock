@@ -40,7 +40,7 @@ GEM
       powerbar
     mocha (0.13.3)
       metaclass (~> 0.0.1)
-    multi_json (1.7.2)
+    multi_json (1.7.3)
     mysql2 (0.3.11)
     pg (0.15.1)
     polyglot (0.3.3)
@@ -65,6 +65,7 @@ GEM
       rack (>= 1.0)
     rack-time-zone-header (0.1.2)
       rack (~> 1.0)
+    rake (10.0.4)
     redis (3.0.3)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
@@ -126,6 +127,7 @@ DEPENDENCIES
   puma
   rack-test
   rack-time-zone-header
+  rake
   sequel
   shotgun
   sidekiq

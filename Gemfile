@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'sinatra'
 gem 'sequel'
 gem 'sidekiq'
-# gem 'rake'
 gem 'silkroad'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'slim'
@@ -38,6 +37,7 @@ group :test do
   gem 'rack-test',          require: 'rack/test'
   gem 'webmock'
   gem 'mocha',              require: nil
+  gem 'rake',               require: nil
 
   platform :mri do
     gem 'simplecov',        require: nil
