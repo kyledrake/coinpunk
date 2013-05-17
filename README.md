@@ -1,29 +1,32 @@
 # ![Coinpunk](http://i.imgur.com/rR6TV8C.png)
 
-Want to run your own web-based wallet service for you and your friends? Now you can!
+Run your own Bitcoin wallet service.
 
-Coinpunk allows anyone to run their own hosted Bitcoin wallet service, which is accessible from the web. Coinpunk runs on your own server.
+Coinpunk is a web application that allows anyone to run their own self-hosted Bitcoin wallet service that is accessible from your web browser anywhere in the world. It's free, open source, and you can install it on your server right now.
 
 ## Why
 
-There are a lot of centralized, hosted wallet services out there. After talking with a lot of people, I realized that there are a lot of people that will never use these services because they are concerned about potential issues (sudden fee hikes, theft, uninsured bank-like activities).
+Bitcoin is decentralized by nature, but having access to your bitcoins through the web is very helpful. I wanted to build something that allowed people to use bitcoin in a decentralized way, while still having the convenience of an always-on web service. Also, running the desktop client is CPU and memory intensive, and requires a constant internet connection, which a lot of people would rather not run on their personal machines.
 
-Coinpunk is a service you run on your own VPS or local machine, so it has none of these problems.
+This project is in the early stages, but has a lot of ambition. Expect many new features and much more functionality over the course of the next several months.
 
 ## Highlights
 
 * Fast, lightweight, threaded, efficient
+* Responsive design - works well on mobile devices
 * Easily create new accounts
-* Send and receive Bitcoins
+* Send and receive bitcoins
 * Detailed reports on transactions
-* Ability to create and name new receive addresses
+* Ability to create and name new receive addresses ("Website Donations", "Bake Sale", etc)
 * Built with Ruby and Sinatra, easy to modify and improve
-* Uses bitcoind via the JSON RPC, which makes it robust and easy to upgrade when the official protocol changes
+* Standards compliant, easy to upgrade - Uses bitcoind via the JSON RPC to do all the heavy lifting
+* Will never sell out to a record label
 
 Coming soon:
 
 * Receiving notifications when new bitcoins arrive.
-* Send Bitcoins to users using e-mail (users collect the payment by getting a link to register with your service).
+* Sending bitcoins to users using e-mail (users collect the payment by getting a link to register with your service).
+* Signing with a record label (oops)
 
 ## Screenshots
 
@@ -31,11 +34,13 @@ Coming soon:
 
 ## Get Started
 
-Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu 12.10`](./docs/install-ubuntu.md) guide to get started.
+Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu`](./docs/install-ubuntu.md) guide to get started.
 
 ## Author
 
-[Kyle Drake](http://kyledrake.net)
+[Kyle Drake](http://kyledrake.net).
+
+I will be at Bitcoin 2013, and will be introducing this project at the hackathon. I'd love to hear your thoughts/feedback! I'll be wearing a bright orange shirt so it will be easy for people to find me.
 
 ## Contributing
 
