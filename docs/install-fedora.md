@@ -1,6 +1,6 @@
 # Installing on Ubuntu 12.10
 
-This installation guide was created for and tested on Ubuntu 12.10. Please read [`doc/install/requirements.md`](./requirements.md) for hardware and OS requirements.
+This installation guide was created for and tested on Fedora 17. Please read [`doc/install/requirements.md`](./requirements.md) for hardware and OS requirements.
 
 ## Overview
 
@@ -17,16 +17,15 @@ This guide sets up a production server running Coinpunk. The basic procedure inc
 
 First, update your package list. If your `sudo` is not present, you should run the update commands as root, and then run `apt-get install sudo`:
 
-    sudo apt-get update
-    sudo apt-get upgrade
+    sudo yum update
 
 Now you will need to install the necessary packages:
 
-    sudo apt-get install redis-server ntp build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev git-core checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev software-properties-common python-software-properties
+    sudo yum install redis ntp make automake autoconf gcc gcc-c++ zlib-devel libyaml-devel openssl-devel gdbm-devel readline-devel ncurses-devel libffi-devel git libxml2-devel libxslt-devel libicu-devel
 
 Now, you need to install Ruby. There are two ways to do this. The first way is to install ruby using the package system:
 
-    sudo apt-get install ruby ruby-dev
+    sudo yum install ruby ruby-devel irb rubygems
 
 If you would rather compile ruby from source, [download the latest version of ruby](http://www.ruby-lang.org/en/downloads) and install from source:
 
@@ -42,12 +41,19 @@ Now you will need to install bundler, which will download and compile the needed
 
 ## Installing, configuring and starting bitcoind
 
-You can install bitcoind from the bitcoin package repository:
+You can install bitcoind from the [bitcoin.org](http://bitcoin.org/en/download).
+Once the download has finished, extract the archive:
 
-    sudo add-apt-repository ppa:bitcoin/bitcoin
-    sudo aptitude update
-    sudo aptitude install bitcoind
-    
+    tar -xzvf bitcoin-0.8.1-linux.tar.gz
+
+Then copy either `bin/32/bitcoind` or `bin/64/bitcoind` (depending on your
+architecture) into `/usr/local/bin/`.
+
+    # 64bit
+    sudo cp bitcoin-0.8.1-linux/bin/64/bitcoind /usr/local/bin
+    # 32bit
+    sudo cp bitcoin-0.8.1-linux/bin/32/bitcoind /usr/local/bin
+
 Now you will need to create a `.bitcoin` folder to store your data and config for bitcoind:
 
     mkdir ~/.bitcoin
@@ -98,7 +104,7 @@ If you don't have a preference for SQL databases, you can use SQLite, which will
 
 To install:
 
-    sudo apt-get install sqlite3 libsqlite3-dev
+    sudo yum install sqlite-devel
 
 If you would like to use MySQL or PostgreSQL, simply change the database config to point to your database. For example, with PostgreSQL, you would use `postgres://USER:PASS@localhost/coinpunk`.
 
