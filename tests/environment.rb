@@ -8,6 +8,8 @@ SimpleCov.start do
 end
 
 require './environment'
+require 'webmock'
+include WebMock::API
 require './app'
 
 Bundler.require :test
@@ -25,3 +27,8 @@ Sequel.extension :migration
 
 Sequel::Migrator.apply DB, './migrations', 0
 Sequel::Migrator.apply DB, './migrations'
+
+Fabrication.configure do |config|
+  config.fabricator_path = 'tests/fabricators'
+  config.path_prefix = DIR_ROOT
+end

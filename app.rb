@@ -6,6 +6,12 @@ class App < Sinatra::Base
   register Sinatra::Flash
 
   configure do
+    $bitcoin = Silkroad::Client.new(
+      $config['bitcoind_rpcuser'], 
+      $config['bitcoind_rpcpassword'],
+      url: $config['bitcoind_rpchost']
+    )
+    
     use Rack::Session::Cookie, key:          'website',
                                path:         '/',
                                expire_after: 31556926, # one year in seconds

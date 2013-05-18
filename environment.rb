@@ -22,12 +22,6 @@ if defined?(Pry)
   Pry.commands.alias_command 'f', 'finish'
 end
 
-$bitcoin = Silkroad::Client.new(
-  $config['bitcoind_rpcuser'], 
-  $config['bitcoind_rpcpassword'],
-  url: $config['bitcoind_rpchost']
-)
-
 Sequel.datetime_class = Time
 Sequel.extension :named_timezones
 Sequel.extension :thread_local_timezones
