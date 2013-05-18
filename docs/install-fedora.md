@@ -86,7 +86,7 @@ Now you will need to clone Coinpunk:
     
 Copy the `config.yml.template` to `config.yml`:
 
-    cp config.yml config.yml.template
+    cp config.yml.template config.yml
     
 Now you will need to edit config.yml using `vi`, `nano` or a similar editor. Provide a random alpha-numeric value for `session_secret`, create a unique username and password for `bitcoind_rpcuser` and `bitcoind_rpcpassword`, and optionally add `bitcoind_rpchost` if you plan to access bitcoind from a different (non-localhost) server.
 
