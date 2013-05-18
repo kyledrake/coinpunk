@@ -25,6 +25,7 @@ GEM
     hashie (2.0.3)
     httpclient (2.3.3)
     i18n (0.6.4)
+    json (1.7.7)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -116,6 +117,7 @@ DEPENDENCIES
   bcrypt-ruby
   fabrication
   faker
+  json
   minitest
   minitest-reporters
   mocha
