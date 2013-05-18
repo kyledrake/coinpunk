@@ -114,6 +114,7 @@ If you are just using Sqlite3 (default), run this:
 
 If you are using PostgreSQL:
 
+    sudo apt-get install postgresql libpq-dev
     sudo bundle install --without development test sqlite mysql
 
 If you are using MySQL:
