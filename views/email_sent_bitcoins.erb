@@ -1,0 +1,11 @@
+<p>You have received some Bitcoins (BTC) in the amount of <b><%= @amount %></b> from <b><%= @sending_email %></b>. They are waiting for you at <b><a href="<%= @url %>"><%= @url %></a></b>!</p>
+
+<p>All you have to do is login to the site with the following credentials:</p>
+
+<p>Email: <b><%= @account.email %></b></p>
+<p>Temporary Password: <b><%= @temporary_password %></b></p>
+
+<p>You will be asked to set a new password, and then you will have access to your bitcoins!</p>
+
+<p>Best,</p>
+<p>Coinpunk</p>

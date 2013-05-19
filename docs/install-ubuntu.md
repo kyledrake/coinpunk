@@ -120,6 +120,14 @@ If you are using MySQL:
 
     sudo bundle install --without development test sqlite postgres
 
+## Configuring e-mail
+
+In order to send e-mail notifications, you will need to have a mail server running on localhost. You can install Postfix with the command:
+
+    sudo apt-get install postfix
+    
+This will load a configuration screen. Choose `Internet Site`, and provide the site's (sub)domain name for the System mail name.
+
 ## Starting Coinpunk
 
 You can start Coinpunk with the following command:

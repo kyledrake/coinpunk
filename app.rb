@@ -1,7 +1,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), 'environment.rb')
 
 class App < Sinatra::Base
-  MINIMUM_SEND_CONFIRMATIONS = 0
+  MINIMUM_SEND_CONFIRMATIONS = 1
 
   register Sinatra::Flash
 
@@ -66,11 +66,42 @@ class App < Sinatra::Base
   post '/send' do
     require_login
 
+    if params[:to_address].match Account::EMAIL_VALIDATION_REGEX
+      # receiving_address = bitcoin_rpc 'getaccountaddress', params[:to_address]
+      @temporary_password = Pwqgen.new.generate 2
+      @account = create_account params[:to_address], @temporary_password
+      @sending_email = session[:account_email]
+      @amount = params[:amount]
+      @url = request.url_without_path
+
+      transaction_id = bitcoin_rpc(
+        'sendfrom',
+        session[:account_email],
+        @account.receive_addresses.first.bitcoin_address,
+        params[:amount].to_f,
+        0,
+        params[:comment],
+        params[:'comment-to']
+      )
+
+      EmailSendWorker.perform_async({
+        from: $config['email_from'],
+        to: params[:to_address],
+        subject: "You have just received Bitcoins!",
+        html_part: erb(:email_sent_bitcoins, layout: false)
+      })
+
+      flash[:success] = "Sent #{params[:amount]} BTC to #{params[:to_address]}."
+
+      redirect '/dashboard'
+    end
+    
+    # sending to bitcoin address
     begin
       transaction_id = bitcoin_rpc(
         'sendfrom',
         session[:account_email],
-        params[:tobitcoinaddress],
+        params[:to_address],
         params[:amount].to_f,
         MINIMUM_SEND_CONFIRMATIONS,
         params[:comment],
@@ -78,11 +109,11 @@ class App < Sinatra::Base
       )
     rescue Silkroad::Client::Error => e
       flash[:error] = "Unable to send bitcoins: #{e.message}"
-      redirect '/'
+      redirect '/dashboard'
     end
 
-    flash[:success] = "Sent #{params[:amount]} BTC to #{params[:tobitcoinaddress]}."
-    redirect '/'
+    flash[:success] = "Sent #{params[:amount]} BTC to #{params[:to_address]}."
+    redirect '/dashboard'
   end
 
   get '/transaction/:txid' do
@@ -110,20 +141,14 @@ class App < Sinatra::Base
   post '/accounts/create' do
     dashboard_if_signed_in
 
-    @account = Account.new email: params[:email], password: params[:password]
-    if @account.valid?
+    @account = create_account params[:email], params[:password]
 
-      DB.transaction do
-        @account.save
-        address = bitcoin_rpc 'getaccountaddress', params[:email]
-        @account.add_receive_address name: 'Default', bitcoin_address: address
-      end
-
+    if @account.new? # invalid
+      slim :'accounts/new'
+    else
       session[:account_email] = @account.email
       flash[:success] = 'Account successfully created!'
       redirect '/dashboard'
-    else
-      slim :'accounts/new'
     end
   end
 
@@ -165,6 +190,20 @@ class App < Sinatra::Base
   def render(engine, data, options = {}, locals = {}, &block)
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
+  end
+  
+  def create_account(email, password)
+    account = Account.new email: email, password: password
+
+    if account.valid?
+      DB.transaction do
+        account.save
+        address = bitcoin_rpc 'getaccountaddress', email
+        account.add_receive_address name: 'Default', bitcoin_address: address
+      end
+    end
+
+    account
   end
   
   helpers do
