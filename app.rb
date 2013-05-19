@@ -31,6 +31,8 @@ class App < Sinatra::Base
       @timezone_identifier = @timezone.current_period.zone_identifier
       @timezone_offset = @timezone.current_period.utc_total_offset
     end
+
+    redirect '/accounts/change_temporary_password' if session[:temporary_password] == true && !(request.path =~ /change_temporary_password/)
   end
 
   get '/' do
@@ -69,9 +71,10 @@ class App < Sinatra::Base
     if params[:to_address].match Account::EMAIL_VALIDATION_REGEX
       # receiving_address = bitcoin_rpc 'getaccountaddress', params[:to_address]
       @temporary_password = Pwqgen.new.generate 2
-      @account = create_account params[:to_address], @temporary_password
+      @account = create_account params[:to_address], @temporary_password, true
       @sending_email = session[:account_email]
       @amount = params[:amount]
+      @comment = params[:comment]
       @url = request.url_without_path
 
       transaction_id = bitcoin_rpc(
@@ -88,7 +91,7 @@ class App < Sinatra::Base
         from: $config['email_from'],
         to: params[:to_address],
         subject: "You have just received Bitcoins!",
-        html_part: erb(:email_sent_bitcoins, layout: false)
+        html_part: slim(:email_sent_bitcoins, layout: false)
       })
 
       flash[:success] = "Sent #{params[:amount]} BTC to #{params[:to_address]}."
@@ -129,12 +132,36 @@ class App < Sinatra::Base
   end
 
   post '/accounts/signin' do
-    if Account.valid_login? params[:email], params[:password]
+    if (Account.valid_login?(params[:email], params[:password]))
       session[:account_email] = params[:email]
+
+      if current_account.temporary_password
+        session[:temporary_password] = true
+        redirect '/accounts/change_temporary_password'
+      end
+
       redirect '/dashboard'
     else
       flash[:error] = 'Invalid login.'
       redirect '/'
+    end
+  end
+
+  get '/accounts/change_temporary_password' do
+    slim :'accounts/change_temporary_password'
+  end
+
+  post '/accounts/change_temporary_password' do
+    current_account.password = params[:password]
+
+    if current_account.valid?
+      current_account.temporary_password = false
+      current_account.save
+      session[:temporary_password] = false
+      flash[:success] = 'Temporary password changed. Welcome to Coinpunk!'
+      redirect '/dashboard'
+    else
+      slim :'accounts/change_temporary_password'
     end
   end
 
@@ -192,8 +219,8 @@ class App < Sinatra::Base
     super engine, data, options, locals, &block
   end
   
-  def create_account(email, password)
-    account = Account.new email: email, password: password
+  def create_account(email, password, temporary_password=false)
+    account = Account.new email: email, password: password, temporary_password: temporary_password
 
     if account.valid?
       DB.transaction do
@@ -205,15 +232,19 @@ class App < Sinatra::Base
 
     account
   end
-  
+
   helpers do
     def timestamp_to_formatted_time(timestamp)
       return '' if timestamp.nil?
       Time.at(timestamp).getlocal(@timezone_offset).strftime('%b %-d, %Y %H:%M '+@timezone_identifier.to_s)
     end
-    
+
     def format_amount(amount)
       ("%.6f" % amount).sub(/\.?0*$/, "")
+    end
+
+    def current_account
+      @current_account ||= Account[email: session[:account_email]]
     end
   end
 end
