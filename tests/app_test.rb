@@ -21,25 +21,24 @@ describe 'signin' do
     post '/accounts/signin', email: 'fail@example.com', password: 'lol'
     fail_signin
   end
-  
+
   it 'fails for bad password' do
     @account = Fabricate :account
     post '/accounts/signin', email: @account.email, password: 'derp'
     fail_signin
   end
-  
+
   it 'fails for no input' do
     post '/accounts/signin'
     fail_signin
   end
-  
+
   it 'succeeds for valid input' do
-    
     password = '1tw0rkz'
     @account = Fabricate :account, password: password
     post '/accounts/signin', email: @account.email, password: password
     headers['Location'].must_equal 'http://example.org/dashboard'
-    fail
+    mock_dashboard_calls @account.email
     get '/dashboard'
     body.must_match /Dashboard/
   end
@@ -59,14 +58,33 @@ def api_url
   "#{uri.to_s}/"
 end
 
-def mock_dashboard(email)
+def mock_dashboard_calls(email)
+  address = SecureRandom.hex
+
   stub_request(:post, api_url).
-            with(
-              body: [
-                {method: 'getaddressesbyaccount', params: [email], jsonrpc: '2.0'},
-                {method: 'listtransactions', params: [email], jsonrpc: '2.0'},
-                {method: 'getbalance', params: [email], jsonrpc: '2.0'}
-              ].to_json,
-              headers: {'Content-Type' => 'application/json'}
-            ).to_return(:status => 200, :body => "", :headers => {})
+    with(
+      body: [
+        {method: 'getaddressesbyaccount', params: [email], jsonrpc: '2.0'},
+        {method: 'listtransactions', params: [email], jsonrpc: '2.0'},
+        {method: 'getbalance', params: [email], jsonrpc: '2.0'}
+      ].to_json,
+      headers: {'Content-Type' => 'application/json'}
+    ).to_return(body: [
+      {result: [address]},
+      {result: [{
+        account: email,
+        address: address,
+        category: 'send',
+        amount: -0.01000000,
+        fee: -0.00050000
+       }]},
+      {result: 31337.00}
+    ].to_json
+  )
+
+  stub_request(:post, api_url).
+    with(
+      body: [{method: 'getreceivedbyaddress', params: [address], jsonrpc: '2.0'}].to_json,
+      headers: {'Content-Type' => 'application/json'}
+    ).to_return(body: [{result: 0.03}].to_json)
 end
