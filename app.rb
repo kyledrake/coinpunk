@@ -7,17 +7,17 @@ class App < Sinatra::Base
 
   configure do
     $bitcoin = Silkroad::Client.new(
-      $config['bitcoind_rpcuser'], 
+      $config['bitcoind_rpcuser'],
       $config['bitcoind_rpcpassword'],
       url: $config['bitcoind_rpchost']
     )
-    
+
     use Rack::Session::Cookie, key:          'website',
                                path:         '/',
                                expire_after: 31556926, # one year in seconds
                                secret:       $config['session_secret']
 
-    use Rack::TimeZoneHeader
+    use Rack::TimeZoneHeader # TODO this I believe is deprecated
 
     error     { slim :error }      if production?
     not_found { slim :not_found }  if production?
@@ -166,13 +166,13 @@ class App < Sinatra::Base
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
   end
-  
+
   helpers do
     def timestamp_to_formatted_time(timestamp)
       return '' if timestamp.nil?
       Time.at(timestamp).getlocal(@timezone_offset).strftime('%b %-d, %Y %H:%M '+@timezone_identifier.to_s)
     end
-    
+
     def format_amount(amount)
       ("%.6f" % amount).sub(/\.?0*$/, "")
     end
