@@ -35,7 +35,7 @@ If you would rather compile ruby from source, [download the latest version of ru
     ./configure
     make
     sudo make install
-    
+
 Now you will need to install bundler, which will download and compile the needed dependencies:
 
     sudo gem install bundler
@@ -47,7 +47,7 @@ You can install bitcoind from the bitcoin package repository:
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo aptitude update
     sudo aptitude install bitcoind
-    
+
 Now you will need to create a `.bitcoin` folder to store your data and config for bitcoind:
 
     mkdir ~/.bitcoin
@@ -62,7 +62,7 @@ Create a `bitcoin.conf` file, and add the following values:
 Start the bitcoind server:
 
     bitcoind --daemon
-    
+
 Bitcoind will take several hours to catch up with the bitcoin network, so please be patient.
 
 If you want bitcoind to run again, add this to `/etc/rc.local`:
@@ -73,15 +73,16 @@ We will have a bitcoind service file you can install coming soon.
 
 ## Installing Coinpunk
 
-Now you will need to clone Coinpunk:
+Now you will need to clone Coinpunk and checkout the current version:
 
     git clone https://github.com/kyledrake/coinpunk.git
     cd coinpunk
-    
+    git checkout 0.0.3
+
 Copy the `config.yml.template` to `config.yml`:
 
     cp config.yml.template config.yml
-    
+
 Now you will need to edit config.yml using `vi`, `nano` or a similar editor. Provide a random alpha-numeric value for `session_secret`, create a unique username and password for `bitcoind_rpcuser` and `bitcoind_rpcpassword`, and optionally add `bitcoind_rpchost` if you plan to access bitcoind from a different (non-localhost) server.
 
 Your `config.yml` should look something this (with an optional `development` and `test` config if you're doing non-production work):

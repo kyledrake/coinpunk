@@ -36,6 +36,8 @@ Coming soon:
 
 Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu`](./docs/install-ubuntu.md) guide to get started.
 
+*If you are using Coinpunk master, you should run 'git checkout 0.0.3' to lock the version, and prevent breakage when we refactor our code to improve security and performance.*
+
 ## Author
 
 [Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
