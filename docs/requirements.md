@@ -42,6 +42,10 @@ As of this writing, the full copy of the Bitcoin blocks can take up to 9GB of di
 
 You can check how much space is being used with the `du` command in Linux. For example, if your `du -h .bitcoin`
 
+### Virtual Private Server (VPS)
+
+My recommendation for running Coinpunk is to throw it on a hosted VPS. DigitalOcean has affordable VPS plans that I've had good experience with. If you decide to use DigitalOcean, [please sign up using this link](https://www.digitalocean.com/?refcode=4be99ecc05b4), which gives us a referral credit we can use to help pay for the Coinpunk development servers. Thank you!
+
 ## Improving documentation
 
 If you get Coinpunk to run on another OS, or run into specific issues you found solutions for, please contribute your installation documentation by forking this repository and sending a pull request! It will help other users to run Coinpunk.
