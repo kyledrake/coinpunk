@@ -42,10 +42,27 @@ Installation is relatively simple (and will get simpler in the future). See the 
 
 [Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
 
-## Contributing
+## How You Can Help
+
+### Donations
+
+My summer plan is to work full-time on Coinpunk, which is awesome, but unfortunately it doesn't pay the rent (lousy punk!). Donations help me to keep working on it and keep it free and open source, without having to worry about income. Any amount is really helpful! Thank you so much.
+
+The Coinpunk donation Bitcoin address is **1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH**
+
+Also if you are planning on running Coinpunk on a VPS, you can [use this link to sign up for DigitalOcean](https://www.digitalocean.com/?refcode=4be99ecc05b4) and it gives us a referral bonus we can use to pay for the servers.
+
+Again, thank you. :heart:
+
+### Contributing
+
+Help us build! We're in a really early stage right now, so there is a lot of rapid planning going on. If you are interested in becoming part of the development team, let me know.
+
+Anyone is welcome to send pull requests! Here's how you do it:
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+3. Write the code, **and tests to confirm it works**
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request
