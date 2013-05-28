@@ -1,18 +1,22 @@
 source 'https://rubygems.org'
-# ruby '1.9.3'
 
-gem 'json'
-gem 'sinatra'
-gem 'sequel'
-gem 'sidekiq'
-gem 'silkroad'
+gem 'sinatra',     require: 'sinatra/base'
+gem 'addressable', require: 'addressable/uri'
+gem 'rake',        require: nil
+gem 'httpclient'
+gem 'multi_json'
 gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'sidekiq'
+gem 'sequel'
+gem 'sprockets'
+gem 'yui-compressor', require: 'yui/compressor'
 gem 'slim'
-gem 'sinatra-flash', require: 'sinatra/flash'
 gem 'tzinfo'
-gem 'rack-time-zone-header'
+gem 'sinatra-flash', require: 'sinatra/flash'
+gem 'faker'
+gem 'silkroad'
+gem 'vegas'
 gem 'puma', require: nil
-gem 'vegas', require: nil
 gem 'mail'
 gem 'pwqgen.rb', require: 'pwqgen'
 
@@ -20,6 +24,8 @@ platform :mri do
   gem 'pg',      group: :postgres
   gem 'mysql2',  group: :mysql
   gem 'sqlite3', group: :sqlite
+  gem 'hiredis', require: 'redis/connection/hiredis'
+  gem 'oj'
 
   group :development, :test do
     gem 'pry'
@@ -38,8 +44,8 @@ group :test do
   gem 'minitest-reporters', require: 'minitest/reporters'
   gem 'rack-test',          require: 'rack/test'
   gem 'webmock'
+  gem 'webrat'
   gem 'mocha',              require: nil
-  gem 'rake',               require: nil
 
   platform :mri do
     gem 'simplecov',        require: nil

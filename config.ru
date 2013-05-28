@@ -1,3 +1,3 @@
-require './app.rb'
+require File.join File.dirname(__FILE__), 'config', 'config'
 
-map('/') { run App }
+map('/')              { run IndexController }
