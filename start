@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+puts "WARNING: This is currently broken. Use this for now: bundle exec rackup -s puma -p PORTNUMBERYOUWANT If you upgraded from master branch, DON'T USE THIS! Use the tagged releases."
+
 ENV['RACK_ENV'] = 'production'
 
 Dir.chdir File.expand_path(File.dirname(__FILE__))
