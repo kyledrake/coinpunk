@@ -2,4 +2,4 @@
 config.yml
 .bundle
 *.sqlite3
-tests/coverage
+test/coverage
