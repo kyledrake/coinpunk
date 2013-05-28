@@ -36,11 +36,11 @@ Coming soon:
 
 Installation is relatively simple (and will get simpler in the future). See the [`Installing on Ubuntu`](./docs/install-ubuntu.md) guide to get started.
 
+*If you are using Coinpunk master, you should run 'git checkout 0.0.3' to lock the version, and prevent breakage when we refactor our code to improve security and performance.*
+
 ## Author
 
 [Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
-
-I will be at Bitcoin 2013, and will be introducing this project at the hackathon. I'd love to hear your thoughts/feedback! I'll be wearing a bright orange shirt so it will be easy for people to find me.
 
 ## Contributing
 

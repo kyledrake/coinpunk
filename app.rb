@@ -7,17 +7,17 @@ class App < Sinatra::Base
 
   configure do
     $bitcoin = Silkroad::Client.new(
-      $config['bitcoind_rpcuser'], 
+      $config['bitcoind_rpcuser'],
       $config['bitcoind_rpcpassword'],
       url: $config['bitcoind_rpchost']
     )
-    
+
     use Rack::Session::Cookie, key:          'website',
                                path:         '/',
                                expire_after: 31556926, # one year in seconds
                                secret:       $config['session_secret']
 
-    use Rack::TimeZoneHeader
+    use Rack::TimeZoneHeader # TODO this I believe is deprecated
 
     error     { slim :error }      if production?
     not_found { slim :not_found }  if production?
@@ -98,7 +98,7 @@ class App < Sinatra::Base
 
       redirect '/dashboard'
     end
-    
+
     # sending to bitcoin address
     begin
       transaction_id = bitcoin_rpc(
@@ -218,7 +218,7 @@ class App < Sinatra::Base
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
   end
-  
+
   def create_account(email, password, temporary_password=false)
     account = Account.new email: email, password: password, temporary_password: temporary_password
 
