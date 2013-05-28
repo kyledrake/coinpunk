@@ -39,7 +39,7 @@ javascript:
                     td = transaction['address']
                     td = transaction['category'].capitalize
                     td #{format_amount transaction['amount']} BTC
-                    td #{transaction['confirmations']}
+                    td #{transaction['confirmations']} #{{transaction['confirmations'] < App::MINIMUM_SEND_CONFIRMATIONS ? '<span class="label label-info pull-right">Pending</span>' : '<span class="label label-success pull-right">Done</span>'}}
                     th = timestamp_to_formatted_time transaction['timereceived']
                     th: a href="/transaction/#{transaction['txid']}" Details
                     
@@ -74,13 +74,13 @@ javascript:
         h3 Send Bitcoins:
 
         form method="POST" action="/send"
-          p Address to send to:
-          input name="tobitcoinaddress" type="text" placeholder="Bitcoin Address" style="width: 320px"
+          p Bitcoin or email address to send to:
+          input name="to_address" type="text" placeholder="Bitcoin or email address" style="width: 320px"
 
           p Amount:
           input name="amount" type="text" placeholder="0.00" style="width: 70px" &nbsp;&nbsp;BTC
         
-          p Comment <small>optional</small>:
+          p Comment <small>optional, will be sent with e-mail</small>:
           textarea name="comment"
         
           p Recipient Name/Info <small>optional</small>:

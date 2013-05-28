@@ -13,7 +13,7 @@ $config = YAML.load_file(File.join(DIR_ROOT, 'config.yml'))[ENV['RACK_ENV']]
 
 DB = Sequel.connect $config['database']
 
-Dir.glob('workers/*.rb').each {|w| require File.join(DIR_ROOT, "/#{w}") }
+Dir.glob('workers/*.rb').each {|w| require File.join(DIR_ROOT, w) }
 
 if defined?(Pry)
   Pry.commands.alias_command 'c', 'continue'
@@ -37,3 +37,33 @@ Sequel::Migrator.apply DB, './migrations'
 Dir.glob('models/*.rb').each {|m| require File.join(DIR_ROOT, "#{m}") }
 
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
+
+Mail.defaults do
+  #options = { :address              => "smtp.gmail.com",
+  #            :port                 => 587,
+  #            :domain               => 'your.host.name',
+  #            :user_name            => '<username>',
+  #            :password             => '<password>',
+  #            :authentication       => 'plain',
+  #            :enable_starttls_auto => true  }
+
+  options = {}
+  delivery_method :sendmail, options
+end
+
+# I will find a better place for this later..
+module Rack
+  class Request
+    def url_without_path
+      url = scheme + "://"
+      url << host
+
+      if scheme == "https" && port != 443 ||
+         scheme == "http" && port != 80
+        url << ":#{port}"
+      end
+
+      url
+    end
+  end
+end

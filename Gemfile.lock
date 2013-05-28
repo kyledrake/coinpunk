@@ -18,6 +18,7 @@ GEM
       debugger-ruby_core_source (~> 1.2.0)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.0)
+    docopt (0.5.0)
     fabrication (2.6.4)
     facter (1.6.18)
     faker (1.1.2)
@@ -26,8 +27,7 @@ GEM
     httpclient (2.3.3)
     i18n (0.6.4)
     json (1.7.7)
-    mail (2.5.3)
-      i18n (>= 0.4.0)
+    mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
@@ -45,8 +45,6 @@ GEM
     mysql2 (0.3.11)
     pg (0.15.1)
     polyglot (0.3.3)
-    pony (1.4)
-      mail (> 2.0)
     powerbar (1.0.11)
       ansi (~> 1.4.0)
       hashie (>= 1.1.0)
@@ -59,6 +57,8 @@ GEM
       pry (~> 0.9.10)
     puma (1.6.3)
       rack (~> 1.2)
+    pwqgen.rb (0.0.5)
+      docopt (~> 0.5.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -118,15 +118,16 @@ DEPENDENCIES
   fabrication
   faker
   json
+  mail
   minitest
   minitest-reporters
   mocha
   mysql2
   pg
-  pony
   pry
   pry-debugger
   puma
+  pwqgen.rb
   rack-test
   rack-time-zone-header
   rake

@@ -9,17 +9,18 @@ gem 'silkroad'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'slim'
 gem 'sinatra-flash', require: 'sinatra/flash'
-gem 'pony'
 gem 'tzinfo'
 gem 'rack-time-zone-header'
 gem 'puma', require: nil
 gem 'vegas', require: nil
+gem 'mail'
+gem 'pwqgen.rb', require: 'pwqgen'
 
 platform :mri do
   gem 'pg',      group: :postgres
   gem 'mysql2',  group: :mysql
   gem 'sqlite3', group: :sqlite
-  
+
   group :development, :test do
     gem 'pry'
     gem 'pry-debugger'

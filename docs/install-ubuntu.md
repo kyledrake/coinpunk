@@ -122,6 +122,14 @@ If you are using MySQL:
 
     sudo bundle install --without development test sqlite postgres
 
+## Configuring e-mail
+
+In order to send e-mail notifications, you will need to have a mail server running on localhost. You can install Postfix with the command:
+
+    sudo apt-get install postfix
+    
+This will load a configuration screen. Choose `Internet Site`, and provide the site's (sub)domain name for the System mail name.
+
 ## Starting Coinpunk
 
 You can start Coinpunk with the following command:
@@ -140,8 +148,40 @@ We will eventually have a service file you can install. If you would like to con
 
 ## Configuring Nginx
 
-Instead of running this service directly on port 80, most people opt to use NGINX. We will have an install guide for setting up nginx coming soon.
+Instead of running this service directly on port 80, most people opt to use NGINX.
 
+First, install Nginx:
+
+    sudo apt-get install nginx
+    sudo service nginx start
+
+Now you need to add a new config file. Open `/etc/nginx/sites-available/coinpunk` with your favorite text editor and add the following:
+
+    upstream coinpunk {
+      server 127.0.0.1:10000;
+    }
+
+    server {
+      server_name coinpunk.kyledrake.net;
+
+      location / {
+        proxy_read_timeout    300;
+        proxy_connect_timeout 300;
+        proxy_redirect        off;
+        proxy_set_header      X-Forwarded-Proto $scheme;
+        proxy_set_header      Host              $http_host;
+        proxy_set_header      X-Real-IP         $remote_addr;
+        proxy_pass            http://coinpunk;
+      }
+    }
+
+Now symlink to sites-enabled, and reload nginx:
+
+    sudo ln -s /etc/nginx/sites-available/coinpunk /etc/nginx/sites-enabled/coinpunk
+    sudo service nginx reload
+    
+If you see an error like `"could not build the server_names_hash"`, then go into your `/etc/nginx/nginx.conf` file and change `server_names_hash_bucket_size` to `64`, and reload nginx.
+    
 ## Final Thoughts
 
 This is an early install guide. It will become simpler eventually, and may have issues. If you run into any, please let us know so we can fix them (better yet, submit pull requests fixing them).
