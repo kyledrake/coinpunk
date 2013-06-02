@@ -16,7 +16,3 @@ module Sequel
     plugin :defaults_setter
   end
 end
-
-%w[
-  password
-].require_each_from 'sequel/model'

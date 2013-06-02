@@ -6,6 +6,21 @@ describe IndexController do
     Sinatra::Sessionography.session.clear
   end
   
+  describe 'signup' do
+    it 'redirects if already logged in' do
+      Sinatra::Sessionography.session[:account_email] = 'test@example.com'
+      get '/accounts/new'
+      status.must_equal 302
+      headers['Location'].must_match /\/dashboard$/
+    end
+    
+    it 'loads for no session' do
+      get '/accounts/new'
+      status.must_equal 200
+      body.must_match /new account/i
+    end
+  end
+
   describe 'signin' do
     it 'fails for missing login' do
       post '/accounts/signin', email: 'fail@example.com', password: 'lol'
