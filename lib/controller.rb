@@ -7,6 +7,12 @@ class Controller < Sinatra::Base
   MINIMUM_SEND_CONFIRMATIONS = 1
   
   configure do
+    if test?
+      require 'sinatra/sessionography'
+      helpers Sinatra::Sessionography
+    end
+    
+    
     $bitcoin = Silkroad::Client.new(
       CONFIG['bitcoind_rpcuser'],
       CONFIG['bitcoind_rpcpassword'],
@@ -40,8 +46,41 @@ class Controller < Sinatra::Base
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
   end
+  
+  
+  def dashboard_if_signed_in
+    redirect '/dashboard' if signed_in?
+  end
+
+  def require_login
+    redirect '/' unless signed_in?
+  end
+
+  def signed_in?
+    !session[:account_email].nil?
+  end
+
+  def bitcoin_rpc(meth, *args)
+    $bitcoin.rpc(meth, *args)
+  end
+
+  def create_account(email, password, temporary_password=false)
+    account = Account.new email: email, password: password, temporary_password: temporary_password
+
+    if account.valid?
+      DB.transaction do
+        account.save
+        address = bitcoin_rpc 'getaccountaddress', email
+        account.add_receive_address name: 'Default', bitcoin_address: address
+      end
+    end
+
+    account
+  end
+  
 end
 
 %w[
   index_controller
+  accounts_controller
 ].require_each_from 'controllers'

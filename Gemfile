@@ -38,6 +38,7 @@ group :development do
 end
 
 group :test do
+  gem 'sinatra-sessionography', require: 'sinatra/sessionography'
   gem 'faker'
   gem 'fabrication',        require: 'fabrication'
   gem 'minitest'
