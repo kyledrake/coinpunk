@@ -120,3 +120,7 @@ def mock_dashboard_calls(email)
       headers: {'Content-Type' => 'application/json'}
     ).to_return(body: [{result: 0.03}].to_json)
 end
+
+def login_as(account_email)
+  Sinatra::Sessionography.session[:account_email] = account_email
+end

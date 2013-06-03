@@ -4,8 +4,6 @@ class Controller < Sinatra::Base
   register Sinatra::ViewHelpers
   register Sinatra::Flash
   
-  MINIMUM_SEND_CONFIRMATIONS = 1
-  
   configure do
     if test?
       require 'sinatra/sessionography'
@@ -83,4 +81,5 @@ end
 %w[
   index_controller
   accounts_controller
+  transactions_controller
 ].require_each_from 'controllers'

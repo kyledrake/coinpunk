@@ -1,5 +1,8 @@
 class TransactionsController < Controller
-  post '/transactions/send' do
+  
+  MINIMUM_SEND_CONFIRMATIONS = 6
+
+  post '/send' do
     require_login
 
     if params[:to_address].match Account::EMAIL_VALIDATION_REGEX
@@ -11,6 +14,7 @@ class TransactionsController < Controller
       @comment = params[:comment]
       @url = request.url_without_path
 
+      # todo error catching
       transaction_id = bitcoin_rpc(
         'sendfrom',
         session[:account_email],
@@ -44,6 +48,7 @@ class TransactionsController < Controller
         params[:comment],
         params[:'comment-to']
       )
+      puts "RESP: #{transaction_id.inspect}"
     rescue Silkroad::Client::Error => e
       flash[:error] = "Unable to send bitcoins: #{e.message}"
       redirect '/dashboard'
@@ -53,7 +58,7 @@ class TransactionsController < Controller
     redirect '/dashboard'
   end
 
-  get '/transactions/:txid' do
+  get '/:txid' do
     require_login
     @transaction = bitcoin_rpc 'gettransaction', params[:txid]
     slim :'transactions/view'
