@@ -4,7 +4,6 @@ gem 'sinatra',     require: 'sinatra/base'
 gem 'addressable', require: 'addressable/uri'
 gem 'rake',        require: nil
 gem 'httpclient'
-gem 'multi_json'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'sidekiq'
 gem 'sequel'
@@ -25,7 +24,6 @@ platform :mri do
   gem 'mysql2',  group: :mysql
   gem 'sqlite3', group: :sqlite
   gem 'hiredis', require: 'redis/connection/hiredis'
-  gem 'oj'
 
   group :development, :test do
     gem 'pry'
