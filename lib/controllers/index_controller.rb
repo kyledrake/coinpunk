@@ -39,4 +39,12 @@ class IndexController < Controller
     session[:timezone] = nil
     redirect '/'
   end
+  
+  post '/addresses/create' do
+    require_login
+    address = bitcoin_rpc 'getnewaddress', session[:account_email]
+    Account[email: session[:account_email]].add_receive_address name: params[:name], bitcoin_address: address
+    flash[:success] = "Created new receive address \"#{params[:name]}\" with address \"#{address}\"."
+    redirect '/dashboard'
+  end
 end

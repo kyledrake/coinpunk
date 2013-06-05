@@ -1,11 +1,11 @@
 class AccountsController < Controller
-  get '/accounts/new' do
+  get '/new' do
     dashboard_if_signed_in
     @account = Account.new
     slim :'accounts/new'
   end
 
-  post '/accounts/signin' do
+  post '/signin' do
     if (Account.valid_login?(params[:email], params[:password]))
       session[:account_email] = params[:email]
 
@@ -21,11 +21,11 @@ class AccountsController < Controller
     end
   end
 
-  get '/accounts/change_temporary_password' do
+  get '/change_temporary_password' do
     slim :'accounts/change_temporary_password'
   end
 
-  post '/accounts/change_temporary_password' do
+  post '/change_temporary_password' do
     current_account.password = params[:password]
 
     if current_account.valid?
@@ -39,7 +39,7 @@ class AccountsController < Controller
     end
   end
 
-  post '/accounts/create' do
+  post '/create' do
     dashboard_if_signed_in
 
     @account = create_account params[:email], params[:password]
@@ -51,13 +51,5 @@ class AccountsController < Controller
       flash[:success] = 'Account successfully created!'
       redirect '/dashboard'
     end
-  end
-
-  post '/addresses/create' do
-    require_login
-    address = bitcoin_rpc 'getnewaddress', session[:account_email]
-    Account[email: session[:account_email]].add_receive_address name: params[:name], bitcoin_address: address
-    flash[:success] = "Created new receive address \"#{params[:name]}\" with address \"#{address}\"."
-    redirect '/dashboard'
   end
 end

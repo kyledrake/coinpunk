@@ -9,13 +9,13 @@ describe IndexController do
   describe 'signup' do
     it 'redirects if already logged in' do
       Sinatra::Sessionography.session[:account_email] = 'test@example.com'
-      get '/accounts/new'
+      get '/new'
       status.must_equal 302
       headers['Location'].must_match /\/dashboard$/
     end
     
     it 'loads for no session' do
-      get '/accounts/new'
+      get '/new'
       status.must_equal 200
       body.must_match /new account/i
     end
@@ -23,44 +23,60 @@ describe IndexController do
 
   describe 'signin' do
     it 'fails for missing login' do
-      post '/accounts/signin', email: 'fail@example.com', password: 'lol'
+      post '/signin', email: 'fail@example.com', password: 'lol'
       fail_signin
     end
 
     it 'fails for bad password' do
       @account = Fabricate :account
-      post '/accounts/signin', email: @account.email, password: 'derp'
+      post '/signin', email: @account.email, password: 'derp'
       fail_signin
     end
 
     it 'fails for no input' do
-      post '/accounts/signin'
+      post '/signin'
       fail_signin
     end
 
     it 'succeeds for valid input' do
       password = '1tw0rkz'
       @account = Fabricate :account, password: password
-      post '/accounts/signin', email: @account.email, password: password
+      post '/signin', email: @account.email, password: password
       headers['Location'].must_equal 'http://example.org/dashboard'
+    end
+    
+    
+    it 'works for temp account' do
+      account = Fabricate :account, {password: 'loltest123', temporary_password: true}
+      post '/signin', email: account.email, password: 'loltest123'
+      headers['Location'].must_equal 'http://example.org/accounts/change_temporary_password'
+      get '/change_temporary_password'
+      body.must_match /change temporary password/i
+      post '/change_temporary_password', password: 'bad'
+      body.must_match /change temporary password.+password must be at least #{Account::MINIMUM_PASSWORD_LENGTH} characters/mi
+      post '/change_temporary_password', password: 'this0nework$'
+      status.must_equal 302
+      headers['Location'].must_equal 'http://example.org/dashboard'
+      Sinatra::Sessionography.session[:account_email].must_equal account.email
+      Sinatra::Sessionography.session[:flash][:success].must_match /Temporary password changed/i
     end
   end
 
   describe 'account creation' do
     it 'fails for no input' do
-      post '/accounts/create'
+      post '/create'
       status.must_equal 200
       body.must_match /There were some errors.+Valid email address is required.+Password must be/
     end
 
     it 'fails with invalid email' do
-      post '/accounts/create', email: 'derplol'
+      post '/create', email: 'derplol'
       status.must_equal 200
       body.must_match /errors.+valid email/i
     end
 
     it 'fails with invalid password' do
-      post '/accounts/create', 'email@example.com', password: 'sdd'
+      post '/create', 'email@example.com', password: 'sdd'
       status.must_equal 200
       body.must_match /errors.+Password must be at least #{Account::MINIMUM_PASSWORD_LENGTH} characters/i
     end
@@ -70,7 +86,7 @@ describe IndexController do
 
       stub_rpc 'getaccountaddress', [account_attributes[:email]], body: {result: SecureRandom.hex}
 
-      post '/accounts/create', account_attributes
+      post '/create', account_attributes
       status.must_equal 302
       headers['Location'].must_equal 'http://example.org/dashboard'
       Sinatra::Sessionography.session[:account_email].must_equal account_attributes[:email]
