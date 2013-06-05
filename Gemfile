@@ -1,23 +1,20 @@
 source 'https://rubygems.org'
 
-gem 'sinatra',     require: 'sinatra/base'
-gem 'addressable', require: 'addressable/uri'
-gem 'rake',        require: nil
-gem 'httpclient'
-gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'sinatra',        require: 'sinatra/base'
+gem 'addressable',    require: 'addressable/uri'
+gem 'rake',           require: nil
+gem 'bcrypt-ruby',    require: 'bcrypt'
 gem 'sidekiq'
 gem 'sequel'
 gem 'sprockets'
 gem 'yui-compressor', require: 'yui/compressor'
 gem 'slim'
 gem 'tzinfo'
-gem 'sinatra-flash', require: 'sinatra/flash'
-gem 'faker'
+gem 'sinatra-flash',  require: 'sinatra/flash'
 gem 'silkroad'
-gem 'vegas'
-gem 'puma', require: nil
+gem 'puma',           require: nil
 gem 'mail'
-gem 'pwqgen.rb', require: 'pwqgen'
+gem 'pwqgen.rb',      require: 'pwqgen'
 
 platform :mri do
   gem 'pg',      group: :postgres
@@ -29,6 +26,13 @@ platform :mri do
     gem 'pry'
     gem 'pry-debugger'
   end
+end
+
+platform :jruby do
+  #gem 'jruby-openssl'
+  gem 'jdbc-sqlite3',  require: 'jdbc/sqlite3',  group: :sqlite
+  gem 'jdbc-postgres', require: 'jdbc/postgres', group: :postgres
+  gem 'jdbc-mysql',    require: 'jdbc/mysql',    group: :mysql
 end
 
 group :development do
