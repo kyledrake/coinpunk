@@ -123,7 +123,7 @@ GEM
     webmock (1.11.0)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
-    webrat (0.7.5)
+    webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
