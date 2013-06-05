@@ -13,13 +13,13 @@ describe Hash do
   
   describe 'select_with_keys' do
     it 'works' do
-      @hash.select_with_keys(:one, :two).keys.must_equal %i[one two]
+      @hash.select_with_keys(:one, :two).keys.must_equal [:one, :two]
     end
   end
   
   describe 'select_without_keys' do
     it 'works' do
-      @hash.select_without_keys(:one, :two).keys.must_equal %i[three four]
+      @hash.select_without_keys(:one, :two).keys.must_equal [:three, :four]
     end
   end
   
