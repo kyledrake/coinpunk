@@ -5,9 +5,10 @@ rvm:
   - "1.9.2"
 #  - jruby-19mode
 #  - rbx-19mode
+before_script: bundle exec rake db:bootstrap RACK_ENV=test
 
 env:
-  - DB=sqlite DATABASE="coinpunk_test"
+  - DB=sqlite DATABASE="sqlite://coinpunk_test.sqlite3"
   - DB=mysql2 DATABASE="mysql2://root@127.0.0.1/coinpunk_test"
   - DB=postgres DATABASE="postgres://postgres@127.0.0.1/coinpunk_test"
 
