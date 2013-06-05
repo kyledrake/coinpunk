@@ -20,7 +20,7 @@ class TransactionsController < Controller
         session[:account_email],
         @account.receive_addresses.first.bitcoin_address,
         params[:amount].to_f,
-        0,
+        MINIMUM_SEND_CONFIRMATIONS,
         params[:comment],
         params[:'comment-to']
       )
@@ -29,7 +29,8 @@ class TransactionsController < Controller
         from: CONFIG['email_from'],
         to: params[:to_address],
         subject: "You have just received Bitcoins!",
-        html_part: slim(:email_sent_bitcoins, layout: false)
+        html_part: slim(:'emails/email_sent_bitcoins_html', layout: false),
+        text_part: erb(:'emails/email_sent_bitcoins_text', layout: false)
       })
 
       flash[:success] = "Sent #{params[:amount]} BTC to #{params[:to_address]}."

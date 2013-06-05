@@ -124,3 +124,16 @@ end
 def login_as(account_email)
   Sinatra::Sessionography.session[:account_email] = account_email
 end
+
+def stub_rpc(meth, params, response)
+  response[:body] = response[:body].to_json
+
+  stub_request(:post, api_url).
+    with(
+      body: {jsonrpc: '2.0',
+             method: meth,
+             params: params},
+      headers: {'Content-Type' => 'application/json'},
+    ).
+    to_return(response)
+end

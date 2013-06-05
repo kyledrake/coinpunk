@@ -29,3 +29,7 @@ Sequel.extension :migration
 
 Sequel::Migrator.apply DB, './migrations', 0
 Sequel::Migrator.apply DB, './migrations'
+
+Mail.defaults do
+  delivery_method :test
+end

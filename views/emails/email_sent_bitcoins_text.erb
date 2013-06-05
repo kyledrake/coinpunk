@@ -1,0 +1,16 @@
+You have received some Bitcoins (BTC) in the amount of <%= @amount %> from <%= @sending_email %>. They are waiting for you at <%= @url %>!
+<% unless @comment.nil? || @comment.empty? %>
+
+"<%= @comment %>"
+<% end %>
+
+All you have to do is login to the site with the following credentials:
+
+Email: <%= @account.email %>
+
+Temporary Password: <%= @temporary_password %>
+
+You will be asked to set a new password, and then you will have access to your bitcoins!
+
+Best,
+Coinpunk

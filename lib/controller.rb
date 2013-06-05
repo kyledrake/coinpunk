@@ -3,14 +3,14 @@ class Controller < Sinatra::Base
   register Sinatra::ControllerHelpers
   register Sinatra::ViewHelpers
   register Sinatra::Flash
-  
+
   configure do
     if test?
       require 'sinatra/sessionography'
       helpers Sinatra::Sessionography
     end
-    
-    
+
+
     $bitcoin = Silkroad::Client.new(
       CONFIG['bitcoind_rpcuser'],
       CONFIG['bitcoind_rpcpassword'],
@@ -44,8 +44,8 @@ class Controller < Sinatra::Base
     options.merge!(pretty: self.class.development?) if engine == :slim && options[:pretty].nil?
     super engine, data, options, locals, &block
   end
-  
-  
+
+
   def dashboard_if_signed_in
     redirect '/dashboard' if signed_in?
   end
@@ -75,7 +75,7 @@ class Controller < Sinatra::Base
 
     account
   end
-  
+
 end
 
 %w[
