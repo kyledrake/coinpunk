@@ -1,4 +1,4 @@
-# ![Coinpunk](http://i.imgur.com/rR6TV8C.png)
+# ![Coinpunk](http://i.imgur.com/rR6TV8C.png) [![](https://secure.travis-ci.org/kyledrake/coinpunk.png)](http://travis-ci.org/kyledrake/coinpunk)
 
 Run your own Bitcoin wallet service.
 
