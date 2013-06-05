@@ -1,6 +1,5 @@
 ---
 test:
-  database: 'postgres://postgres@127.0.0.1/coinbase_test'
   session_secret: sdfsdfjsd
   bitcoind_rpcuser: something
   bitcoind_rpcpassword: blah

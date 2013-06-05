@@ -15,14 +15,7 @@ HTTPClientObject = HTTPClient.new
 
 if ENV['TRAVIS']
   CONFIG = YAML.load_file(File.join(DIR_ROOT, 'test', 'config.travis.yml'))[ENV['RACK_ENV']]
-
-  replace = case ENV['DB']
-    when 'postgres' then 'postgres'
-    when 'mysql'    then 'mysql2'
-    when 'sqlite'   then 'sqlite'
-  end
-
-  CONFIG['database'].sub! 'postgres', replace
+  CONFIG['database'] = ENV['DATABASE']
 else
   CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.yml'))[ENV['RACK_ENV']]
 end
