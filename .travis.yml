@@ -5,8 +5,6 @@ rvm:
   - "1.9.2"
 #  - jruby-19mode
 #  - rbx-19mode
-before_script:
-  - "bundle exec rake db:bootstrap RACK_ENV=test"
 
 env:
   - DB=sqlite DATABASE="sqlite://coinpunk_test.sqlite3"
@@ -17,3 +15,4 @@ before_script:
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS coinpunk_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'create database coinpunk_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql2' ]; then mysql -e 'create database IF NOT EXISTS coinpunk_test'; fi"
+  - "bundle exec rake db:bootstrap RACK_ENV=test"
