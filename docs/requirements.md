@@ -18,7 +18,7 @@ Windows support is theoretically possible. We will be attempting to build a wind
 
 ## Ruby Versions
 
-Coinpunk requires Ruby 1.9.3 or later. Rubinius in 1.9 mode has not yet been tested, and may require a few changes to work.
+Coinpunk requires Ruby 1.9.3 or later JRuby, or Rubinius in 1.9 mode.
 
 ## JRuby
 
