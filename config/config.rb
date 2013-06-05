@@ -14,8 +14,8 @@ Bundler.require :development if ENV['RACK_ENV'] == 'development'
 HTTPClientObject = HTTPClient.new
 
 if ENV['TRAVIS']
-  CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.travis.yml'))[ENV['RACK_ENV']]
-  
+  CONFIG = YAML.load_file(File.join(DIR_ROOT, 'test', 'config.travis.yml'))[ENV['RACK_ENV']]
+
   replace = case ENV['DB']
     when 'postgres' then 'postgres'
     when 'mysql'    then 'mysql2'
