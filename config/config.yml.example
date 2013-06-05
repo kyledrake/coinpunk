@@ -1,12 +1,12 @@
 ---
 development:
-  database: 'sqlite://coinpunk_development.sqlite3'
+  database: 'sqlite://coinpunk-development.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
   bitcoind_rpcuser: YOURRPCUSER
   bitcoind_rpcpassword: YOURRPCPASS
   email_from: your@address.com
 test:
-  database: 'sqlite://coinpunk_test.sqlite3'
+  database: 'sqlite://coinpunk-test.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
   bitcoind_rpcuser: YOURRPCUSER
   bitcoind_rpcpassword: YOURRPCPASS
