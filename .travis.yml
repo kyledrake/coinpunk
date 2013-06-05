@@ -7,9 +7,9 @@ rvm:
   - rbx-19mode
 
 env:
-  - DB=sqlite DATABASE="sqlite://coinpunk-test.sqlite3" JDBC_DATABASE="jdbc:sqlite://coinpunk-test.sqlite3"
-  - DB=mysql2 DATABASE="mysql2://root@127.0.0.1/coinpunk_test" JDBC_DATABASE="jdbc:mysql://127.0.0.1/coinpunk_test"
-  - DB=postgres DATABASE="postgres://postgres@127.0.0.1/coinpunk_test" JDBC_DATABASE="jdbc:postgresql://postgres@127.0.0.1/coinpunk_test"
+  - DB=sqlite DATABASE="sqlite://coinpunk-test.sqlite3" JDBC_DATABASE="jdbc:sqlite::memory:"
+  - DB=mysql2 DATABASE="mysql2://root@127.0.0.1/coinpunk_test" JDBC_DATABASE="jdbc:mysql://127.0.0.1/coinpunk_test?user=root"
+  - DB=postgres DATABASE="postgres://postgres@127.0.0.1/coinpunk_test" JDBC_DATABASE="jdbc:postgresql://127.0.0.1/coinpunk_test?user=postgres"
 
 before_script:
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS coinpunk_test;' -U postgres; fi"
