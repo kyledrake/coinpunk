@@ -25,7 +25,7 @@ describe Hash do
   
   describe 'delete!' do
     it 'removes keys' do
-      expected = %i[two four]
+      expected = [:two, :four]
       @hash.delete!(:one, :three).must_equal(:two => 'two', :four => 'four')
       @hash.keys.must_equal expected
     end
