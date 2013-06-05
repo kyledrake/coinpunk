@@ -77,26 +77,28 @@ describe TransactionsController do
       
       it 'sends and creates account' do
         account = Fabricate :account
-        new_account = Fabricate.attributes_for(:account)
+        send_to_email = Fabricate.attributes_for(:account)[:email]
         login_as account.email
 
-        stub_rpc 'getaccountaddress', [new_account[:email]], body: {result: '17xLQo6zksBNYuWaRq1N4yfeqMkb4kMaMP'}
+        stub_rpc 'getaccountaddress', [send_to_email], body: {result: '17xLQo6zksBNYuWaRq1N4yfeqMkb4kMaMP'}
         stub_rpc 'sendfrom', [account.email, '17xLQo6zksBNYuWaRq1N4yfeqMkb4kMaMP', 0.001, TransactionsController::MINIMUM_SEND_CONFIRMATIONS, nil, nil], body: {result: 'transaction_id'}
           
-        post '/send', to_address: new_account[:email], amount: 0.001
+        post '/send', to_address: send_to_email, amount: 0.001
         headers['Location'].must_match /\/dashboard$/
         
         mail = Mail::TestMailer.deliveries.first
         mail.from.must_equal [CONFIG['email_from']]
-        mail.to.must_equal [new_account[:email]]
+        mail.to.must_equal [send_to_email]
         mail.subject.must_match /you have just received bitcoins/i
         
         text_part = mail.text_part.to_s
-        text_part.must_match /0.001.+#{account.email}.+http:\/\/example.org.+#{new_account[:email]}/m
-        mail.html_part.to_s.must_match /0.001.+#{account.email}.+http:\/\/example.org.+#{new_account[:email]}/m
+        text_part.must_match /0.001.+#{account.email}.+http:\/\/example.org.+#{send_to_email}/m
+        mail.html_part.to_s.must_match /0.001.+#{account.email}.+http:\/\/example.org.+#{send_to_email}/m
         temporary_password = text_part.match(/temporary password: (.+)/i).captures.first.strip!
-        Account.valid_login?(new_account[:email], temporary_password).must_equal true
-        Sinatra::Sessionography.session[:flash][:success].must_match /sent 0.001 BTC to #{new_account[:email]}/i
+        Account.valid_login?(send_to_email, temporary_password).must_equal true
+        Account[email: send_to_email].temporary_password.must_equal true
+        Sinatra::Sessionography.session[:flash][:success].must_match /sent 0.001 BTC to #{send_to_email}/i
+        headers['Location'].must_match /\/dashboard$/
       end
     end
     
