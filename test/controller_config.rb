@@ -82,45 +82,6 @@ def api_url
   "#{uri.to_s}/"
 end
 
-def mock_dashboard_calls(email)
-  address = SecureRandom.hex
-
-  stub_request(:post, api_url).
-    with(
-      body: {jsonrpc: '2.0', method: 'getaccountaddress', params: [email]},
-      headers: {'Content-Type' => 'application/json'}
-    ).
-    to_return(status: 200, body: {result: address}.to_json)
-
-  stub_request(:post, api_url).
-    with(
-      body: [
-        {method: 'getaddressesbyaccount', params: [email], jsonrpc: '2.0'},
-        {method: 'listtransactions', params: [email], jsonrpc: '2.0'},
-        {method: 'getbalance', params: [email], jsonrpc: '2.0'}
-      ].to_json,
-      headers: {'Content-Type' => 'application/json'}
-    ).to_return(body: [
-      {result: [address]},
-      {result: [{
-        account: email,
-        address: address,
-        category: 'send',
-        confirmations: 0,
-        amount: -0.01000000,
-        fee: -0.00050000
-       }]},
-      {result: 31337.00}
-    ].to_json
-  )
-
-  stub_request(:post, api_url).
-    with(
-      body: [{method: 'getreceivedbyaddress', params: [address], jsonrpc: '2.0'}].to_json,
-      headers: {'Content-Type' => 'application/json'}
-    ).to_return(body: [{result: 0.03}].to_json)
-end
-
 def login_as(account_email)
   Sinatra::Sessionography.session[:account_email] = account_email
 end

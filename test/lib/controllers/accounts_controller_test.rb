@@ -68,7 +68,7 @@ describe IndexController do
     it 'succeeds with valid info' do
       account_attributes = Fabricate.attributes_for :account
 
-      mock_dashboard_calls account_attributes[:email]
+      stub_rpc 'getaccountaddress', [account_attributes[:email]], body: {result: SecureRandom.hex}
 
       post '/accounts/create', account_attributes
       status.must_equal 302

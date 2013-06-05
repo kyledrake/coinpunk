@@ -5,6 +5,7 @@ describe TransactionsController do
     @controller = TransactionsController
     Sinatra::Sessionography.session.clear
     Mail::TestMailer.deliveries.clear
+    # WebMock.reset!
   end
   
   describe 'send' do
@@ -72,11 +73,26 @@ describe TransactionsController do
     describe 'with email address' do
       
       it 'sends for existing email address in system' do
+        account = Fabricate :account
+        recipient_account = Fabricate :account
+        receiving_bitcoin_address = recipient_account.receive_addresses.first.bitcoin_address
         
+        login_as account.email
+        
+        stub_rpc 'getaccountaddress', [recipient_account.email], body: {result: receiving_bitcoin_address}
+        stub_rpc 'sendfrom', [account.email, receiving_bitcoin_address, 0.001, TransactionsController::MINIMUM_SEND_CONFIRMATIONS, nil, nil], body: {result: 'transaction_id'}
+
+        post '/send', to_address: recipient_account.email, amount: 0.001
+        a = Account[email: recipient_account.email]
+        a.password.must_equal recipient_account.password
+        a.temporary_password.must_equal false
+
+        Mail::TestMailer.deliveries.length.must_equal 0
       end
       
       it 'sends and creates account' do
         account = Fabricate :account
+        
         send_to_email = Fabricate.attributes_for(:account)[:email]
         login_as account.email
 

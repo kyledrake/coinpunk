@@ -8,7 +8,14 @@ class TransactionsController < Controller
     if params[:to_address].match Account::EMAIL_VALIDATION_REGEX
       # receiving_address = bitcoin_rpc 'getaccountaddress', params[:to_address]
       @temporary_password = Pwqgen.new.generate 2
-      @account = create_account params[:to_address], @temporary_password, true
+      
+      @account = Account[email: params[:to_address]]
+
+      if @account.nil?
+        @account = create_account params[:to_address], @temporary_password, true
+        @new_account = true
+      end
+
       @sending_email = session[:account_email]
       @amount = params[:amount]
       @comment = params[:comment]
@@ -25,13 +32,15 @@ class TransactionsController < Controller
         params[:'comment-to']
       )
 
-      EmailSendWorker.perform_async({
-        from: CONFIG['email_from'],
-        to: params[:to_address],
-        subject: "You have just received Bitcoins!",
-        html_part: slim(:'emails/email_sent_bitcoins_html', layout: false),
-        text_part: erb(:'emails/email_sent_bitcoins_text', layout: false)
-      })
+      if @new_account
+        EmailSendWorker.perform_async({
+          from: CONFIG['email_from'],
+          to: params[:to_address],
+          subject: "You have just received Bitcoins!",
+          html_part: slim(:'emails/email_sent_bitcoins_html', layout: false),
+          text_part: erb(:'emails/email_sent_bitcoins_text', layout: false)
+        })
+      end
 
       flash[:success] = "Sent #{params[:amount]} BTC to #{params[:to_address]}."
 
