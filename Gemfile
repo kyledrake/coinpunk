@@ -16,16 +16,19 @@ gem 'puma',           require: nil
 gem 'mail'
 gem 'pwqgen.rb',      require: 'pwqgen'
 
-platform :mri do
+platform :mri, :rbx do
   gem 'pg',      group: :postgres
   gem 'mysql2',  group: :mysql
   gem 'sqlite3', group: :sqlite
   gem 'hiredis', require: 'redis/connection/hiredis'
+end
 
+platform :mri do
   group :development, :test do
     gem 'pry'
     gem 'pry-debugger'
   end
+
 end
 
 platform :jruby do
@@ -50,7 +53,7 @@ group :test do
   gem 'webrat'
   gem 'mocha',              require: nil
 
-  platform :mri do
+  platform :mri, :rbx do
     gem 'simplecov',        require: nil
   end
 end

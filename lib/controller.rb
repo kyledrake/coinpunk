@@ -5,7 +5,7 @@ class Controller < Sinatra::Base
   register Sinatra::Flash
 
   configure do
-    precompile_assets! if production? || ENV['TRAVIS']
+    precompile_assets! if (production? || ENV['TRAVIS']) && RUBY_PLATFORM != 'java'
 
     if test?
       require 'sinatra/sessionography'
