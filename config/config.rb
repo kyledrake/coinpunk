@@ -15,7 +15,7 @@ HTTPClientObject = HTTPClient.new
 
 if ENV['TRAVIS']
   CONFIG = YAML.load_file(File.join(DIR_ROOT, 'test', 'config.travis.yml'))[ENV['RACK_ENV']]
-  CONFIG['database'] = ENV['DATABASE']
+  CONFIG['database'] = (RUBY_PLATFORM == "java" ? ENV['JDBC_DATABASE'] : ENV['DATABASE'])
 else
   CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.yml'))[ENV['RACK_ENV']]
 end
