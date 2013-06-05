@@ -30,9 +30,9 @@ end
 
 platform :jruby do
   #gem 'jruby-openssl'
-  gem 'jdbc-sqlite3',  require: 'jdbc/sqlite3',  group: :sqlite
-  gem 'jdbc-postgres', require: 'jdbc/postgres', group: :postgres
-  gem 'jdbc-mysql',    require: 'jdbc/mysql',    group: :mysql
+  gem 'jdbc-sqlite3',  require: nil, group: :sqlite
+  gem 'jdbc-postgres', require: nil, group: :postgres
+  gem 'jdbc-mysql',    require: nil, group: :mysql
 end
 
 group :development do

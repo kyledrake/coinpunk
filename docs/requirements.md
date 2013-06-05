@@ -18,7 +18,15 @@ Windows support is theoretically possible. We will be attempting to build a wind
 
 ## Ruby Versions
 
-Coinpunk requires Ruby 1.9.3 or later. JRuby and Rubinius in 1.9 mode have not yet been tested, and may require a few changes to work.
+Coinpunk requires Ruby 1.9.3 or later. Rubinius in 1.9 mode has not yet been tested, and may require a few changes to work.
+
+## JRuby
+
+JRuby is now supported! Make sure you are using version 1.7 or later. You will need to set the `config.yml` to use the jdbc drivers:
+
+* For PostgreSQL: `jdbc:postgresql://postgres@localhost/coinbase`
+* For MySQL: `jdbc:mysql://root@localhost/coinbase`
+* For SQLite: `jdbc:sqlite://coinbase.sqlite3`
 
 ## Hardware Requirements
 

@@ -1,10 +1,13 @@
 ENV['RACK_ENV'] = 'test'
 raise 'Forget it.' if ENV['RACK_ENV'] == 'production'
 
-require 'simplecov'
-SimpleCov.coverage_dir File.join('test', 'coverage')
-SimpleCov.start do
-  add_filter "/migrations/"
+if RUBY_PLATFORM != "java"
+  require 'simplecov'
+  SimpleCov.coverage_dir File.join('test', 'coverage')
+  SimpleCov.start do
+    add_filter "/migrations/"
+  end
+  SimpleCov.command_name 'minitest'
 end
 
 require 'webmock'

@@ -72,8 +72,6 @@ module Webrat
   end
 end
 
-SimpleCov.command_name 'minitest'
-
 def api_url
   uri = Addressable::URI.parse CONFIG['bitcoind_rpchost'] ? CONFIG['bitcoind_rpchost'] : 'http://localhost'
   uri.port = 8332 if uri.port.nil?
