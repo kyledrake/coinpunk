@@ -48,7 +48,6 @@ class TransactionsController < Controller
         params[:comment],
         params[:'comment-to']
       )
-      puts "RESP: #{transaction_id.inspect}"
     rescue Silkroad::Client::Error => e
       flash[:error] = "Unable to send bitcoins: #{e.message}"
       redirect '/dashboard'
