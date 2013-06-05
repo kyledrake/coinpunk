@@ -5,6 +5,8 @@ class Controller < Sinatra::Base
   register Sinatra::Flash
 
   configure do
+    precompile_assets! if production? || ENV['TRAVIS']
+
     if test?
       require 'sinatra/sessionography'
       helpers Sinatra::Sessionography

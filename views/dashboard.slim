@@ -1,7 +1,6 @@
 javascript:
   $(document).ready(function() {
-    $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(json) {
-      var response = JSON.parse(json);
+    $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(response) {
       $('#balance_usd').html('≈ $' + (response.data.last.value * $('#balance_btc').html()).toFixed(2) + ' USD <small>(Mt. Gox)</small>');
     });
   });
@@ -37,7 +36,7 @@ javascript:
                 - @transactions.each do |transaction|
                   tr
                     td = transaction['address']
-                    td = transaction['category'].capitalize
+                    td = transaction['category'] == 'send' ? 'Sent' : 'Received'
                     td #{format_amount transaction['amount']} BTC
                     td #{transaction['confirmations']} #{{transaction['confirmations'] < TransactionsController::MINIMUM_SEND_CONFIRMATIONS ? '<span class="label label-info pull-right">Pending</span>' : '<span class="label label-success pull-right">Done</span>'}}
                     th = timestamp_to_formatted_time transaction['timereceived']
