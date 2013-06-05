@@ -13,7 +13,19 @@ Bundler.require :development if ENV['RACK_ENV'] == 'development'
 
 HTTPClientObject = HTTPClient.new
 
-CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.yml'))[ENV['RACK_ENV']]
+if ENV['TRAVIS']
+  CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.travis.yml'))[ENV['RACK_ENV']]
+  
+  replace = case ENV['DB']
+    when 'postgres' then 'postgres'
+    when 'mysql'    then 'mysql2'
+    when 'sqlite'   then 'sqlite'
+  end
+
+  CONFIG['database'].sub! 'postgres', replace
+else
+  CONFIG = YAML.load_file(File.join(DIR_ROOT, 'config', 'config.yml'))[ENV['RACK_ENV']]
+end
 
 DB = Sequel.connect CONFIG['database']
 

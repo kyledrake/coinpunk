@@ -1,0 +1,8 @@
+---
+test:
+  database: 'postgres://postgres@localhost/coinbase_test'
+  session_secret: sdfsdfjsd
+  bitcoind_rpcuser: something
+  bitcoind_rpcpassword: blah
+  bitcoind_rpchost: http://coinpunk.example.com
+  email_from: 'web@coinpunk.example.com'
