@@ -40,6 +40,10 @@ Installation is relatively simple (and will get simpler in the future). See the 
 
 *If you are using Coinpunk master, you should run 'git checkout 0.0.3' to lock the version, and prevent breakage when we refactor our code to improve security and performance.*
 
+## Coinpunk is for Advanced Users
+
+If you've never worked on your own server before, and know how to do things like backup your wallet file, I strongly recommend using a desktop client or hosted wallet provider like [blockchain.info](http://blockchain.info) instead. Coinpunk tries to be simple as possible, but like Gitlab, it does require some understanding of system administration to be run properly.
+
 ## Author
 
 [Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
