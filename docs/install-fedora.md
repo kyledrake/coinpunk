@@ -83,7 +83,7 @@ Now you will need to clone Coinpunk:
 
     git clone https://github.com/kyledrake/coinpunk.git
     cd coinpunk
-    git checkout 0.0.3
+    git checkout 0.0.4
     
 Copy the `config.yml.template` to `config.yml`:
 
