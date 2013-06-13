@@ -133,7 +133,7 @@ DEPENDENCIES
   sequel
   shotgun
   sidekiq
-  silkroad
+  silkroad (~> 0.0.1)
   simplecov
   sinatra
   sinatra-flash
