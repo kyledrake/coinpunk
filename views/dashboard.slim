@@ -1,7 +1,6 @@
 javascript:
   $(document).ready(function() {
-    $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(json) {
-      var response = JSON.parse(json);
+    $.get('https://data.mtgox.com/api/2/BTCUSD/money/ticker', function(response) {
       $('#balance_usd').html('≈ $' + (response.data.last.value * $('#balance_btc').html()).toFixed(2) + ' USD <small>(Mt. Gox)</small>');
     });
   });
