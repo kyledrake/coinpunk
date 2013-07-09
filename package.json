@@ -1,0 +1,15 @@
+{ "name": "coinpunk",
+  "description": "DIY Bitcoin Wallet Service",
+  "version": "0.0.1",
+  "directories": { "lib" : "./lib" },
+  "main": "app.js",
+  "author": "Kyle Drake <kyledrake@gmail.com>",
+  "repository": { "type":"git", "url":"https://github.com/kyledrake/coinpunk.git" },
+  "dependencies": {
+    "express": "*",
+    "optimist": "*",
+    "bitcoin": "*"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
