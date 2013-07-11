@@ -31,7 +31,6 @@ coinpunk.Wallet = function() {
   };
 
   this.verificationAuth = function(salt) {
-    console.log(storageKey);
     return this._generateAuth(storageKey, salt);
   };
 

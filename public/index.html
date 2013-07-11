@@ -8,11 +8,13 @@
     <link href="css/fonts.css" rel="stylesheet">
     <link href="css/bootstrap-slate.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-    
+
     <title>Coinpunk</title>
   </head>
   <body>
     <div id="container" class="container">
+      <div id="header"></div>
+      <div id="view"></div>
     </div>
 
     <script src="js/lib/jquery.js"></script>
@@ -34,9 +36,9 @@
     <script src="js/lib/jsbn/jsbn2.js"></script>
     <script src="js/lib/jsbn/ec.js"></script>
     <script src="js/lib/jsbn/sec.js"></script>
-    
+
     <script src="js/lib/events/eventemitter.js"></script>
-    
+
     <script src="js/lib/bitcoinjs-lib/bitcoin.js"></script>
     <script src="js/lib/bitcoinjs-lib/util.js"></script>
     <script src="js/lib/bitcoinjs-lib/base58.js"></script>
@@ -44,7 +46,7 @@
     <script src="js/lib/bitcoinjs-lib/ecdsa.js"></script>
     <script src="js/lib/bitcoinjs-lib/eckey.js"></script>
     <script src="js/lib/bitcoinjs-lib/opcode.js"></script>
-    
+
     <script src="js/lib/bitcoinjs-lib/script.js"></script>
     <script src="js/lib/bitcoinjs-lib/transaction.js"></script>
     <script src="js/lib/bitcoinjs-lib/wallet.js"></script>
@@ -55,29 +57,9 @@
 
     <script src="js/lib/coinpunk/coinpunk.js"></script>
     <script src="js/lib/coinpunk/controllers/accounts.js"></script>
+    <script src="js/lib/coinpunk/router.js"></script>
     <script src="js/lib/coinpunk/models/wallet.js"></script>
 
     <script src="js/lib/path.min.js"></script>
-
-    <script>
-      var router = {}
-      
-      router.render = function(id, name, stateObj) {
-        $('#'+id).html(new EJS({url: 'views/'+name+'.ejs'}).render());
-        return false;
-      };
-
-      Path.map("#/signup").to(function() {
-        router.render('container', 'signup');
-      });
-
-      Path.map("#/signin").to(function(){
-        router.render('container', 'signin');
-      });
-
-      Path.root("#/signin");
-      Path.listen();
-      
-    </script>
   </body>
 </html>

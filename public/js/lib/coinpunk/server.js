@@ -1,0 +1,3 @@
+coinpunk.server = {
+  
+};

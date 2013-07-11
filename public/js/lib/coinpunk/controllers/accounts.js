@@ -68,22 +68,28 @@ coinpunk.controllers.accounts = {
 
       var self = this;
 
-      $.post('/accounts/create', {
-        email:                  email,
-        wallet:                 coinpunk.wallet.encrypt(),
-        initial_public_address: publicAddress,
-        verification_key:       verificationAuth.key,
-        verification_salt:      verificationAuth.salt
-      }, function(response) {
-        if(response.result == 'ok') {
-          window.location.href = '/dashboard';
-        } else {
-          errorsDiv.html('');
-          for(var i=0;i<response.messages.length;i++) {
-            errorsDiv.html(errorsDiv.html() + response.messages[i] + '<br>');
+      $.ajax({
+        type: 'POST',
+        url: '/accounts/create',
+        data: {
+          email:                  email,
+          wallet:                 coinpunk.wallet.encrypt(),
+          initial_public_address: publicAddress,
+          verification_key:       verificationAuth.key,
+          verification_salt:      verificationAuth.salt
+        },
+        dataType: 'json',
+        success: function(response) {
+          if(response.result == 'ok') {
+            window.location.href = '#/dashboard';
+          } else {
+            errorsDiv.html('');
+            for(var i=0;i<response.messages.length;i++) {
+              errorsDiv.html(errorsDiv.html() + response.messages[i] + '<br>');
+            }
+            $('#errors').removeClass('hidden');
+            self.enableSubmitButton();
           }
-          $('#errors').removeClass('hidden');
-          self.enableSubmitButton();
         }
       });
     }
