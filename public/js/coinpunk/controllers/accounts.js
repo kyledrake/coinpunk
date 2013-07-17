@@ -61,30 +61,24 @@ coinpunk.controllers.accounts = {
       this.disableSubmitButton();
 
       coinpunk.wallet = new coinpunk.Wallet();
-      coinpunk.wallet.storageAuth(password);
-
-      var publicAddress      = coinpunk.wallet.createNewAddress();
-      var verificationAuth   = coinpunk.wallet.verificationAuth();
+      var address   = coinpunk.wallet.createNewAddress('Default');
+      var walletKey = coinpunk.wallet.createWalletKey(email, password);
 
       var self = this;
 
       $.ajax({
         type: 'POST',
-        url: '/accounts/create',
+        url: '/wallet',
         data: {
-          email:                  email,
-          wallet:                 coinpunk.wallet.encrypt(),
-          initial_public_address: publicAddress,
-          verification_key:       verificationAuth.key,
-          verification_salt:      verificationAuth.salt
+          serverKey: coinpunk.wallet.serverKey,
+          wallet:    coinpunk.wallet.encryptPayload(),
+          email:     email,
+          address:   address
         },
         dataType: 'json',
         success: function(response) {
           if(response.result == 'ok') {
-            
-            sessionStorage.setItem('');
-            sessionStorage.setItem('email', email);
-            
+            sessionStorage.setItem('walletKey', walletKey);
             window.location.href = '#/dashboard';
           } else {
             errorsDiv.html('');

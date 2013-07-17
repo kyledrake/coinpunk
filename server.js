@@ -21,18 +21,14 @@ app.configure(function() {
   app.use(express.static('public'));
 });
 
-app.post('/accounts/create', function(req,res) {
+app.post('/wallet', function(req,res) {
   console.log(req.body);
 
-  db.hmset(req.body.email, {
-    verificationKey: req.body.verification_key,
-    verificationSalt: req.body.verification_salt,
-    wallet: req.body.wallet
-  }, function(err) {
+  db.set(req.body.serverKey, req.body.wallet, function(err) {
     if(err) {
       res.json({messages: ["Database error: "+err]});
     } else {
-      btc.cmd('importaddress', req.body.initial_public_address, req.body.email, false, function(err, btcres) {
+      btc.cmd('importaddress', req.body.address, req.serverKey, false, function(err, btcres) {
         if(err) {
           console.log('bitcoind error: '+err);
           res.json({messages: ['Bitcoind error: '+err]});
