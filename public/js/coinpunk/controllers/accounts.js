@@ -81,6 +81,10 @@ coinpunk.controllers.accounts = {
         dataType: 'json',
         success: function(response) {
           if(response.result == 'ok') {
+            
+            sessionStorage.setItem('');
+            sessionStorage.setItem('email', email);
+            
             window.location.href = '#/dashboard';
           } else {
             errorsDiv.html('');
@@ -94,4 +98,6 @@ coinpunk.controllers.accounts = {
       });
     }
   }
+  
+  
 }

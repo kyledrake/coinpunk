@@ -22,11 +22,11 @@ coinpunk.Wallet = function() {
   this.storageAuth = function(password, salt) {
     if(!password)
       throw "Password is required"
-    
+
     var cipher  = this._generateAuth(password, salt);
     storageKey  = cipher.key;
     storageSalt = cipher.salt;
-    
+
     return true;
   };
 

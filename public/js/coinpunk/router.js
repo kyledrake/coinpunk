@@ -22,11 +22,15 @@ $(document).ready(function() {
   Path.map("#/dashboard").to(function(){
     if (coinpunk.wallet == undefined) {
       window.location.href = '#/signin';
-    } else {
+    } else {      
       coinpunk.router.render('view', 'dashboard');
+   
+      $.get('/accounts/dashboard', {email: sessionStorage.getItem('email')}, function(resp) {
+        console.log(resp);
+      });
     }
   });
-  
+
   Path.root("#/signin");
   Path.listen();
 });
