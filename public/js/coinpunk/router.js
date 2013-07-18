@@ -18,19 +18,40 @@ $(document).ready(function() {
       coinpunk.router.render('view', 'signin');
     }
   });
+  
+  Path.map("#/signout").to(function() {
+    coinpunk.wallet = null;
+    sessionStorage.removeItem('walletKey');
+    sessionStorage.removeItem('walletId');
+    
+    window.location.href = '#/signin';
+  });
 
   Path.map("#/dashboard").to(function(){
-    if (coinpunk.wallet == undefined) {
+    if (!sessionStorage.getItem('walletKey')) {
       window.location.href = '#/signin';
     } else {      
       coinpunk.router.render('view', 'dashboard');
-   
-      $.get('/accounts/dashboard', {email: sessionStorage.getItem('email')}, function(resp) {
-        console.log(resp);
-      });
+
+      if(!coinpunk.wallet) {
+        coinpunk.wallet = new coinpunk.Wallet(sessionStorage.getItem('walletKey'));
+        var serverKey = coinpunk.wallet.createServerKey(sessionStorage.getItem('walletId'));
+
+        $.get('/wallet', {serverKey: serverKey}, function(response) {
+          coinpunk.wallet.loadPayload(response.wallet);
+          coinpunk.controllers.dashboard.loadDashboard();
+        });
+      } else {
+        coinpunk.controllers.dashboard.loadDashboard();
+      }
     }
   });
 
-  Path.root("#/signin");
+  if(sessionStorage.getItem('walletKey')) {
+    window.location.href = '#/dashboard';
+  } else {
+    Path.root("#/signin");
+  }
+
   Path.listen();
 });

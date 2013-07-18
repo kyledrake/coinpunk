@@ -3,22 +3,29 @@ var argv = require('optimist').argv;
 var port = argv.p || 8080;
 var app = express();
 var redis = require('redis');
-var bitcoin = require('bitcoin');
+var http = require('http');
 
 var config = require('./config.json');
 
-var db = redis.createClient(null, null);
-
-var btc = new bitcoin.Client({
-  host: config.bitcoinRpcHost || 'localhost',
-  port: config.bitcoinRpcPort || 8332,
-  user: config.bitcoinRpcUser,
-  pass: config.bitcoinRpcPass
+var bitcoin = require('libcoin/RpcClient').new({
+  'port' : config.bitcoind.port,
+  'user' : config.bitcoind.rpcuser,
+  'pass' : config.bitcoind.rpcpassword,
+  'protocol' : config.bitcoind.protocol
 });
+
+var db = redis.createClient(null, null);
 
 app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.static('public'));
+});
+
+app.get('/wallet', function(req,res) {
+  db.get(req.query.serverKey, function(err, wallet) {
+    if(err) console.log("Wallet Get Error: "+err);
+    res.json({wallet: wallet});
+  });
 });
 
 app.post('/wallet', function(req,res) {
@@ -26,52 +33,33 @@ app.post('/wallet', function(req,res) {
     if(err) {
       res.json({messages: ["Database error: "+err]});
     } else {
-      btc.cmd('importaddress', req.body.address, req.body.serverKey, false, function(err, btcres) {
-        if(err) {
+      bitcoin.importAddress(req.body.address, req.body.serverKey, "false", function(err, btcres) {
+        if(err)
           res.json({messages: ['Bitcoind error: '+err]});
-        } else {
+        else
           res.json({result: 'ok'});
-        }
       });
     }
   });
 });
 
-app.get('/accounts/info', function(req,res) {
-  async.parallel([
-      function(){
-        btc.cmd('getaddressesbyaccount', req.query.email);
-      },
-      function(){
-        btc.cmd('listtransactons', email);
-      },
-      function() {
-        btc.cmd('getbalance', email)
-      }
-  ], callback);
+app.get('/dashboard', function(req,res) {
 
-  btc.cmd('', function(req,res) {
+  bitcoin.batch(function() {
+    bitcoin.getAddressesByAccount(req.query.serverKey);
+    bitcoin.listTransactions(req.query.serverKey);
+    bitcoin.getBalance(req.query.serverKey);
+  }, function(err, results) {
+    if(err) console.log(err);
     
+    res.json({
+      addresses: results[0].result,
+      transactions: results[1].result,
+      balance: results[2].result
+    });
   });
 });
 
-/*
-  client.rpc 'getaddressesbyaccount', account.email
-  client.rpc 'listtransactions', account.email
-  client.rpc 'getbalance', account.email
-end
-
-@addresses_received = $bitcoin.batch do
-  addresses_raw['result'].each {|a| rpc 'getreceivedbyaddress', a}
-end.collect{|a| a['result']}
-
-@account            = account
-@addresses          = addresses_raw['result']
-@transactions       = transactions_raw['result']
-@account_balance    = account_balance_raw['result']
-
-*/
-
-console.log("Coinpunk and his punk band have taken the stage on port "+port);
+console.log("Coinpunk and his rude boys have taken the stage on port "+port);
 
 app.listen(port);

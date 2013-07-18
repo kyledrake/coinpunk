@@ -1,6 +1,7 @@
 coinpunk.Wallet = function(walletKey) {
   this.walletKey = walletKey;
   this.defaultIterations = 1000;
+  this.serverKey = undefined;
   var keyPairs = [];
 
   this.loadPayloadWithLogin = function(id, password, payload) {
@@ -10,7 +11,7 @@ coinpunk.Wallet = function(walletKey) {
     return true;
   };
 
-  this.loadPayload= function(payload) {
+  this.loadPayload = function(payload) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
     return true;
@@ -36,6 +37,11 @@ coinpunk.Wallet = function(walletKey) {
       addrs.push({address: keyPairs[i].address, name: keyPairs[i].name});
     }
     return addrs;
+  };
+  
+  this.createServerKey = function(id) {
+    this.serverKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(this.walletKey, id, this.defaultIterations));
+    return this.serverKey;
   };
 
   this.createWalletKey = function(id, password) {

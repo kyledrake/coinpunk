@@ -3,7 +3,13 @@
     <a class="brand" href="#/signin">Coinpunk</a>
     
     <ul class="nav pull-right">
-      <li class="navbar-text"><strong style="color: #7AB800"></strong></li>
+      <% if(sessionStorage.getItem('walletId')) { %>
+        <li class="navbar-text"><strong style="color: #7AB800"><%= sessionStorage.getItem('walletId') %></strong></li>
+      <% } %>
+      
+      <% if(sessionStorage.getItem('walletKey')) { %>
+        <li><a href="#/signout">Signout</a></li>
+      <% } %>
     </ul>
   </div>
 </div>

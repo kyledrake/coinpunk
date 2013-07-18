@@ -63,7 +63,7 @@ coinpunk.controllers.accounts = {
       coinpunk.wallet = new coinpunk.Wallet();
       var address   = coinpunk.wallet.createNewAddress('Default');
       var walletKey = coinpunk.wallet.createWalletKey(email, password);
-
+      var payload = coinpunk.wallet.encryptPayload();
       var self = this;
 
       $.ajax({
@@ -71,13 +71,14 @@ coinpunk.controllers.accounts = {
         url: '/wallet',
         data: {
           serverKey: coinpunk.wallet.serverKey,
-          wallet:    coinpunk.wallet.encryptPayload(),
+          wallet:    payload,
           email:     email,
           address:   address
         },
         dataType: 'json',
         success: function(response) {
           if(response.result == 'ok') {
+            sessionStorage.setItem('walletId', email);
             sessionStorage.setItem('walletKey', walletKey);
             window.location.href = '#/dashboard';
           } else {
