@@ -1,8 +1,12 @@
-coinpunk.Wallet = function(walletKey) {
+coinpunk.Wallet = function(walletKey, walletId) {
   this.walletKey = walletKey;
+  this.wallet = walletId;
   this.defaultIterations = 1000;
   this.serverKey = undefined;
   var keyPairs = [];
+
+  if(walletKey && walletId)
+    this.createServerKey(walletId);
 
   this.loadPayloadWithLogin = function(id, password, payload) {
     this.createWalletKey(id, password);

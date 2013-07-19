@@ -1,13 +1,10 @@
 <div class="navbar">
   <div class="navbar-inner">
-    <a class="brand" href="#/signin">Coinpunk</a>
+    <a class="brand" href="#/">Coinpunk</a>
     
     <ul class="nav pull-right">
-      <% if(sessionStorage.getItem('walletId')) { %>
-        <li class="navbar-text"><strong style="color: #7AB800"><%= sessionStorage.getItem('walletId') %></strong></li>
-      <% } %>
-      
-      <% if(sessionStorage.getItem('walletKey')) { %>
+      <% if(coinpunk.database.loggedIn()) { %>
+        <li class="navbar-text"><strong style="color: #7AB800"><%= coinpunk.database.getWalletId() %></strong></li>
         <li><a href="#/signout">Signout</a></li>
       <% } %>
     </ul>

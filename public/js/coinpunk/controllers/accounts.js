@@ -78,9 +78,8 @@ coinpunk.controllers.accounts = {
         dataType: 'json',
         success: function(response) {
           if(response.result == 'ok') {
-            sessionStorage.setItem('walletId', email);
-            sessionStorage.setItem('walletKey', walletKey);
-            window.location.href = '#/dashboard';
+            coinpunk.database.set(walletKey, email);
+            coinpunk.router.route('dashboard');
           } else {
             errorsDiv.html('');
             for(var i=0;i<response.messages.length;i++) {
