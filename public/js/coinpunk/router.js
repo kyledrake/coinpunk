@@ -45,14 +45,13 @@ coinpunk.router.map("#/dashboard").to(function() {
   } else {
     coinpunk.router.render('view', 'dashboard');
     coinpunk.router.initWallet();
-    coinpunk.controllers.dashboard.loadDashboard();
+    coinpunk.controllers.dashboard.index();
   }
 });
 
-if(coinpunk.database.loggedIn()) {
+coinpunk.router.map('#/').to(function() {
   coinpunk.router.route('dashboard');
-} else {
-  coinpunk.router.root("#/signin");
-}
+});
 
+coinpunk.router.root("#/");
 coinpunk.router.listen();
