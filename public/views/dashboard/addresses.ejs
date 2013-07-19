@@ -1,0 +1,26 @@
+<h2>Addresses</h2>
+
+<% if(addresses.length == 0) {%>
+
+  <h4>No receive addresses yet.</h4>
+
+<% } else { %>
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Received</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i<addresses.length; i++) { %>
+        <td><%= addresses[i].name %></td>
+        <td><%= addresses[i].address %></td>
+        <td>TODO</td>
+      <% } %>
+    </tbody>
+  </table>
+
+<% } %>
