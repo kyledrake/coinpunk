@@ -46,7 +46,7 @@ If you've never worked on your own server before, and know how to do things like
 
 ## Author
 
-[Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
+[Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson. A [New Brew Ventures](http://netbrewventures.com) project.
 
 ## How You Can Help
 
