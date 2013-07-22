@@ -1,12 +1,9 @@
 coinpunk.Wallet = function(walletKey, walletId) {
   this.walletKey = walletKey;
-  this.wallet = walletId;
+  this.walletId = walletId;
   this.defaultIterations = 1000;
   this.serverKey = undefined;
   var keyPairs = [];
-
-  if(walletKey && walletId)
-    this.createServerKey(walletId);
 
   this.loadPayloadWithLogin = function(id, password, payload) {
     this.createWalletKey(id, password);
@@ -43,14 +40,15 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return addrs;
   };
   
-  this.createServerKey = function(id) {
-    this.serverKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(this.walletKey, id, this.defaultIterations));
+  this.createServerKey = function() {
+    this.serverKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(this.walletKey, this.walletId, this.defaultIterations));
     return this.serverKey;
   };
 
   this.createWalletKey = function(id, password) {
     this.walletKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(password, id, this.defaultIterations));
-    this.serverKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(this.walletKey, id, this.defaultIterations));
+    this.walletId = id;
+    this.createServerKey();
     return this.walletKey;
   };
 
@@ -58,4 +56,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var payload = {keyPairs: keyPairs};
     return sjcl.encrypt(this.walletKey, JSON.stringify(payload));
   };
+  
+  this.storeCredentials = function() {
+    coinpunk.database.set(this.walletKey, this.walletId);
+  };
+  
+  if(walletKey && walletId)
+    this.createServerKey();
 };

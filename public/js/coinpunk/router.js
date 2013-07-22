@@ -13,10 +13,8 @@ coinpunk.router.initWallet = function() {
   if(coinpunk.wallet) {
     return coinpunk.wallet;
   } else {
-    coinpunk.wallet = new coinpunk.Wallet(coinpunk.database.getWalletKey());
-    var serverKey = coinpunk.wallet.createServerKey(coinpunk.database.getWalletId());
-
-    $.get('/wallet', {serverKey: serverKey}, function(response) {
+    coinpunk.wallet = new coinpunk.Wallet(coinpunk.database.getWalletKey(), coinpunk.database.getWalletId());
+    $.get('/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
       coinpunk.wallet.loadPayload(response.wallet);
     });
   }
