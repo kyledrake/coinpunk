@@ -15,6 +15,31 @@ coinpunk.controllers.accounts = {
     }
   },
 
+  signin: function() {
+    var id = $('#walletId').val();
+    var password = $('#password').val();
+    var errorDiv = $('#errors');
+    errorDiv.addClass('hidden');
+    errorDiv.html('');
+    
+    coinpunk.wallet = new coinpunk.Wallet();
+    
+    var walletKey = coinpunk.wallet.createWalletKey(id, password);
+    var payload   = coinpunk.wallet.encryptPayload();
+    
+    $.get('/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
+      if(response.result == 'error') {
+        errorDiv.removeClass('hidden');
+        errorDiv.html(response.message);
+      } else {
+        errorDiv.addClass('hidden');
+        coinpunk.wallet.loadPayload(response.wallet);
+        coinpunk.wallet.storeCredentials();
+        coinpunk.router.route('dashboard');
+      }
+    });
+  },
+
   disableSubmitButton: function() {
     var button = $('#createAccountButton');
     button.attr('disabled', 'disabled');

@@ -24,7 +24,11 @@ app.configure(function() {
 app.get('/wallet', function(req,res) {
   db.get(req.query.serverKey, function(err, wallet) {
     if(err) console.log("Wallet Get Error: "+err);
-    res.json({wallet: wallet});
+
+    if(wallet)
+      res.send({wallet: wallet});
+    else
+      res.send({result: 'error', message: 'Wallet not found'});
   });
 });
 

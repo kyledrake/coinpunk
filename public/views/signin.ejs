@@ -1,18 +1,21 @@
 <div class="row">
   <div class="span4">
     <h1>Coinpunk</h1>
-    <form>
+    
+    <div id="errors" class="alert alert-error hidden"></div>
+    
+    <form action="#" onsubmit="coinpunk.controllers.accounts.signin(); return false;" autocomplete="off" autocapitalize="off">
       <fieldset>
         <div>
-          <input type="text" placeholder="Your email">
+          <input id="walletId" type="email" placeholder="Your email">
         </div>
         <div>
-          <input type="text" placeholder="Password">
+          <input id="password" name="password" type="password" placeholder="Password">
         </div>
         <label class="checkbox">
           <input type="checkbox"> Remember me
         </label>
-        <button type="submit" class="btn btn-large btn-success" style="margin-bottom: 10px">Sign In</button>
+        <input type="submit" class="btn btn-large btn-success" style="margin-bottom: 10px" value="Sign In">
         <div><a href="#/signup">I don't have a wallet yet.</a></div>
       </fieldset>
     </form>
