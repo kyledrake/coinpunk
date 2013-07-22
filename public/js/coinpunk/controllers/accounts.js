@@ -73,11 +73,16 @@ coinpunk.controllers.accounts = {
           serverKey: coinpunk.wallet.serverKey,
           wallet:    payload,
           email:     email,
-          address:   address
+          address:   address,
+          dontOverride: true
         },
         dataType: 'json',
         success: function(response) {
           if(response.result == 'ok') {
+            coinpunk.wallet.storeCredentials();
+            coinpunk.router.route('dashboard');
+          } else if(response.result == 'exists'){
+            coinpunk.wallet.loadPayload(response.wallet);
             coinpunk.wallet.storeCredentials();
             coinpunk.router.route('dashboard');
           } else {
