@@ -1,0 +1,118 @@
+<div class="row text-center">
+  <div class="span8 offset2">
+    <h1>Transaction Detail</h1>
+    <table class="table table-bordered table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Transaction ID (TXID)</td>
+          <td><%= tx.txid %></td>
+        </tr>
+        <tr>
+          <td>Amount</td>
+          <td><%= tx.amount %></td>
+        </tr>
+        <tr>
+          <td>Confirmations</td>
+          <td>
+            <%= tx.confirmations %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% if(tx.confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
+              <span class="label label-info">Pending</span>
+            <% } else { %>
+              <span class="label label-success">Confirmed</span>
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <td>Blockhash</td>
+          <td><%= tx.blockhash %></td>
+        </tr>
+        <tr>
+          <td>Blockindex</td>
+          <td><%= tx.blockindex %></td>
+        </tr>
+        <tr>
+          <td>Blocktime</td>
+          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.blocktime) %></td>
+        </tr>
+        <tr>
+          <td>Time</td>
+          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.time) %></td>
+        </tr>
+        <tr>
+          <td>Time Received</td>
+          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.timereceived) %></td>
+        </tr>
+        <tr>
+          <td>Details</td>
+          <td>
+            
+            <% 
+              for (var key in tx.details) {
+                var obj = tx.details[key];
+                for (var prop in obj) {
+                  if(obj.hasOwnProperty(prop)) { %>
+                    <% console.log(prop + " = " + obj[prop]); %>
+                    <strong><%= prop.charAt(0).toUpperCase() + prop.slice(1) %>:</strong><br><%= obj[prop] %>
+                    
+                    <% if(prop == 'amount') { %>
+                      BTC
+                    <% } %>
+                    
+                    <br>
+            <%    
+                   }
+                 }
+               } 
+            %>
+          </td>
+        </tr>
+    </table>
+    
+    <a href="#/dashboard" class="btn btn-large btn-info" style="margin-bottom: 30px">Back<a>
+  </div>
+</div>
+
+<!--
+
+td Details
+td
+  - @transaction['details'].each do |detail|
+    - detail.each do |k,v|
+      p <strong>#{k.capitalize}:</strong><br>#{k == 'amount' || k == 'fee' ? format_amount(v) + ' BTC' : v}
+    br
+
+.span8.offset2
+  table.table.table-bordered.table-striped.table-hover id="transaction_view"
+    tbody
+      tr
+        td Transaction ID (TXID)
+        td = @transaction['txid']
+      tr
+        td Amount
+        td #{@transaction['amount']} BTC
+      tr
+        td Confirmations
+        td = @transaction['confirmations']
+      tr
+        td Blockhash
+        td = @transaction['blockhash']
+      tr
+        td Blockindex
+        td = @transaction['blockindex']
+      tr
+        td Blocktime
+        td = timestamp_to_formatted_time @transaction['blocktime']
+      tr
+        td Time
+        td = timestamp_to_formatted_time @transaction['time']
+      tr
+        td Time Received
+        td = timestamp_to_formatted_time @transaction['timereceived']
+      tr
+        td Details
+        td
+          - @transaction['details'].each do |detail|
+            - detail.each do |k,v|
+              p <strong>#{k.capitalize}:</strong><br>#{k == 'amount' || k == 'fee' ? format_amount(v) + ' BTC' : v}
+            br
+-->

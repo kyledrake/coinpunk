@@ -65,8 +65,7 @@ coinpunk.router.map("#/dashboard").to(function() {
   }
 });
 
-coinpunk.router.map('#/tx/:txid').to(function() {
-  coinpunk.router.render('view/tx', 'detail');
+coinpunk.router.map('#/tx/details/:txid').to(function() {
   coinpunk.controllers.tx.details(this.params["txid"]);
 });
 

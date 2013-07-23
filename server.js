@@ -73,6 +73,15 @@ app.get('/dashboard', function(req,res) {
   });
 });
 
+app.get('/tx/details', function(req,res) {
+  bitcoin.getTransaction(req.query.txid, function(err, btcres) {
+    if(err)
+      res.send({messages: ['Bitcoind error: '+err]});
+    else
+      res.send({tx: btcres.result});
+  });
+});
+
 console.log("Coinpunk and his rude boys have taken the stage on port "+port);
 
 app.listen(port);

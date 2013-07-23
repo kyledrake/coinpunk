@@ -31,13 +31,13 @@
               <span class="label label-success pull-right">Confirmed</span>
             <% } %>
           </td>
-          <td><%= tx[i].timereceived %></td>
-          <td><a href="#/transactionDetails/<%= tx[i].txid %>">Details</a></td>
+          <td>
+           <%= coinpunk.controllers.dashboard.friendlyTimeString(tx[i].timereceived) %>
+          </td>
+          <td><a href="#/tx/details/<%= tx[i].txid %>">Details</a></td>
       <% } %>
     </tbody>
   </table>
-  
-
 
 <% } %>
 
