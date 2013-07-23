@@ -33,29 +33,27 @@ app.get('/wallet', function(req,res) {
 });
 
 app.post('/wallet', function(req,res) {
-  if(req.body.dontOverride == 'true') {
-    db.get(req.body.serverKey, function(err, wallet) {
-      if(err) {
-        console.log("Wallet Get Error: "+err);
-        res.send({messages: ['Bitcoind error: '+err]});
-      } else if(wallet) {
-        res.send({result: 'exists', wallet: wallet});
-      }
-    });
-  } else {
-    db.set(req.body.serverKey, req.body.wallet, function(err) {
-      if(err) {
-        res.send({messages: ["Database error: "+err]});
-      } else {
-        bitcoin.importAddress(req.body.address, req.body.serverKey, "false", function(err, btcres) {
-          if(err)
-            res.send({messages: ['Bitcoind error: '+err]});
-          else
-            res.send({result: 'ok'});
-        });
-      }
-    });
-  }
+  db.get(req.body.serverKey, function(err, wallet) {
+    if(err) {
+      console.log("Wallet Get Error: "+err);
+      res.send({messages: ['Bitcoind error: '+err]});
+    } else if(wallet) {
+      res.send({result: 'exists', wallet: wallet});
+    } else {
+      db.set(req.body.serverKey, req.body.wallet, function(err) {
+        if(err) {
+          res.send({messages: ["Database error: "+err]});
+        } else {
+          bitcoin.importAddress(req.body.address, req.body.serverKey, "false", function(err, btcres) {
+            if(err)
+              res.send({messages: ['Bitcoind error: '+err]});
+            else
+              res.send({result: 'ok'});
+          });
+        }
+      });
+    }
+  });
 });
 
 app.get('/dashboard', function(req,res) {
@@ -66,7 +64,7 @@ app.get('/dashboard', function(req,res) {
     bitcoin.getBalance(req.query.serverKey);
   }, function(err, results) {
     if(err) console.log(err);
-    
+
     res.json({
       addresses: results[0].result,
       transactions: results[1].result,

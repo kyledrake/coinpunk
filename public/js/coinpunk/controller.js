@@ -6,4 +6,6 @@ coinpunk.Controller.prototype.ejs = function(path, data) {
   return new EJS({url: 'views/'+path}).render(data);
 };
 
+coinpunk.Controller.prototype.minimumSendConfirmations = 1;
+
 coinpunk.controllers = {};

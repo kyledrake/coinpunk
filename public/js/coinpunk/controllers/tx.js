@@ -1,9 +1,12 @@
-coinpunk.controllers.Dashboard = function() {};
+coinpunk.controllers.Tx = function() {};
+coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
-
-coinpunk.controllers.Dashboard.prototype.index = function() {
+coinpunk.controllers.Tx.prototype.details = function(txid) {
   var self = this;
+
+  $.get('/tx', {txid: txid}, function(resp) {
+    
+  });
 
   $.get('/dashboard', {serverKey: coinpunk.wallet.serverKey}, function(resp) {
     $('#transactions').html(self.ejs('dashboard/transactions.ejs', {tx: resp.transactions}));

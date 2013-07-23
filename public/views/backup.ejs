@@ -1,0 +1,37 @@
+<script>
+  $(document).ready(function() {
+    var payload = coinpunk.wallet.encryptPayload();
+    $('#walletPayload').html(payload);
+    var qrcode = new QRCode("qrcode", {
+        text: payload,
+        width: 384,
+        height: 384,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+  });
+</script>
+
+<div class="row">
+  <div class="span12 text-center">
+    <h1>Backup Wallet</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span6 offset3">
+    <h4>To backup your wallet, you can print this page. You can copy the text using a QR Code, or you can copy and paste it into a text file, which can be printed out.</h4>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="span6">
+    <h2>QR Code of Backup</h2>
+    <div id="qrcode" style="background-color: #FFFFFF; padding: 30px 30px 30px 30px; width: 384px; margin-left: auto; margin-right: auto"></div>
+  </div>
+  <div class="span6">
+    <h2>Text of Backup</h2>
+    <div id="walletPayload" style="background-color: #F7F7F7; color: #DD1144; word-wrap:break-word; padding: 30px 30px"></div>
+  </div>
+</div>

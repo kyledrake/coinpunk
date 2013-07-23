@@ -20,6 +20,24 @@ coinpunk.router.initWallet = function() {
   }
 };
 
+coinpunk.router.requireSignin = function() {
+  if(!coinpunk.database.loggedIn()) {
+    coinpunk.router.route('signin');
+    return false;
+  } else {
+    if(!coinpunk.wallet)
+      coinpunk.router.initWallet();
+
+    return true;
+  }
+};
+
+coinpunk.router.map('#/backup').to(function() {
+  
+  coinpunk.router.initWallet();
+  coinpunk.router.render('view', 'backup');
+});
+
 coinpunk.router.map("#/signup").to(function() {
   coinpunk.router.render('view', 'signup');
 });
@@ -45,6 +63,11 @@ coinpunk.router.map("#/dashboard").to(function() {
     coinpunk.router.initWallet();
     coinpunk.controllers.dashboard.index();
   }
+});
+
+coinpunk.router.map('#/tx/:txid').to(function() {
+  coinpunk.router.render('view/tx', 'detail');
+  coinpunk.controllers.tx.details(this.params["txid"]);
 });
 
 coinpunk.router.map('#/').to(function() {
