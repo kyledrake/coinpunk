@@ -32,6 +32,14 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return newKeyPair.address;
   };
   
+  this.getAddressName = function(address) {
+    for(var i=0;i<keyPairs.length;i++) {
+      if(keyPairs[i].address == keyPairs[i].address) {
+        return keyPairs[i].name;
+      }
+    }
+  };
+  
   this.addresses = function() {
     var addrs = [];
     for(var i=0; i<keyPairs.length; i++) {

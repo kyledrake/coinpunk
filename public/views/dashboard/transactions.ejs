@@ -1,6 +1,11 @@
-<h2>Transactions</h2>
+<script>
+  $(document).ready(function() {
+  });
+</script>
 
-<% if(transactions.length == 0) {%>
+<h2><%= category %> Transactions</h2>
+
+<% if(tx.length == 0) {%>
 
   <h4>No transactions yet.</h4>
 
@@ -9,8 +14,7 @@
   <table class="table table-bordered table-striped table-hover">
     <thead>
       <tr>
-        <th>Address</th>
-        <th>Type</th>
+        <th><%= category == 'Received' ? 'Your Receiving' : 'Recipient' %> Address</th>
         <th>Amount</th>
         <th>Confirmations</th>
         <th>Date</th>
@@ -19,12 +23,14 @@
     <tbody>
       <% for(var i=0; i<tx.length; i++) { %>
         <tr>
-          <td><%= tx[i].address %></td>
-          <td><%= tx[i].category == 'send' ? 'Sent by you' : 'Received by you' %></td>
-          <td><%= tx[i].amount %> BTC</td>
+          <td>
+            <%= coinpunk.wallet.getAddressName(tx[i].address) %>
+            <span class="pull-right"><%= tx[i].address %></span>
+          </td>
+          <td><span class="addExchangePrice"><%= tx[i].amount %> BTC</span></td>
           <td>
             <%= tx[i].confirmations %>
-            
+
             <% if(tx[i].confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
               <span class="label label-info pull-right">Pending</span>
             <% } else { %>
@@ -32,7 +38,10 @@
             <% } %>
           </td>
           <td>
-           <%= coinpunk.controllers.dashboard.friendlyTimeString(tx[i].timereceived) %>
+            <%= humaneDate(new Date(tx[i].timereceived * 1000).toISOString()) %>
+            <span class="pull-right">
+              <%= coinpunk.controllers.dashboard.friendlyTimeString(tx[i].timereceived) %>
+            </span>
           </td>
           <td><a href="#/tx/details/<%= tx[i].txid %>">Details</a></td>
       <% } %>
@@ -40,25 +49,3 @@
   </table>
 
 <% } %>
-
-
-<!--
-table.table.table-bordered.table-striped.table-hover
-  thead
-    tr
-      th Address
-      th Type
-      th Amount
-      th Confirmations
-      th Date
-      th
-    tbody
-      - @transactions.each do |transaction|
-        tr
-          td = transaction['address']
-          td = transaction['category'] == 'send' ? 'Sent' : 'Received'
-          td #{format_amount transaction['amount']} BTC
-          td #{transaction['confirmations']} #{{transaction['confirmations'] < TransactionsController::MINIMUM_SEND_CONFIRMATIONS ? '<span class="label label-info pull-right">Pending</span>' : '<span class="label label-success pull-right">Done</span>'}}
-          th = timestamp_to_formatted_time transaction['timereceived']
-          th: a href="/transactions/#{transaction['txid']}" Details
--->

@@ -1,7 +1,17 @@
 coinpunk.Database = function() {
+  this.coinpunkCurrencyName = 'coinpunkCurrency';
   this.walletKeyName = 'coinpunkWalletKey';
   this.walletIdName  = 'coinpunkWalletId';
   this.storage       = sessionStorage;
+  this.local
+};
+
+coinpunk.Database.prototype.setCurrency = function(currency) {
+  return localStorage.setItem(this.coinpunkCurrencyName, currency);
+};
+
+coinpunk.Database.prototype.getCurrency = function() {
+  return localStorage.getItem(this.coinpunkCurrencyName);
 };
 
 coinpunk.Database.prototype.set = function(walletKey, walletId) {

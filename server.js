@@ -82,6 +82,20 @@ app.get('/tx/details', function(req,res) {
   });
 });
 
+/* This is a workaround until the APIs provide Access-Control-Allow-Origin * or JSONP support. */
+app.get('/weighted_prices.json', function(req, res) {
+  http.get('http://api.bitcoincharts.com/v1/weighted_prices.json', function(resp) {
+    var str = '';
+    resp.on('data', function(chunk) {
+      str += chunk;
+    });
+
+    resp.on('end', function() {
+      res.send(str);
+    });
+  });
+});
+
 console.log("Coinpunk and his rude boys have taken the stage on port "+port);
 
 app.listen(port);
