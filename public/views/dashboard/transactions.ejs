@@ -31,10 +31,12 @@
           <td>
             <%= tx[i].confirmations %>
 
-            <% if(tx[i].confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
-              <span class="label label-info pull-right">Pending</span>
+            <% if(tx[i].confirmations == 0) { %>
+              <span class="label label-warning pull-right">Pending (Unconfirmed)</span>
+            <% } else if(tx[i].confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
+              <span class="label label-info pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has had confirmations and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
             <% } else { %>
-              <span class="label label-success pull-right">Confirmed</span>
+              <span class="label label-success pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
             <% } %>
           </td>
           <td>

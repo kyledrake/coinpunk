@@ -12,5 +12,6 @@ coinpunk.Controller.prototype.friendlyTimeString = function(timestamp) {
 };
 
 coinpunk.Controller.prototype.minimumSendConfirmations = 1;
+coinpunk.Controller.prototype.minimumStrongSendConfirmations = 6;
 
 coinpunk.controllers = {};

@@ -9,4 +9,8 @@ coinpunk.controllers.Tx.prototype.details = function(txid) {
   });
 };
 
+coinpunk.controllers.Tx.prototype.send = function() {
+  coinpunk.router.render('view', 'tx/send');
+};
+
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();

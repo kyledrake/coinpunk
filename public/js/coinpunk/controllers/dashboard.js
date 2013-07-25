@@ -14,6 +14,7 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
     $('#addresses').html(self.ejs('dashboard/addresses.ejs', {addresses: coinpunk.wallet.addresses()}));
     $('#balance').text(resp.balance);
     self.updateExchangeRates();
+    $("[rel='tooltip']").tooltip();
   });
 };
 
