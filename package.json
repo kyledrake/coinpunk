@@ -10,7 +10,8 @@
     "optimist": "*",
     "bitcoin": "*",
     "redis": "*",
-    "libcoin": "*"
+    "libcoin": "*",
+    "bigdecimal": "*"
   },
   "devDependencies": {},
   "scripts": {}

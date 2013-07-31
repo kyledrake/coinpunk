@@ -4,6 +4,7 @@ var port = argv.p || 8080;
 var app = express();
 var redis = require('redis');
 var http = require('http');
+var bigdecimal = require('bigdecimal');
 
 var config = require('./config.json');
 
@@ -19,6 +20,10 @@ var db = redis.createClient(null, null);
 app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.static('public'));
+  app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.send(500, 'Something broke!');
+  });
 });
 
 app.get('/wallet', function(req,res) {
@@ -65,6 +70,11 @@ app.get('/dashboard', function(req,res) {
   }, function(err, results) {
     if(err) console.log(err);
 
+    if(!results) {
+      console.log('Bitcoind returned no results');
+      res.json({messages: ['Bitcoind error: server returned no information or is down']})
+    }
+
     res.json({
       addresses: results[0].result,
       transactions: results[1].result,
@@ -96,6 +106,46 @@ app.get('/weighted_prices.json', function(req, res) {
   });
 });
 
+app.get('/tx/create', function(req, res) {
+  bitcoin.listUnspent(1, 9999999, req.query.addresses, function(err, unspentRes) {
+    /* res.send({unspentTxs: unspentRes.result}); */
+//    bitcoin.createTransaction(
+    
+  });
+});
+
+app.get('/tx/unspent', function(req,res) {
+  bitcoin.listUnspent(1, 9999999, req.query.addresses, function(err, btcres) {
+    console.log(btcres.result);
+    
+    /* WHY GOD WHY */
+    for(var i=0;i<btcres.result.length; i++) {
+      btcres.result[i].amountSatoshiString = bigdecimal.BigDecimal(btcres.result[i].amount.toString()).scaleByPowerOfTen(8).toBigInteger().toString();
+    }
+
+    res.send({unspentTxs: btcres.result});
+  });
+});
+
+
+[ { txid: '13f17f2d3bfdd4250cc89590c2a833b41767493f0adbaa5362ac2e3a0516100e',
+    vout: 1,
+    address: '134GKGyWFftj2m4ZFKsBuCbm3GgXfDmuxX',
+    account: 'RErMnwLZqmdGXIiWeJ83frHs+FG/CVCQhPXZ14USk9I=',
+    scriptPubKey: '76a914168e48aa5551a3ce7339dd55048b976edea3687288ac',
+    amount: 0.06,
+    confirmations: 979 },
+  { txid: 'd266240586fc70f4e3927f3b0a70351179a5f2dbd189aecd31907f8596f0ffc3',
+    vout: 1,
+    address: '134GKGyWFftj2m4ZFKsBuCbm3GgXfDmuxX',
+    account: 'RErMnwLZqmdGXIiWeJ83frHs+FG/CVCQhPXZ14USk9I=',
+    scriptPubKey: '76a914168e48aa5551a3ce7339dd55048b976edea3687288ac',
+    amount: 0.06,
+    confirmations: 975 } ]
+
+
 console.log("Coinpunk and his rude boys have taken the stage on port "+port);
 
 app.listen(port);
+
+

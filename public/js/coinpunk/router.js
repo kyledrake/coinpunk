@@ -70,6 +70,7 @@ coinpunk.router.map('#/tx/details/:txid').to(function() {
 });
 
 coinpunk.router.map('#/tx/send').to(function() {
+  coinpunk.router.requireSignin();
   coinpunk.controllers.tx.send();
 });
 
