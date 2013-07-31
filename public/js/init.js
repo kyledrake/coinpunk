@@ -16,7 +16,7 @@ require([
 
 var Bitcoin = {};
 
-require(["lib/bitcoinjs-lib/index"], function(require) {
+require(["lib/bitcoinjs/index"], function(require) {
   Bitcoin = require;
 });
 
