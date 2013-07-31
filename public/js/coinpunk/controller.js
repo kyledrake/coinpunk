@@ -1,4 +1,3 @@
-
 coinpunk.Controller = function() {
 };
 
