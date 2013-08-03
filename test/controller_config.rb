@@ -73,10 +73,7 @@ module Webrat
 end
 
 def api_url
-  uri = Addressable::URI.parse CONFIG['bitcoind_rpchost'] ? CONFIG['bitcoind_rpchost'] : 'http://localhost'
-  uri.port = 8332 if uri.port.nil?
-  uri.user = CONFIG['bitcoind_rpcuser'] if uri.user.nil?
-  uri.password = CONFIG['bitcoind_rpcpassword'] if uri.password.nil?
+  uri = Addressable::URI.parse CONFIG['bitcoind_uri'] || 'http://user:pass@example.com:8332'
   "#{uri.to_s}/"
 end
 

@@ -11,8 +11,6 @@ require 'bundler/setup'
 Bundler.require
 Bundler.require :development if ENV['RACK_ENV'] == 'development'
 
-HTTPClientObject = HTTPClient.new
-
 if ENV['TRAVIS']
   CONFIG = YAML.load_file(File.join(DIR_ROOT, 'test', 'config.travis.yml'))[ENV['RACK_ENV']]
   CONFIG['database'] = (RUBY_PLATFORM == "java" ? ENV['JDBC_DATABASE'] : ENV['DATABASE'])

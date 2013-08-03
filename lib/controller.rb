@@ -13,11 +13,7 @@ class Controller < Sinatra::Base
     end
 
 
-    $bitcoin = Silkroad::Client.new(
-      CONFIG['bitcoind_rpcuser'],
-      CONFIG['bitcoind_rpcpassword'],
-      url: CONFIG['bitcoind_rpchost']
-    )
+    $bitcoin = Silkroad::Client.new CONFIG['bitcoind_uri']
 
     use Rack::Session::Cookie, key:          'coinpunk',
                                path:         '/',

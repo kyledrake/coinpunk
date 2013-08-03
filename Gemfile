@@ -11,7 +11,7 @@ gem 'yui-compressor', require: 'yui/compressor'
 gem 'slim'
 gem 'tzinfo'
 gem 'sinatra-flash',  require: 'sinatra/flash'
-gem 'silkroad'
+gem 'silkroad', '>= 0.1.0'
 gem 'puma',           require: nil
 gem 'mail'
 gem 'pwqgen.rb',      require: 'pwqgen'
