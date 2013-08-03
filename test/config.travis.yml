@@ -1,7 +1,5 @@
 ---
 test:
   session_secret: sdfsdfjsd
-  bitcoind_rpcuser: something
-  bitcoind_rpcpassword: blah
-  bitcoind_rpchost: http://coinpunk.example.com
+  bitcoind_uri: http://username:password@example.com:8332
   email_from: 'web@coinpunk.example.com'

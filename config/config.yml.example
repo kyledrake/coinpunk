@@ -2,18 +2,15 @@
 development:
   database: 'sqlite://coinpunk-development.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
-  bitcoind_rpcuser: YOURRPCUSER
-  bitcoind_rpcpassword: YOURRPCPASS
+  bitcoind_uri: http://username:password@127.0.0.1:8332
   email_from: your@address.com
 test:
   database: 'sqlite://coinpunk-test.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
-  bitcoind_rpcuser: YOURRPCUSER
-  bitcoind_rpcpassword: YOURRPCPASS
+  bitcoind_uri: http://username:password@127.0.0.1:8332
   email_from: your@address.com
 production:
   database: 'sqlite://coinpunk.sqlite3'
   session_secret: TYPESOMETHINGUNIQUEHERE
-  bitcoind_rpcuser: YOURRPCUSER
-  bitcoind_rpcpassword: YOURRPCPASS
+  bitcoind_uri: http://username:password@127.0.0.1:8332
   email_from: your@address.com
