@@ -12,12 +12,17 @@
     "redis": "*",
     "libcoin": "*",
     "bigdecimal": "*",
-    "request": "*"
+    "request": "*",
+    "browserify": "*"
   },
   "devDependencies" : {
     "mocha": "1.8.1",
     "istanbul": "0.1.30",
-    "supertest": "*"
+    "supertest": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-browserify": "*",
+    "grunt-shell": "*"
   },
   "scripts": {
     "test": "istanbul test ./node_modules/.bin/_mocha -- --reporter list test/*.js"

@@ -93,7 +93,7 @@ coinpunk.controllers.accounts = {
 
       $.ajax({
         type: 'POST',
-        url: '/wallet',
+        url: '/api/wallet',
         data: {
           serverKey: coinpunk.wallet.serverKey,
           wallet:    payload,
