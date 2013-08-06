@@ -14,7 +14,7 @@ coinpunk.router.initWallet = function() {
     return coinpunk.wallet;
   } else {
     coinpunk.wallet = new coinpunk.Wallet(coinpunk.database.getWalletKey(), coinpunk.database.getWalletId());
-    $.get('/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
+    $.get('/api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
       coinpunk.wallet.loadPayload(response.wallet);
     });
   }

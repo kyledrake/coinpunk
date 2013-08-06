@@ -1,6 +1,6 @@
 coinpunk.pricing = {
   cacheTimeout: 3600, // One hour in seconds
-  pricesApiUrl: '/weighted_prices.json',
+  pricesApiUrl: '/api/weighted_prices',
   defaultCurrency: 'USD',
 
   getLatest: function(callback) {

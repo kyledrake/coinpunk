@@ -10,5 +10,4 @@ describe('GET /', function(){
       .expect(200)
       .expect(/Coinpunk/, done);
   })
-})
-
+});

@@ -27,7 +27,7 @@ coinpunk.controllers.accounts = {
     var walletKey = coinpunk.wallet.createWalletKey(id, password);
     var payload   = coinpunk.wallet.encryptPayload();
     
-    $.get('/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
+    $.get('/api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
       if(response.result == 'error') {
         errorDiv.removeClass('hidden');
         errorDiv.html(response.message);

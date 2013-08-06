@@ -5,7 +5,7 @@ coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 coinpunk.controllers.Dashboard.prototype.index = function() {
   var self = this;
 
-  $.get('/dashboard', {serverKey: coinpunk.wallet.serverKey}, function(resp) {
+  $.get('/api/dashboard', {serverKey: coinpunk.wallet.serverKey}, function(resp) {
     var receivedTransactions = self.filterTransactions(resp.transactions, 'receive');
     var sentTransactions = self.filterTransactions(resp.transactions, 'send');
 
