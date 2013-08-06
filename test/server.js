@@ -1,9 +1,14 @@
 var assert = require('assert');
 var server = require('../lib/coinpunk/server');
+var request = require('supertest');
 
-describe('index', function(){
-  it('should serve JS app', function(done){
-    server.get('/index.html')
-    assert.equal('contents', done);
+describe('GET /', function(){
+  it('responds with Coinpunk app', function(done){
+    request(server)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect(200)
+      .expect(/Coinpunk/, done);
   })
-});
+})
+
