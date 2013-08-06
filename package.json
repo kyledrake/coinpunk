@@ -11,8 +11,14 @@
     "bitcoin": "*",
     "redis": "*",
     "libcoin": "*",
-    "bigdecimal": "*"
+    "bigdecimal": "*",
+    "request": "*"
   },
-  "devDependencies": {},
-  "scripts": {}
+  "devDependencies" : {
+    "mocha": "1.8.1",
+    "istanbul": "0.1.30"
+  },
+  "scripts": {
+    "test": "istanbul test ./node_modules/.bin/_mocha -- --reporter list test/*.js"
+  }
 }
