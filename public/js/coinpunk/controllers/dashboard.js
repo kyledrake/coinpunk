@@ -4,8 +4,8 @@ coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Dashboard.prototype.index = function() {
   var self = this;
-
-  $.get('/api/dashboard', {serverKey: coinpunk.wallet.serverKey}, function(resp) {
+console.log(coinpunk.wallet.addresses());
+  $.get('/api/dashboard', {serverKey: coinpunk.wallet.serverKey, addresses: coinpunk.wallet.addressHashes()}, function(resp) {
     var receivedTransactions = self.filterTransactions(resp.transactions, 'receive');
     var sentTransactions = self.filterTransactions(resp.transactions, 'send');
 

@@ -33,7 +33,6 @@ coinpunk.router.requireSignin = function() {
 };
 
 coinpunk.router.map('#/backup').to(function() {
-  
   coinpunk.router.initWallet();
   coinpunk.router.render('view', 'backup');
 });
@@ -50,27 +49,30 @@ coinpunk.router.map("#/signin").to(function() {
 });
 
 coinpunk.router.map("#/signout").to(function() {
+  if(!coinpunk.router.requireSignin())
+    return false;
   coinpunk.wallet = null;
   coinpunk.database.reset();
   coinpunk.router.route('signin');
 });
 
 coinpunk.router.map("#/dashboard").to(function() {
-  if(!coinpunk.database.loggedIn()) {
-    coinpunk.router.route('signin');
-  } else {
-    coinpunk.router.render('view', 'dashboard');
-    coinpunk.router.initWallet();
-    coinpunk.controllers.dashboard.index();
-  }
+  if(!coinpunk.router.requireSignin())
+    return false;
+  coinpunk.router.render('view', 'dashboard');
+  coinpunk.router.initWallet();
+  coinpunk.controllers.dashboard.index();
 });
 
 coinpunk.router.map('#/tx/details/:txid').to(function() {
+  if(!coinpunk.router.requireSignin())
+    return false;
   coinpunk.controllers.tx.details(this.params["txid"]);
 });
 
 coinpunk.router.map('#/tx/send').to(function() {
-  coinpunk.router.requireSignin();
+  if(!coinpunk.router.requireSignin())
+    return false;
   coinpunk.controllers.tx.send();
 });
 
