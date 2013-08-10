@@ -1,5 +1,5 @@
 var assert = require('assert');
-var server = require('../lib/coinpunk/server');
+var server = require('../../lib/coinpunk/server');
 var request = require('supertest');
 
 describe('GET /', function(){

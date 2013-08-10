@@ -22,9 +22,13 @@
     "grunt": "*",
     "grunt-cli": "*",
     "grunt-browserify": "*",
-    "grunt-shell": "*"
+    "grunt-shell": "*",
+    "webdriverjs": "*",
+    "chai": "*",
+    "phantomjs": "*"
   },
   "scripts": {
-    "test": "istanbul test ./node_modules/.bin/_mocha -- --reporter list test/*.js"
+    "test": "istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",
+    "browsertest": "./node_modules/.bin/_mocha --reporter list test/browser/functional.js"
   }
 }
