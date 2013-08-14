@@ -1,8 +1,13 @@
 coinpunk.Controller = function() {
 };
 
-coinpunk.Controller.prototype.ejs = function(path, data) {
-  return new EJS({url: 'views/'+path}).render(data);
+coinpunk.Controller.prototype.template = function(id, path, data, callback) {
+  $.get('views/'+path+'.html', function(res) {
+    $('#'+id).html(_.template(res, data, {variable: 'data'}));
+    
+    if(callback)
+      callback(id);
+  });
 };
 
 coinpunk.Controller.prototype.friendlyTimeString = function(timestamp) {

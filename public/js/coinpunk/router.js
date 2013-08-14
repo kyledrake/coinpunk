@@ -1,8 +1,16 @@
 coinpunk.router = Path;
 
-coinpunk.router.render = function(id, name, data) {
-  $('#header').html(new EJS({url: 'views/header.ejs'}).render(data));
-  $('#'+id).html(new EJS({url: 'views/'+name+'.ejs'}).render(data));
+coinpunk.router.render = function(id, path, data, callback) {
+  $.get('views/header.html', function(res) {
+    $('#header').html(_.template(res, data, {variable: 'data'}));
+  });
+
+  $.get('views/'+path+'.html', function(res) {
+    $('#'+id).html(_.template(res, data, {variable: 'data'}));
+
+    if(callback)
+      callback(id);
+  });
 };
 
 coinpunk.router.route = function(path) {
@@ -14,8 +22,13 @@ coinpunk.router.initWallet = function() {
     return coinpunk.wallet;
   } else {
     coinpunk.wallet = new coinpunk.Wallet(coinpunk.database.getWalletKey(), coinpunk.database.getWalletId());
-    $.get('/api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
-      coinpunk.wallet.loadPayload(response.wallet);
+    $.ajax({
+      url: '/api/wallet',
+      async: false,
+      data: {serverKey: coinpunk.wallet.serverKey},
+      success: function(response) {
+        coinpunk.wallet.loadPayload(response.wallet);
+      }
     });
   }
 };

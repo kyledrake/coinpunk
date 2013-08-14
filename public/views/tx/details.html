@@ -5,17 +5,17 @@
       <tbody>
         <tr>
           <td>Transaction ID (TXID)</td>
-          <td><%= tx.txid %></td>
+          <td><%- data.tx.txid %></td>
         </tr>
         <tr>
           <td>Amount</td>
-          <td><%= tx.amount %></td>
+          <td><%- data.tx.amount %></td>
         </tr>
         <tr>
           <td>Confirmations</td>
           <td>
-            <%= tx.confirmations %>&nbsp;&nbsp;&nbsp;&nbsp;
-            <% if(tx.confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
+            <%- data.tx.confirmations %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% if(data.tx.confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
               <span class="label label-info">Pending</span>
             <% } else { %>
               <span class="label label-success">Confirmed</span>
@@ -24,35 +24,34 @@
         </tr>
         <tr>
           <td>Blockhash</td>
-          <td><%= tx.blockhash %></td>
+          <td><%- data.tx.blockhash %></td>
         </tr>
         <tr>
           <td>Blockindex</td>
-          <td><%= tx.blockindex %></td>
+          <td><%- data.tx.blockindex %></td>
         </tr>
         <tr>
           <td>Blocktime</td>
-          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.blocktime) %></td>
+          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime) %></td>
         </tr>
         <tr>
           <td>Time</td>
-          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.time) %></td>
+          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.time) %></td>
         </tr>
         <tr>
           <td>Time Received</td>
-          <td><%= coinpunk.controllers.tx.friendlyTimeString(tx.timereceived) %></td>
+          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.timereceived) %></td>
         </tr>
         <tr>
           <td>Details</td>
           <td>
             
             <% 
-              for (var key in tx.details) {
-                var obj = tx.details[key];
+              for (var key in data.tx.details) {
+                var obj = data.tx.details[key];
                 for (var prop in obj) {
                   if(obj.hasOwnProperty(prop)) { %>
-                    <% console.log(prop + " = " + obj[prop]); %>
-                    <strong><%= prop.charAt(0).toUpperCase() + prop.slice(1) %>:</strong><br><%= obj[prop] %>
+                    <strong><%- prop.charAt(0).toUpperCase() + prop.slice(1) %>:</strong><br><%- obj[prop] %>
                     
                     <% if(prop == 'amount') { %>
                       BTC

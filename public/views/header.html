@@ -11,7 +11,7 @@
 
   <ul class="nav navbar-nav pull-right">
     <% if(coinpunk.database.loggedIn()) { %>
-      <li class="navbar-text"><strong style="color: #7AB800"><%= coinpunk.database.getWalletId() %></strong></li>
+      <li class="navbar-text"><strong style="color: #7AB800"><%- coinpunk.database.getWalletId() %></strong></li>
       <li><a href="#/signout">Signout</a></li>
     <% } %>
   </ul>
