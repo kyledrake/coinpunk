@@ -21,7 +21,6 @@
     "supertest": "*",
     "grunt": "*",
     "grunt-cli": "*",
-    "grunt-browserify": "*",
     "grunt-shell": "*",
     "webdriverjs": "*",
     "chai": "*",
