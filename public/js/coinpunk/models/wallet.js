@@ -31,7 +31,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     keyPairs.push(newKeyPair);
     return newKeyPair.address;
   };
-  
+
   this.getAddressName = function(address) {
     for(var i=0;i<keyPairs.length;i++) {
       if(keyPairs[i].address == keyPairs[i].address) {
@@ -39,7 +39,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       }
     }
   };
-  
+
   this.addresses = function() {
     var addrs = [];
     for(var i=0; i<keyPairs.length; i++) {
@@ -47,7 +47,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
     return addrs;
   };
-  
+
   this.addressHashes = function() {
     var addresses = this.addresses();
     var addressHashes = [];
@@ -55,7 +55,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       addressHashes.push(addresses[i].address);
     return addressHashes;
   }
-  
+
   this.createServerKey = function() {
     this.serverKey = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(this.walletKey, this.walletId, this.defaultIterations));
     return this.serverKey;
@@ -72,11 +72,25 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var payload = {keyPairs: keyPairs};
     return sjcl.encrypt(this.walletKey, JSON.stringify(payload));
   };
-  
+
   this.storeCredentials = function() {
     coinpunk.database.set(this.walletKey, this.walletId);
   };
-  
+
+  this.setUnspentTxs = function(unspentTxs) {
+    this.unspentTxs = unspentTxs;
+  };
+
+  this.unspentBalance = function() {
+    var amount = 0;
+    for(var i=0; i<this.unspentTxs.length; i++)
+      amount = amount + this.unspentTxs[i].amount;
+    return amount;
+  };
+
+  this.createSend = function(amount, fee, address) {
+  };
+
   if(walletKey && walletId)
     this.createServerKey();
 };
