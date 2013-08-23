@@ -1,4 +1,5 @@
 coinpunk.Wallet = function(walletKey, walletId) {
+  this.network = coinpunk.config.network || 'prod';
   this.walletKey = walletKey;
   this.walletId = walletId;
   this.defaultIterations = 1000;
@@ -20,9 +21,10 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
   this.createNewAddress = function(name) {
     var eckey      = new Bitcoin.ECKey();
+    console.log('FUCK');
     var newKeyPair = {
-      key: eckey.getExportedPrivateKey(),
-      address: eckey.getBitcoinAddress().toString()
+      key: eckey.getExportedPrivateKey(this.network),
+      address: eckey.getBitcoinAddress(this.network).toString()
     };
 
     if(name)
