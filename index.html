@@ -1,11 +1,19 @@
 <html>
   <head>
-    <title>Coinpunk</title>
+    <title>Coinpunk - DIY Bitcoin Wallet Service</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <style>
       #header h1 {
-        font-size: 90pt;
+        font-size: 70pt;
         font-weight: bold;
+      }
+      i {
+        font-size: 30pt;
+      }
+      span {
+        padding-left: 20px;
+        font-size: 20pt;
       }
     </style>
 
@@ -15,77 +23,100 @@
   <body>
     <a href="https://github.com/kyledrake/coinpunk"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
     <div class="container">
-      <div class="row" style="margin-top: 50px">
-        <div class="span3 offset2">
-          <img src="img/logo-filled.png">
+      <div class="row">
+        <div class="col-lg-2 col-lg-offset-3">
+          <img src="img/logo-filled.png" style="padding-top: 50px;">
         </div>
-        <div class="span6">
-          <div style="margin-top: 100px" id="header">
-            <h1 style="margin-bottom: 70px;">COIN</h1>
-            <h1>PUNK</h1>
-            <!--<h4 style="margin-top: 40px">Open source, self hosted DIY Bitcoin Wallet Service</h4>-->
-          </div>
+        <div class="col-lg-4 text-center" id="header" style="padding-left: 50px">
+          <h1>COIN<br>PUNK</h1>
+          <img src="img/newwave.jpg" width="300">
         </div>
       </div>
-      <hr>
       <div class="row">
-        <div class="span10 offset1 alert alert-info">
+        <div class="col-lg-8 col-lg-offset-2">
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
           <h1>Run your own Bitcoin wallet service.</h1>
-          <h3>Coinpunk is an open source, self hosted DIY bitcoin wallet service you can run on your own server.</h3>
-          <h5>Note (Aug 1st): Coinpunk is under heavy development on a separate github repo for an upcoming major new version, check back for a blog/code update in a few days. Thanks! -Kyle</h5>
         </div>
       </div>
-
       <div class="row">
-        <div class="span10 offset1 alert alert-info">
-          <h1>Screenshots</h1>
-          <hr>
-          <h3><a href="https://www.dropbox.com/sh/d66dfzd5ehwae4g/leq-ca3fia#/" target="_blank">Click here</a></h3>
+        <div class="col-lg-8 col-lg-offset-2">
+          <p>Coinpunk is a project to build an open source, self-hosted DIY bitcoin wallet service you can run on your own server.</p>
         </div>
       </div>
-
-      <div class="row">
-        <div class="span10 offset1 alert alert-info">
-          <h1>Requirements</h1>
-          <hr>
-          <h3>VPS/Server with at least 512MB of RAM</h3>
-          <h3>Linux - Ubuntu 12.10 (guides for other distros coming soon)</h3>
-          <h3>Bitcoind 0.8.1 or later</h3>
-          <h3>Ruby 1.9.3 or later (MRI, JRuby, Rubinius in 1.9 mode)</h3>
-          <h3>Git</h3>
-          <h3>MySQL, PostgreSQL or Sqlite3 (your choice)</h3>
-          <h3>An unusually verbose hatred of fascists</h3>
-          
-          <h5>Coinpunk is functional, but is still in the early stages. Much more functionality will be added soon. <font color="red">Use at your own risk.</font></h5>
+      
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-lock"></i> <span>Safe, Secure</span>
+          <p>
+            All encryption and transaction signing is done on the web browser, which means it is less susceptible to Bitcoin theft by hackers.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <i class="icon-btc"></i> <span>Easy to Use</span>
+          <p>Simplifies using Bitcoins, so that you don't have to be an expert to use Bitcoins.
         </div>
       </div>
-
-      <div class="row">
-        <div class="span10 offset1 alert alert-info">
-          <h1>Installation <small>(Ubuntu 12.10)</small></h1>
-          <hr>
-          <h3>See the <a href="https://github.com/kyledrake/coinpunk/blob/master/docs/install-ubuntu.md" target="_blank">Ubuntu Install Guide</a>. Better install procedures and other OSes/distros coming soon.</h3>
+      
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-html5"></i> <span>100% HTML5 and JS</span>
+          <p>The user interface is entirely written in HTML with JavaScript, which means that you can run it on all modern browsers, or containerize it into an offline application. The backend is built with Node.js, which makes it very easy to get started.</p>
+        </div>
+        <div class="col-lg-4">
+          <i class="icon-check"></i> <span>Extensive Testing</span>
+          <p>Coinpunk tests with client-side, integration and functional tests, to help prevent bugs and streamline development.</p>
+        </div>
+      </div>
+      
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-cogs"></i> <span>Bitcoin Node Agnostic</span>
+          <p>The code is written to provide future support for more Bitcoin node clients, including upcoming SPV-based wallets that require less resources to work.</p>
+        </div>
+        <div class="col-lg-4">
+          <i class="icon-usd"></i> <i class="icon-euro"></i> <i class="icon-jpy"></i> <i class="icon-cny"></i> <span>International</span>
+          <p>Allows you to see the value of your Bitcoins in multiple currencies, and future support for multiple languages is being planned.</p>
+        </div>
+      </div>
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-mobile-phone"></i> <span>Mobile Friendly</span>
+          <p>Uses a responsive web design, so you can use Coinpunk on a phone just as easily as on a desktop.</p>
+        </div>
+        <div class="col-lg-4">
+          <i class="icon-linux"></i> <span>Open Source</span>
+          <p>Like Bitcoin itself, Coinpunk is 100% open source. You can do whatever you want with it.</p>
         </div>
       </div>
       
       <div class="row">
-        <div class="span10 offset1 alert alert-info">
+        <div class="col-lg-8 col-lg-offset-2">
           <h1>Source Code</h1>
           <hr>
-          <h3><a href="https://github.com/kyledrake/coinpunk" target="_blank">Coinpunk on Github</a></h3>
+          <p>
+            The first version ("Old School") is still available, but is no longer under active development. You can find the original site for it <a href="oldschool/index.html">here</a>, and the source code for it <a href="https://github.com/kyledrake/coinpunk/tree/oldschool">here</a>.
+          </p>
+          <p>
+            The next version of Coinpunk ("New Wave") is a complete rewrite of the original version to support features and security enhancements not possible with the original design.
+          </p>
+          <p><b>The source code for the new Coinpunk is still under heavy development</b> - a lot will change, and it's not ready for production yet, but we're working hard to finish the project. You can follow our progress on the <a href="https://github.com/kyledrake/coinpunk" target="_blank">Github</a> repository.</p>
         </div>
       </div>
 
       <div class="row">
-        <div class="span10 offset1 alert alert-info">
-          <h1>Help me buy cheap beer and fixed gear bikes</h2>
+        <div class="col-lg-8 col-lg-offset-2">
+          <h1>Help Us Build This</h2>
           <hr>
-          <h3>If you find this project useful, I would love your support. My bitcoin address is <strong>1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH</strong>. Yes, it's powered by Coinpunk.</h3>
+          <p>If you find this project useful, I would love your support. My bitcoin address is <strong>1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH</strong>. Yes, it's powered by Coinpunk.</p>
         </div>
       </div>
 
       <div class="row">
-        <div class="span10 offset1 alert alert-info">
+        <div class="col-lg-8 col-lg-offset-2">
           <h1>Author</h2>
           <hr>
           <h3><a href="http://kyledrake.net" target="_blank">Kyle Drake</a> <small>(<a href="https://twitter.com/kyledrake" target="_blank">@kyledrake</a>)</small></h3>
