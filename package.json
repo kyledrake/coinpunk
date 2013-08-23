@@ -24,10 +24,11 @@
     "grunt-shell": "*",
     "webdriverjs": "*",
     "chai": "*",
-    "phantomjs": "*"
+    "phantomjs": "*",
+    "redis-mock": "*"
   },
   "scripts": {
-    "test": "istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",
+    "test": "NODE_ENV=test istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",
     "browsertest": "./node_modules/.bin/_mocha --reporter list test/browser/functional.js"
   }
 }
