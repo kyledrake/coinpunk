@@ -13,29 +13,32 @@
   </div>
   
   <div class="row" style="padding-top: 20px">
-    <div class="col-lg-5 col-lg-offset-1">
-      <div id="errors" class="alert alert-error hidden"></div>
-    </div>
-
-    <div class="col-lg-5 col-lg-offset-1">
-      <form action="#" onsubmit="return false;" autocomplete="off" autocapitalize="off">
+    <div class="col-lg-4 col-lg-offset-1">
+      <form action="#" onsubmit="return false;" autocomplete="off" autocapitalize="off" class="form-horizontal" role="form">
     
-        <div>
-          <input id="email" type="email" placeholder="Your email">
+        <div class="form-group">
+          <div id="errors" class="alert alert-danger hidden"></div>
+        </div>
+    
+        <div class="form-group">
+          <label for="email" class="control-label">Email</label>
+          <input id="email" type="email" placeholder="Your email" class="form-control">
         </div>
 
-        <div>
-          <input id="password" name="password" type="password" placeholder="Create a password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()">
+        <div class="form-group">
+          <label for="password" class="control-label">Password</label>
+          <input id="password" name="password" type="password" placeholder="Create a password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()" class="form-control">
         </div>
     
-        <div id="passwordStrengthStatus"></div>
-    
-        <div class="progress progress-info progress-striped" style="width: 250px;">
-          <div id="progressBar" class="bar" style="width: 0%"></div>
+        <div class="progress progress-striped">
+          <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            <span id="passwordStrengthStatus" class="sr-only" style="color: #000000; padding-left: 10px">Weak</span>
+          </div>
         </div>
     
-        <div>
-          <input id="password_confirm" type="password" placeholder="Confirm your password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()">
+        <div class="form-group">
+          <label for="password_confirm" class="control-label">Confirm your password</label>
+          <input id="password_confirm" type="password" placeholder="Confirm your password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()" class="form-control">
         </div>
     
         <div>
