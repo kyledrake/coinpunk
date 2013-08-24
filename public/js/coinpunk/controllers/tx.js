@@ -8,7 +8,15 @@ coinpunk.controllers.Tx.prototype.details = function(txid) {
 };
 
 coinpunk.controllers.Tx.prototype.send = function() {
-  coinpunk.router.render('view', 'tx/send');
+  var self = this;
+  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+    
+    self.template('view', 'tx/send', resp, function(id) {
+      self.updateExchangeRates(id, false);
+      $('#'+id+" [rel='tooltip']").tooltip();
+    });
+    
+  });
 };
 
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();

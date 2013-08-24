@@ -86,6 +86,8 @@ coinpunk.router.map('#/tx/details/:txid').to(function() {
 coinpunk.router.map('#/tx/send').to(function() {
   if(!coinpunk.router.requireSignin())
     return false;
+  coinpunk.router.render('view', 'dashboard');
+  coinpunk.router.initWallet();
   coinpunk.controllers.tx.send();
 });
 

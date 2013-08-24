@@ -1,26 +1,42 @@
+<style>
+ #availableBalance .exchangePrice {
+   padding-left: 5px;
+  }
+</style>
 <div class="row">
   <div class="col-lg-12 text-center">
     <h1>Send Bitcoins</h2>
+      <hr>
+  </div>
+</div>
+
+<div class="row" style="padding-bottom: 20px">
+  <div class="col-lg-12 text-center">
+    <h4>You have <span id="availableBalance" class="addExchangePrice" style="color: #009933;"><%= data.amount %> BTC</span> available to spend.</h4>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-lg-6 col-lg-offset-3">
-    <form action="#" onsubmit="">
-      <fieldset>
-        <hr>
-        <label>Bitcoin or email address to send to:</label>
-        <input type="text" placeholder="Bitcoin or email address">
-        <span class="help-block">If you send to an e-mail, your browser will generate a new wallet for the user with the payment, which they can claim by going to the server and setting a password on it.</span>
-        
-        <label>Amount:</label>
-        <input type="text" placeholder="0.00" style="width: 70px"> BTC
-        
-        <label>Comments:</label>
-        <textarea name="comment"></textarea>
-        <span class="help-block">Here you can enter any information about this transaction so you can keep track of it.</span>
-        
-        <input type="submit" class="btn btn-info btn-large" value="Send">
+  <div class="col-lg-10 col-lg-offset-1">
+    <form action="#" onsubmit="" class="form-horizontal" role="form">
+      <div class="form-group">
+        <label for="address" class="col-lg-5 control-label">Bitcoin address to send to</label>
+        <div class="col-lg-5">
+          <input type="text" name="address" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address" class="col-lg-5 control-label">Amount</label>
+        <div class="col-lg-2">
+          <input type="text" name="address" class="form-control" placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="submit" class="col-lg-5 control-label"></label>
+        <div class="col-lg-2">
+          <button type="submit" class="btn btn-default btn-info" class="form-control">Send</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

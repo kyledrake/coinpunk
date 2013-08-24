@@ -12,6 +12,7 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
       $('#'+id+" [rel='tooltip']").tooltip();
       self.updateExchangeRates(id);
     });
+
     self.template('receivedTransactions', 'dashboard/transactions', {category: 'Received', tx: receivedTransactions}, function(id) {
       self.updateExchangeRates('receivedTransactions');
       $('#'+id+" [rel='tooltip']").tooltip();
