@@ -19,4 +19,35 @@ coinpunk.controllers.Tx.prototype.send = function() {
   });
 };
 
+coinpunk.controllers.Tx.prototype.create = function() {
+  var self = this;
+  var address = $('#createSendForm #address').val();
+  var amount = $('#createSendForm #amount').val();
+  var errors = [];
+  var errorsDiv = $('#errors');
+  
+  if(address == '')
+    errors.push('You cannot have a blank sending address');
+  
+  if(amount == '' || parseFloat(amount) == 0)
+    errors.push('You must have a valid amount to send');
+  
+  if(errors.length > 0) {
+    errorsDiv.removeClass('hidden');
+    
+    for(var i=0; i<errors.length; i++) {
+      $('#errors').html($('#errors').html() + errors[i]+'<br>');
+    }
+    console.log('derp');
+    return;
+  }
+  
+  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+
+    console.log(address);
+    console.log(amount);
+    
+  });
+};
+
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();

@@ -24,7 +24,6 @@ coinpunk.Controller.prototype.updateExchangeRates = function(id) {
 
     var prices = $('#'+id+' .addExchangePrice');
     for(var i=0;i<prices.length;i++) {
-      console.log(self.pullRight);
       $(prices[i]).append('<span class="exchangePrice"><small>'+($(prices[i]).text().split(' ')[0] * price).toFixed(2)+' ' +currency+'</small></span>');
     }
   });
