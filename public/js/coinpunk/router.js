@@ -33,6 +33,10 @@ coinpunk.router.initWallet = function() {
   }
 };
 
+coinpunk.router.setUnspentTxs = function() {
+  
+};
+
 coinpunk.router.requireSignin = function() {
   if(!coinpunk.database.loggedIn()) {
     coinpunk.router.route('signin');

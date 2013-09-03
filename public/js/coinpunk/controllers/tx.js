@@ -25,29 +25,50 @@ coinpunk.controllers.Tx.prototype.create = function() {
   var amount = $('#createSendForm #amount').val();
   var errors = [];
   var errorsDiv = $('#errors');
-  
+  errorsDiv.addClass('hidden');
+  errorsDiv.html('');
+
   if(address == '')
-    errors.push('You cannot have a blank sending address');
-  
+    errors.push('You cannot have a blank sending address.');
+  else {
+    try {
+      new Bitcoin.Address(address, coinpunk.config.network);
+    } catch (e) {
+      errors.push('The provided bitcoin address is not valid.');
+    }
+  }
+
   if(amount == '' || parseFloat(amount) == 0)
-    errors.push('You must have a valid amount to send');
-  
+    errors.push('You must have a valid amount to send.');
+  else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
+    errors.push('You must have a valid amount to send.');
+
+  if(errors.length > 0) {
+    this.displayErrors(errors, errorsDiv);
+    return;
+  }
+
+  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+
+    if(resp.amount < amount) {
+      errors.push('Cannot spend more bitcoins than you currently have.');
+      self.displayErrors(errors, errorsDiv);
+      return;
+    }
+
+    console.log('ready');
+  });
+};
+
+coinpunk.controllers.Tx.prototype.displayErrors = function(errors, errorsDiv) {
   if(errors.length > 0) {
     errorsDiv.removeClass('hidden');
     
     for(var i=0; i<errors.length; i++) {
       $('#errors').html($('#errors').html() + errors[i]+'<br>');
     }
-    console.log('derp');
     return;
   }
-  
-  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
-
-    console.log(address);
-    console.log(amount);
-    
-  });
 };
 
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();

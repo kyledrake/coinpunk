@@ -21,7 +21,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
   this.createNewAddress = function(name) {
     var eckey      = new Bitcoin.ECKey();
-    console.log('FUCK');
     var newKeyPair = {
       key: eckey.getExportedPrivateKey(this.network),
       address: eckey.getBitcoinAddress(this.network).toString()
