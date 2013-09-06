@@ -1215,19 +1215,13 @@ module.exports = {
     TransactionOut: require('./transaction').TransactionOut,
     ECPointFp: require('./jsbn/ec').ECPointFp,
     Wallet: require('./wallet'),
-
     ecdsa: require('./ecdsa'),
-
-    // base58 encoding/decoding to bytes
-    
     base58: require('./base58'),
-
-    // conversions
     convert: require('./convert'),
-
-    endian: endian
+    endian: endian,
+    util: require('./util')
 }
-},{"./address":1,"./base58":2,"./convert":3,"./ecdsa":11,"./eckey":12,"./jsbn/ec":14,"./jsbn/jsbn":15,"./message":19,"./opcode":20,"./script":21,"./transaction":22,"./wallet":24}],14:[function(require,module,exports){
+},{"./address":1,"./base58":2,"./convert":3,"./ecdsa":11,"./eckey":12,"./jsbn/ec":14,"./jsbn/jsbn":15,"./message":19,"./opcode":20,"./script":21,"./transaction":22,"./util":23,"./wallet":24}],14:[function(require,module,exports){
 // Basic Javascript Elliptic Curve implementation
 // Ported loosely from BouncyCastle's Java EC code
 // Only Fp curves implemented for now
@@ -4084,10 +4078,7 @@ Transaction.prototype.serialize = function ()
   for (var i = 0; i < this.ins.length; i++) {
     var txin = this.ins[i];
 
-    // the hash is flipped to what the fuck here?
-    // this seems to be the only thing that I don't understand
-    buffer = buffer.concat(conv.hexToBytes(txin.outpoint.hash));
-
+    buffer = buffer.concat(conv.hexToBytes(txin.outpoint.hash).reverse());
     buffer = buffer.concat(wordsToBytes([parseInt(txin.outpoint.index)]).reverse());
     var scriptBytes = txin.script.buffer;
     buffer = buffer.concat(util.numToVarInt(scriptBytes.length));
@@ -4173,7 +4164,7 @@ function (connectedScript, inIndex, hashType)
 Transaction.prototype.getHash = function ()
 {
   var buffer = this.serialize();
-  return Crypto.SHA256(Crypto.SHA256(buffer, {asBytes: true}), {asBytes: true});
+  return Crypto.SHA256(Crypto.SHA256(buffer, {asBytes: true}), {asBytes: true}).reverse();
 };
 
 /**

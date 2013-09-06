@@ -89,7 +89,77 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return amount;
   };
 
-  this.createSend = function(amount, fee, address) {
+  this.createSend = function(amtString, feeString, address) {
+    var amt = Bitcoin.util.parseValue(amtString);
+    
+    if(amt == Bitcoin.BigInteger.ZERO)
+      throw "spend amount must be greater than zero";
+    
+    var fee = Bitcoin.util.parseValue(feeString || '0');
+    var total = Bitcoin.BigInteger.ZERO.add(amt).add(fee);
+    
+    var address = new Bitcoin.Address(address, this.network);
+    var sendTx = new Bitcoin.Transaction();
+    var i;
+
+    var unspentTxs = [];
+    var unspentTxsAmt = Bitcoin.BigInteger.ZERO;
+
+    for(i=0;i<this.unspentTxs.length;i++) {
+      unspentTxs.push(this.unspentTxs[i]);
+      unspentTxsAmt = unspentTxsAmt.add(new Bitcoin.BigInteger(this.unspentTxs[i].amountSatoshiString));
+      
+      // If > -1, we have enough to send the requested amount
+      if(unspentTxsAmt.compareTo(total) > -1) {
+        break;
+      }
+    }
+    
+    if(unspentTxsAmt.compareTo(total) < 0) {
+      throw "you do not have enough bitcoins to send this amount";
+    }
+    
+    for(i=0;i<unspentTxs.length;i++) {
+      sendTx.addInput({hash: unspentTxs[i].txid}, unspentTxs[i].vout);
+    }
+    
+    // The address you are sending to, and the amount:
+    sendTx.addOutput(address, amt);
+    
+    var remainder = unspentTxsAmt.subtract(total);
+    
+    if(remainder != Bitcoin.BigInteger.ZERO)
+      sendTx.addOutput(this.addresses()[0].address, remainder);
+    
+    var hashType = 1; // SIGHASH_ALL
+    
+    // Here will be the beginning of your signing for loop
+
+    for(i=0;i<unspentTxs.length;i++) {
+      var unspentOutScript = new Bitcoin.Script(Bitcoin.convert.hexToBytes(unspentTxs[i].scriptPubKey));
+      var hash = sendTx.hashTransactionForSignature(unspentOutScript, i, hashType);
+      var pubKeyHash = unspentOutScript.simpleOutHash();
+
+      // todo refactor wallet to save public keys in keyPair, this is expensive
+
+      for(var j=0;j<keyPairs.length;j++) {
+        var key = new Bitcoin.Key(keyPairs[j].key);
+
+        if(_.isEqual(key.getPubKeyHash(), pubKeyHash)) {
+          console.log('derp');
+          var signature = key.sign(hash);
+          signature.push(parseInt(hashType, 10));
+
+          sendTx.ins[i].script = Bitcoin.Script.createInputScript(signature, key.getPub());
+          break;
+        }
+      }
+    }
+
+    var raw = Bitcoin.convert.bytesToHex(sendTx.serialize());
+    console.log(Bitcoin.convert.bytesToHex(sendTx.getHash()));
+    console.log(raw);
+    return raw;
   };
 
   if(walletKey && walletId)
