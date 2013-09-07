@@ -57,7 +57,11 @@ coinpunk.controllers.Tx.prototype.create = function() {
       return;
     }
 
-    console.log('ready');
+    var rawtx = coinpunk.wallet.createSend(amount, '0', address);
+
+    $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+      console.log(resp);
+    });
   });
 };
 

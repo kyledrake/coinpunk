@@ -23,6 +23,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var eckey      = new Bitcoin.ECKey();
     var newKeyPair = {
       key: eckey.getExportedPrivateKey(this.network),
+      publicKey: eckey.getPubKeyHash(),
       address: eckey.getBitcoinAddress(this.network).toString()
     };
 
@@ -114,7 +115,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
         break;
       }
     }
-    
+
     if(unspentTxsAmt.compareTo(total) < 0) {
       throw "you do not have enough bitcoins to send this amount";
     }
@@ -146,7 +147,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
         var key = new Bitcoin.Key(keyPairs[j].key);
 
         if(_.isEqual(key.getPubKeyHash(), pubKeyHash)) {
-          console.log('derp');
           var signature = key.sign(hash);
           signature.push(parseInt(hashType, 10));
 
@@ -157,8 +157,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
 
     var raw = Bitcoin.convert.bytesToHex(sendTx.serialize());
-    console.log(Bitcoin.convert.bytesToHex(sendTx.getHash()));
-    console.log(raw);
     return raw;
   };
 
