@@ -54,6 +54,14 @@ coinpunk.router.map('#/backup').to(function() {
   coinpunk.router.render('view', 'backup');
 });
 
+coinpunk.router.map('#/backup/download').to(function() {
+  coinpunk.router.initWallet();
+  var payload = coinpunk.wallet.encryptPayload();
+  var blob = new Blob([payload], {type: "text/plain;charset=utf-8"});
+  saveAs(blob, "coinpunk-wallet.txt");
+  coinpunk.router.route('backup');
+});
+
 coinpunk.router.map("#/signup").to(function() {
   coinpunk.router.render('view', 'signup');
 });
