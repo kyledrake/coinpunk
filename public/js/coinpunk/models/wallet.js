@@ -16,7 +16,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.loadPayload = function(payload) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
-    console.log(keyPairs);
     return true;
   };
 
@@ -47,7 +46,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.addresses = function() {
     var addrs = [];
     for(var i=0; i<keyPairs.length; i++) {
-      addrs.push({address: keyPairs[i].address, name: keyPairs[i].name});
+      addrs.push({address: keyPairs[i].address, name: keyPairs[i].name, isChange: keyPairs[i].isChange});
     }
     return addrs;
   };
@@ -131,9 +130,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
     
     var remainder = unspentTxsAmt.subtract(total);
     
-    if(remainder != Bitcoin.BigInteger.ZERO)
+    if(!remainder.equals(Bitcoin.BigInteger.ZERO)) {
       sendTx.addOutput(this.addresses()[0].address, remainder);
+    }
     
+    return;
     var hashType = 1; // SIGHASH_ALL
     
     // Here will be the beginning of your signing for loop

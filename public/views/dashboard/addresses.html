@@ -18,13 +18,15 @@
     </thead>
     <tbody>
       <% for(var i=0; i<data.addresses.length; i++) { %>
-        <tr>
-          <td><%- data.addresses[i].name %></td>
-          <td><%- data.addresses[i].address %></td>
-          <td>TODO</td>
-          <td>Create Paper Wallet</td>
-          <td>Generate</td>
-        </tr>
+        <% if(!data.addresses[i].isChange) { %>
+          <tr>
+            <td><%- data.addresses[i].name %></td>
+            <td><%- data.addresses[i].address %></td>
+            <td>TODO</td>
+            <td>Create Paper Wallet</td>
+            <td>Generate</td>
+          </tr>
+        <% } %>
       <% } %>
     </tbody>
   </table>
