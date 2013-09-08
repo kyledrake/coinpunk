@@ -57,10 +57,26 @@ coinpunk.controllers.Tx.prototype.create = function() {
       return;
     }
 
-    var rawtx = coinpunk.wallet.createSend(amount, '0', address);
+    var changeAddress = coinpunk.wallet.createNewAddress('change', true);
+    var payload   = coinpunk.wallet.encryptPayload();
 
-    $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-      console.log(resp);
+    $.ajax({
+      type: 'POST',
+      url: '/api/wallet',
+      data: {
+        serverKey: coinpunk.wallet.serverKey,
+        wallet:    payload,
+        override:  true,
+        address: changeAddress
+      },
+      dataType: 'json',
+      success: function(response) {
+        var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
+        console.log(rawtx);
+        $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+          console.log(resp);
+        });
+      }
     });
   });
 };

@@ -29,7 +29,6 @@ coinpunk.Controller.prototype.updateExchangeRates = function(id) {
   });
 };
 
-
 coinpunk.Controller.prototype.minimumSendConfirmations = 1;
 coinpunk.Controller.prototype.minimumStrongSendConfirmations = 6;
 

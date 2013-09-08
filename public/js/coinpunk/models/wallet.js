@@ -16,15 +16,17 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.loadPayload = function(payload) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
+    console.log(keyPairs);
     return true;
   };
 
-  this.createNewAddress = function(name) {
+  this.createNewAddress = function(name, isChange) {
     var eckey      = new Bitcoin.ECKey();
     var newKeyPair = {
       key: eckey.getExportedPrivateKey(this.network),
-      publicKey: eckey.getPubKeyHash(),
-      address: eckey.getBitcoinAddress(this.network).toString()
+      publicKey: Bitcoin.convert.bytesToHex(eckey.getPubKeyHash()),
+      address: eckey.getBitcoinAddress(this.network).toString(),
+      isChange: (isChange || false)
     };
 
     if(name)
@@ -90,7 +92,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return amount;
   };
 
-  this.createSend = function(amtString, feeString, address) {
+  this.createSend = function(amtString, feeString, address, changeAddress) {
     var amt = Bitcoin.util.parseValue(amtString);
     
     if(amt == Bitcoin.BigInteger.ZERO)

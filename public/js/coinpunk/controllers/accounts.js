@@ -98,8 +98,7 @@ coinpunk.controllers.accounts = {
           serverKey: coinpunk.wallet.serverKey,
           wallet:    payload,
           email:     email,
-          address:   address,
-          dontOverride: true
+          address:   address
         },
         dataType: 'json',
         success: function(response) {
