@@ -134,7 +134,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
       sendTx.addOutput(this.addresses()[0].address, remainder);
     }
     
-    return;
     var hashType = 1; // SIGHASH_ALL
     
     // Here will be the beginning of your signing for loop

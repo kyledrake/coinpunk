@@ -72,9 +72,11 @@ coinpunk.controllers.Tx.prototype.create = function() {
       dataType: 'json',
       success: function(response) {
         var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
-        console.log(rawtx);
+
         $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-          console.log(resp);
+          // resp here is the transaction id, which we need to hold on to somewhere.
+          coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
+          coinpunk.router.route('dashboard');
         });
       }
     });

@@ -14,6 +14,16 @@ coinpunk.Database.prototype.getCurrency = function() {
   return localStorage.getItem(this.coinpunkCurrencyName);
 };
 
+coinpunk.Database.prototype.setSuccessMessage = function(message) {
+  return localStorage.setItem('successMessage', message);
+};
+
+coinpunk.Database.prototype.getSuccessMessage = function() {
+  var msg = localStorage.getItem('successMessage');
+  localStorage.removeItem('successMessage');
+  return msg;
+};
+
 coinpunk.Database.prototype.set = function(walletKey, walletId) {
   this.storage.setItem(this.walletKeyName, walletKey);
   this.storage.setItem(this.walletIdName, walletId);
