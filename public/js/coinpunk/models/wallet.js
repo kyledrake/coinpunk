@@ -96,6 +96,9 @@ coinpunk.Wallet = function(walletKey, walletId) {
     
     if(amt == Bitcoin.BigInteger.ZERO)
       throw "spend amount must be greater than zero";
+      
+    if(!changeAddress)
+      throw "change address was not provided";
     
     var fee = Bitcoin.util.parseValue(feeString || '0');
     var total = Bitcoin.BigInteger.ZERO.add(amt).add(fee);
@@ -131,7 +134,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var remainder = unspentTxsAmt.subtract(total);
     
     if(!remainder.equals(Bitcoin.BigInteger.ZERO)) {
-      sendTx.addOutput(this.addresses()[0].address, remainder);
+      sendTx.addOutput(changeAddress, remainder);
     }
     
     var hashType = 1; // SIGHASH_ALL
