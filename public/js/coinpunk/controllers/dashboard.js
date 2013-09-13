@@ -17,9 +17,10 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
       self.updateExchangeRates('receivedTransactions');
       $('#'+id+" [rel='tooltip']").tooltip();
     });
-    self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
+    self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()}, function() {
+      $('#balance').text(resp.balance);
+    });
 
-    $('#balance').text(resp.balance);
     
   });
 };
