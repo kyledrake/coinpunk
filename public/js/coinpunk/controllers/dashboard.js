@@ -7,13 +7,13 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
   $.get('/api/dashboard', {serverKey: coinpunk.wallet.serverKey, addresses: coinpunk.wallet.addressHashes()}, function(resp) {
     var receivedTransactions = self.filterTransactions(resp.transactions, 'receive');
     var sentTransactions = self.filterTransactions(resp.transactions, 'send');
-
-    self.template('sentTransactions', 'dashboard/transactions', {category: 'Sent', tx: sentTransactions}, function(id) {
+console.log(coinpunk.wallet.transactions);
+    self.template('sentTransactions', 'dashboard/sent', {tx: coinpunk.wallet.transactions}, function(id) {
       $('#'+id+" [rel='tooltip']").tooltip();
       self.updateExchangeRates(id);
     });
 
-    self.template('receivedTransactions', 'dashboard/transactions', {category: 'Received', tx: receivedTransactions}, function(id) {
+    self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: receivedTransactions}, function(id) {
       self.updateExchangeRates('receivedTransactions');
       $('#'+id+" [rel='tooltip']").tooltip();
     });

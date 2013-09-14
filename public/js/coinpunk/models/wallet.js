@@ -4,18 +4,19 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.walletId = walletId;
   this.defaultIterations = 1000;
   this.serverKey = undefined;
+  this.transactions = [];
   var keyPairs = [];
 
   this.loadPayloadWithLogin = function(id, password, payload) {
     this.createWalletKey(id, password);
-    var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
-    keyPairs = decrypted.keyPairs;
+    this.loadPayload(payload);
     return true;
   };
 
   this.loadPayload = function(payload) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
+    this.transactions = decrypted.transactions;
     return true;
   };
 
@@ -72,7 +73,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   };
 
   this.encryptPayload = function() {
-    var payload = {keyPairs: keyPairs};
+    var payload = {keyPairs: keyPairs, transactions: this.transactions};
     return sjcl.encrypt(this.walletKey, JSON.stringify(payload));
   };
 
@@ -91,7 +92,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return amount;
   };
 
-  this.createSend = function(amtString, feeString, address, changeAddress) {
+  this.createSend = function(amtString, feeString, addressString, changeAddress) {
     var amt = Bitcoin.util.parseValue(amtString);
     
     if(amt == Bitcoin.BigInteger.ZERO)
@@ -103,7 +104,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var fee = Bitcoin.util.parseValue(feeString || '0');
     var total = Bitcoin.BigInteger.ZERO.add(amt).add(fee);
     
-    var address = new Bitcoin.Address(address, this.network);
+    var address = new Bitcoin.Address(addressString, this.network);
     var sendTx = new Bitcoin.Transaction();
     var i;
 
@@ -160,8 +161,17 @@ coinpunk.Wallet = function(walletKey, walletId) {
         }
       }
     }
+    
+    this.transactions.push({
+      hash: Bitcoin.convert.bytesToHex(sendTx.getHash()),
+      address: addressString,
+      amount: Bitcoin.util.formatValue(total),
+      fee: Bitcoin.util.formatValue(fee),
+      created: new Date().getTime()
+    });
 
     var raw = Bitcoin.convert.bytesToHex(sendTx.serialize());
+
     return raw;
   };
 

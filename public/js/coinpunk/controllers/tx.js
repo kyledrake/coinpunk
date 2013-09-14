@@ -58,6 +58,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     }
 
     var changeAddress = coinpunk.wallet.createNewAddress('change', true);
+    var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
     var payload   = coinpunk.wallet.encryptPayload();
 
     $.ajax({
@@ -71,8 +72,6 @@ coinpunk.controllers.Tx.prototype.create = function() {
       },
       dataType: 'json',
       success: function(response) {
-        var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
-
         $.post('/api/tx/send', {tx: rawtx}, function(resp) {
           // resp here is the transaction id, which we need to hold on to somewhere.
           coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
