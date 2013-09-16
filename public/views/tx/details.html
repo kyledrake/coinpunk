@@ -5,7 +5,7 @@
       <tbody>
         <tr>
           <td>Transaction ID (TXID)</td>
-          <td><%- data.tx.txid %></td>
+          <td><%- data.tx.hash %></td>
         </tr>
         <tr>
           <td>Amount</td>
@@ -15,10 +15,12 @@
           <td>Confirmations</td>
           <td>
             <%- data.tx.confirmations %>&nbsp;&nbsp;&nbsp;&nbsp;
-            <% if(data.tx.confirmations < coinpunk.controllers.dashboard.minimumSendConfirmations) { %>
-              <span class="label label-info">Pending</span>
+            <% if(data.tx.confirmations == 0) { %>              
+              <span class="label label-warning" rel="tooltip" data-toggle="tooltip" title="Transaction has not yet been confirmed. You cannot safely spend this yet because you cannot be confident it isn't a double spend until it has been confirmed by the blockchain.">Pending (Unconfirmed)</span>
+            <% } else if(data.tx.confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
+              <span class="label label-info" rel="tooltip" data-toggle="tooltip" title="Transaction has had at least one confirmation and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
             <% } else { %>
-              <span class="label label-success">Confirmed</span>
+              <span class="label label-success" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
             <% } %>
           </td>
         </tr>
@@ -32,38 +34,15 @@
         </tr>
         <tr>
           <td>Blocktime</td>
-          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime) %></td>
+          <td>
+            <% if(data.tx.blocktime) { %>
+              <%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime) %>
+            <% } %>
+          </td>
         </tr>
         <tr>
           <td>Time</td>
           <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.time) %></td>
-        </tr>
-        <tr>
-          <td>Time Received</td>
-          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.timereceived) %></td>
-        </tr>
-        <tr>
-          <td>Details</td>
-          <td>
-            
-            <% 
-              for (var key in data.tx.details) {
-                var obj = data.tx.details[key];
-                for (var prop in obj) {
-                  if(obj.hasOwnProperty(prop)) { %>
-                    <strong><%- prop.charAt(0).toUpperCase() + prop.slice(1) %>:</strong><br><%- obj[prop] %>
-                    
-                    <% if(prop == 'amount') { %>
-                      BTC
-                    <% } %>
-                    
-                    <br>
-            <%    
-                   }
-                 }
-               } 
-            %>
-          </td>
         </tr>
     </table>
     

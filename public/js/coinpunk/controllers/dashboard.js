@@ -3,15 +3,37 @@ coinpunk.controllers.Dashboard = function() {};
 coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Dashboard.prototype.index = function() {
+  var i = 0;
   var self = this;
-  $.get('/api/dashboard', {serverKey: coinpunk.wallet.serverKey, addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+  $.get('/api/dashboard', {
+    serverKey: coinpunk.wallet.serverKey, 
+    addresses: coinpunk.wallet.addressHashes(), 
+    receiveAddresses: coinpunk.wallet.receiveAddressHashes()
+  }, function(resp) {
     var receivedTransactions = self.filterTransactions(resp.transactions, 'receive');
     var sentTransactions = self.filterTransactions(resp.transactions, 'send');
-console.log(coinpunk.wallet.transactions);
-    self.template('sentTransactions', 'dashboard/sent', {tx: coinpunk.wallet.transactions}, function(id) {
-      $('#'+id+" [rel='tooltip']").tooltip();
-      self.updateExchangeRates(id);
+
+    // Get confirmations for wallet send TXes
+    var txHashes = [];
+    for(i=0;i<coinpunk.wallet.transactions.length;i++)
+      txHashes.push(coinpunk.wallet.transactions[i].hash);
+
+    $.get('/api/tx/details', {txHashes: txHashes}, function(resp) {
+      var txes = coinpunk.wallet.transactions;
+      for(i=0;i<txes.length;i++) {
+        for(var j=0;j<resp.length;j++) {
+          if(txes[i].hash == resp[j].hash)
+            txes[i].confirmations = resp[j].confirmations;
+        }
+      }
+      
+      self.template('sentTransactions', 'dashboard/sent', {tx: txes}, function(id) {
+        $('#'+id+" [rel='tooltip']").tooltip();
+        self.updateExchangeRates(id);
+      });
     });
+
+
 
     self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: receivedTransactions}, function(id) {
       self.updateExchangeRates('receivedTransactions');

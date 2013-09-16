@@ -104,6 +104,14 @@ coinpunk.router.map('#/tx/send').to(function() {
 });
 
 coinpunk.router.map('#/').to(function() {
+/*
+  if(window.navigator.registerProtocolHandler)
+    window.navigator.registerProtocolHandler(
+      "bitcoin",
+      document.URL.substring(0,document.URL.lastIndexOf("#"))+"/?uri=%s",
+      "Coinpunk"
+    );
+*/
   coinpunk.router.route('dashboard');
 });
 

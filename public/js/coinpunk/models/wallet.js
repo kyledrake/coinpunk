@@ -52,6 +52,16 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return addrs;
   };
 
+  this.receiveAddressHashes = function() {
+    var addrHashes = [];
+    for(var i=0; i<keyPairs.length; i++) {
+      if(keyPairs[i].isChange != true)
+        addrHashes.push(keyPairs[i].address);
+    }
+    
+    return addrHashes;
+  };
+
   this.addressHashes = function() {
     var addresses = this.addresses();
     var addressHashes = [];

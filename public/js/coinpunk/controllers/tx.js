@@ -1,9 +1,12 @@
 coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Tx.prototype.details = function(txid) {
-  $.get('/api/tx/details', {txid: txid}, function(resp) {
-    coinpunk.router.render('view', 'tx/details', {tx: resp.tx});
+coinpunk.controllers.Tx.prototype.details = function(txHash) {
+  $.get('/api/tx/details', {txHashes: [txHash]}, function(resp) {
+    console.log(resp);
+    coinpunk.router.render('view', 'tx/details', {tx: resp[0]}, function(id) {
+      $('#'+id+" [rel='tooltip']").tooltip();
+    });
   });
 };
 
@@ -16,7 +19,6 @@ coinpunk.controllers.Tx.prototype.send = function() {
       self.updateExchangeRates(id, false);
       $('#'+id+" [rel='tooltip']").tooltip();
     });
-    
   });
 };
 
