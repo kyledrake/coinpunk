@@ -19,7 +19,7 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
       txHashes.push(coinpunk.wallet.transactions[i].hash);
 
     $.get('/api/tx/details', {txHashes: txHashes}, function(resp) {
-      var txes = coinpunk.wallet.transactions;
+      var txes = coinpunk.wallet.transactions.reverse();
       for(i=0;i<txes.length;i++) {
         for(var j=0;j<resp.length;j++) {
           if(txes[i].hash == resp[j].hash)
