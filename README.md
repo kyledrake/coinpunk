@@ -12,7 +12,7 @@ The first major version of Coinpunk is available in the [oldschool](https://gith
 
 The latest version is a major rewrite that uses hybrid-wallets: encryption is done in the browser via a client-side application, which can be run separately from the server. This makes it much harder for hackers to steal Bitcoins by breaking into servers.
 
-*The newest Coinpunk is considered very alpha. DO NOT USE IT FOR SPENDING REAL BITCOINS YET. It is set to testnet by default, and is subject to major changes that may completely destroy your money. I will not provide any support for installing and using it until it hits beta. Seriously, developers and testers only.*
+**The newest Coinpunk is considered very alpha. DO NOT USE IT FOR SPENDING REAL BITCOINS YET. It is set to testnet by default, and is subject to major changes that may completely destroy your money. I will not provide any support for installing and using it until it hits beta. Seriously, developers and testers only.**
 
 This project is in the early stages, but has a lot of ambition. Expect many new features and much more functionality over the course of the next few months.
 
