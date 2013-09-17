@@ -1,5 +1,3 @@
-*.DS_Store
-config.yml
-.bundle
-*.sqlite3
-test/coverage
+config.json
+node_modules
+.DS_Store

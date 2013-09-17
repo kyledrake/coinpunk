@@ -1,0 +1,51 @@
+<div class="row text-center">
+  <div class="col-lg-8 col-lg-offset-2">
+    <h1>Transaction Detail</h1>
+    <table class="table table-bordered table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Transaction ID (TXID)</td>
+          <td><%- data.tx.hash %></td>
+        </tr>
+        <tr>
+          <td>Amount</td>
+          <td><%- data.tx.amount %></td>
+        </tr>
+        <tr>
+          <td>Confirmations</td>
+          <td>
+            <%- data.tx.confirmations %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% if(data.tx.confirmations == 0) { %>              
+              <span class="label label-warning" rel="tooltip" data-toggle="tooltip" title="Transaction has not yet been confirmed. You cannot safely spend this yet because you cannot be confident it isn't a double spend until it has been confirmed by the blockchain.">Pending (Unconfirmed)</span>
+            <% } else if(data.tx.confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
+              <span class="label label-info" rel="tooltip" data-toggle="tooltip" title="Transaction has had at least one confirmation and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
+            <% } else { %>
+              <span class="label label-success" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <td>Blockhash</td>
+          <td><%- data.tx.blockhash %></td>
+        </tr>
+        <tr>
+          <td>Blockindex</td>
+          <td><%- data.tx.blockindex %></td>
+        </tr>
+        <tr>
+          <td>Blocktime</td>
+          <td>
+            <% if(data.tx.blocktime) { %>
+              <%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime) %>
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <td>Time</td>
+          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.time) %></td>
+        </tr>
+    </table>
+    
+    <a href="#/dashboard" class="btn btn-large btn-info">Back<a>
+  </div>
+</div>

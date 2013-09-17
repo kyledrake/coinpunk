@@ -1,0 +1,26 @@
+<div class="navbar">
+  <a class="navbar-brand" href="#/">Coinpunk</a>
+
+  <ul class="nav navbar-nav">
+    <% if(coinpunk.database.loggedIn()) { %>
+      <li><a href="#/dashboard">Dashboard</a></li>
+      <li><a href="#/tx/send">Send</a></li>
+      <li><a href="#/backup">Backup</a></li>
+    <% } %>
+  </ul>
+
+  <ul class="nav navbar-nav pull-right">
+    <% if(coinpunk.database.loggedIn()) { %>
+      <li class="navbar-text"><strong style="color: #7AB800"><%- coinpunk.database.getWalletId() %></strong></li>
+      <li><a href="#/signout">Signout</a></li>
+    <% } %>
+  </ul>
+</div>
+
+<% var successMessage = coinpunk.database.getSuccessMessage(); %>
+<% if(successMessage) { %>
+  <div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <%= successMessage %>
+  </div>
+<% } %>

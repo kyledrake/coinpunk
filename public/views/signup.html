@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1>New Wallet</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <h3><font color="red">IMPORTANT</font> password information:</h3>
+    <h5>Your data is being encrypted in a way that the server cannot spend your Bitcoin wallet money. If you lose your password, there is no way to reset it.</h5>
+    <h4><strong>Losing your password is like losing your real-life wallet. You will lose your bitcoins, <u>forever</u></strong>.<br><u>Remember your password</u>.<h4>
+    <h5>Your password must also be a minimum of 10 characters. If you're making a new password, write it down somewhere. You will likely forget it if you don't.</h5>
+  </div>
+  
+  <div class="row" style="padding-top: 20px">
+    <div class="col-lg-4 col-lg-offset-1">
+      <form action="#" onsubmit="return false;" autocomplete="off" autocapitalize="off" class="form-horizontal" role="form">
+    
+        <div class="form-group">
+          <div id="errors" class="alert alert-danger hidden"></div>
+        </div>
+    
+        <div class="form-group">
+          <label for="email" class="control-label">Email</label>
+          <input id="email" type="email" placeholder="Your email" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="control-label">Password</label>
+          <input id="password" name="password" type="password" placeholder="Create a password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()" class="form-control">
+        </div>
+    
+        <div class="progress progress-striped">
+          <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            <span id="passwordStrengthStatus" class="sr-only" style="color: #000000; padding-left: 10px">Weak</span>
+          </div>
+        </div>
+    
+        <div class="form-group">
+          <label for="password_confirm" class="control-label">Confirm your password</label>
+          <input id="password_confirm" type="password" placeholder="Confirm your password" autocomplete="off" onfocus="coinpunk.controllers.accounts.passwordStrength.enable()" class="form-control">
+        </div>
+    
+        <div>
+          <button id="createAccountButton" class="btn btn-large btn-success" href="#" style="margin-top: 10px" onclick="coinpunk.controllers.accounts.create(); return false">Create Account</button>
+        </div>
+    
+      </form>
+    </div>
+  </div>
+</div>

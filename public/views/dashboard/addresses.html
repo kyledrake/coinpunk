@@ -1,0 +1,38 @@
+<h2>Addresses</h2>
+
+<% if(data.addresses.length == 0) {%>
+
+  <h4>No receive addresses yet.</h4>
+
+<% } else { %>
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <!--
+        <th>Received</th>
+        <th>Backups</th>
+        <th>Receive QR Code</th>
+        -->
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i<data.addresses.length; i++) { %>
+        <% if(!data.addresses[i].isChange) { %>
+          <tr>
+            <td><%- data.addresses[i].name %></td>
+            <td><%- data.addresses[i].address %></td>
+            <!--
+            <td>TODO</td>
+            <td>Create Paper Wallet</td>
+            <td>Generate</td>
+            -->
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
+
+<% } %>

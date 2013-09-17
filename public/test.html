@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <script src="js/lib/bitcoinjs.js"></script>
+    <script>
+        var Bitcoin = require('./lib/bitcoinjs/index.js');
+    </script>
+
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/underscore.js"></script>
+
+    <script src="js/lib/password_strength.js"></script>
+    <script src="js/lib/jquery.strength.js"></script>
+
+    <script src="js/lib/qrcode.js"></script>
+
+    <script src="js/lib/sjcl/sjcl.js"></script>
+    <script src="js/lib/humane_dates.js"></script>
+
+    <!-- <script src="js/lib/path.min.js"></script> -->
+
+    <script src="js/coinpunk.js"></script>
+
+    <script src="js/coinpunk/models/database.js"></script>
+    <script src="js/coinpunk/models/wallet.js"></script>
+
+    <script src="js/coinpunk/controller.js"></script>
+    <script src="js/coinpunk/controllers/accounts.js"></script>
+    <script src="js/coinpunk/controllers/dashboard.js"></script>
+    <script src="js/coinpunk/controllers/tx.js"></script>
+
+    <!-- <script src="js/coinpunk/router.js"></script> -->
+    <script src="js/coinpunk/pricing.js"></script>
+  </head>
+
+  <body>
+    <div id="mocha"></div>
+  </body>
+  
+    <script src="js/lib/mocha.js"></script>
+    <script src="js/lib/chai.js"></script>
+    <script>
+      mocha.setup('bdd');
+      var assert = chai.assert;
+    </script>
+
+    <link href="css/mocha.css" rel="stylesheet">
+
+    <script src="test/wallet.js"></script>
+
+    <script>
+      // mocha.checkLeaks();
+      mocha.globals(['jQuery']);
+      mocha.run();
+    </script>
+</html>
