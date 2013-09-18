@@ -16,7 +16,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.loadPayload = function(payload) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
-    this.transactions = decrypted.transactions;
+    this.transactions = decrypted.transactions || [];
     return true;
   };
 
