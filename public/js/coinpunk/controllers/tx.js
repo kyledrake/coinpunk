@@ -24,12 +24,17 @@ coinpunk.controllers.Tx.prototype.send = function() {
 
 coinpunk.controllers.Tx.prototype.create = function() {
   var self = this;
+  var sendButton = $('#sendButton');
+  sendButton.addClass('disabled');
   var address = $('#createSendForm #address').val();
   var amount = $('#createSendForm #amount').val();
   var errors = [];
   var errorsDiv = $('#errors');
+
   errorsDiv.addClass('hidden');
   errorsDiv.html('');
+
+  
 
   if(address == '')
     errors.push('You cannot have a blank sending address.');
@@ -48,6 +53,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
 
   if(errors.length > 0) {
     this.displayErrors(errors, errorsDiv);
+    sendButton.removeClass('disabled');
     return;
   }
 
@@ -56,6 +62,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     if(resp.amount < amount) {
       errors.push('Cannot spend more bitcoins than you currently have.');
       self.displayErrors(errors, errorsDiv);
+      sendButton.removeClass('disabled');
       return;
     }
 

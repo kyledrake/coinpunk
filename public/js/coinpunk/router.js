@@ -84,7 +84,6 @@ coinpunk.router.map("#/signout").to(function() {
 coinpunk.router.map("#/dashboard").to(function() {
   if(!coinpunk.router.requireSignin())
     return false;
-  coinpunk.router.render('view', 'dashboard');
   coinpunk.router.initWallet();
   coinpunk.controllers.dashboard.index();
 });
