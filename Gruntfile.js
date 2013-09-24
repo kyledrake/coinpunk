@@ -13,9 +13,9 @@ module.exports = function(grunt) {
     },
     
     uglify: {
-      my_target: {
+      coinpunk: {
         options: {
-          beautify: true
+          beautify: false
         },
         files: {
           'public/js/all.js': [
