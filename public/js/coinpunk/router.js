@@ -33,10 +33,6 @@ coinpunk.router.initWallet = function() {
   }
 };
 
-coinpunk.router.setUnspentTxs = function() {
-  
-};
-
 coinpunk.router.requireSignin = function() {
   if(!coinpunk.database.loggedIn()) {
     coinpunk.router.route('signin');
@@ -97,7 +93,6 @@ coinpunk.router.map('#/tx/details/:txid').to(function() {
 coinpunk.router.map('#/tx/send').to(function() {
   if(!coinpunk.router.requireSignin())
     return false;
-  coinpunk.router.render('view', 'dashboard');
   coinpunk.router.initWallet();
   coinpunk.controllers.tx.send();
 });

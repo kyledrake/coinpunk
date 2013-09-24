@@ -15,7 +15,7 @@ coinpunk.controllers.Tx.prototype.send = function() {
   $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
     coinpunk.wallet.setUnspentTxs(resp.unspentTxs);
 
-    self.template('view', 'tx/send', resp, function(id) {
+    coinpunk.router.render('view', 'tx/send', resp, function(id) {
       self.updateExchangeRates(id, false);
       $('#'+id+" [rel='tooltip']").tooltip();
     });
