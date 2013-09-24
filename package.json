@@ -1,10 +1,16 @@
-{ "name": "coinpunk",
+{
+  "name": "coinpunk",
   "description": "DIY Bitcoin Wallet Service",
   "version": "0.0.1",
-  "directories": { "lib" : "./lib" },
+  "directories": {
+    "lib": "./lib"
+  },
   "main": "app.js",
   "author": "Kyle Drake <kyledrake@gmail.com>",
-  "repository": { "type":"git", "url":"https://github.com/kyledrake/coinpunk.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyledrake/coinpunk.git"
+  },
   "dependencies": {
     "express": "*",
     "optimist": "*",
@@ -15,7 +21,7 @@
     "request": "*",
     "browserify": "*"
   },
-  "devDependencies" : {
+  "devDependencies": {
     "mocha": "1.8.1",
     "istanbul": "0.1.30",
     "supertest": "*",
@@ -26,7 +32,8 @@
     "chai": "*",
     "phantomjs": "*",
     "redis-mock": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "grunt-contrib-uglify": "~0.2.4"
   },
   "scripts": {
     "test": "NODE_ENV=test istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",
