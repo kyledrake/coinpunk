@@ -2,20 +2,22 @@
 describe('coinpunk.Wallet', function(){
   
   if(coinpunk.config.network == 'testnet') {
-    var unspentTxs = [{
-      "txid" : "be9030233af3367ae56096da73e6059e3dbf36f4435cc25d33a3b1ea682427c4",
-      "vout" : 1,
-      "scriptPubKey" : "76a914c08d3f1b8ef33cafc25b0e2bd722568e04ae572488ac",
-      "amount" : 0.06000000,
-      "amountSatoshiString" : 6000000,
-      "confirmations" : 1164
+    var unspentTxs = [{ 
+      txid: '712affd6fb3178517593f825178caa2d544230cdfe330046b54121845ed55581',
+      vout: 0,
+      address: 'mpYTFdkR8ZDVDYo8XCSQZL92hiMD1UVncy',
+      scriptPubKey: '76a9146301b89ec725adf0a04c37152edfcf188a1dd18d88ac',
+      amount: 0.06,
+      confirmations: 1,
+      amountSatoshiString: '6000000'
     }, {
-      "txid" : "d603cfcff274ed53bf026238cb6d6ed8112d9ee26c06f8632698c592884b60a1",
-      "vout" : 0,
-      "scriptPubKey" : "76a914ffc718f88bad420aa1a57633452831b269765c1688ac",
-      "amount" : 0.06000000,
-      "amountSatoshiString" : 6000000,
-      "confirmations" : 1164
+      txid: 'f1f320c172e37b4e79cee3830ba9aa18a4fc513fa57d675abed46107798b88c8',
+      vout: 1,
+      address: 'mpYTFdkR8ZDVDYo8XCSQZL92hiMD1UVncy',
+      scriptPubKey: '76a9146301b89ec725adf0a04c37152edfcf188a1dd18d88ac',
+      amount: 0.06,
+      confirmations: 3,
+      amountSatoshiString: '6000000'
     }];
 
   } else {
@@ -72,17 +74,17 @@ describe('coinpunk.Wallet', function(){
     w.setUnspentTxs(unspentTxs);
     assert.equal(w.unspentBalance(), 0.12);
   });
-  
+
   it('should create a transaction', function() {
     w = new coinpunk.Wallet();
     var address = w.createNewAddress('Default');
     w.setUnspentTxs(unspentTxs);
-    
+
     if(coinpunk.config.network == 'testnet')
-      var addr = 'n4qP7WZjzzwE1ThuJiPB2GdzTzhr6pHcZ4';
+      var addr = 'mhLhpH7216Gz5xbogtgtB3MgCMu3NWUx8w';
     else
       var addr = '1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH';
 
-    var rawTx = w.createSend('0.06', '0.0005', addr);
+    var rawTx = w.createSend('0.06', '0.0005', addr, address);
   });
 })
