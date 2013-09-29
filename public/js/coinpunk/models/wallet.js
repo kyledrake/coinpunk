@@ -5,6 +5,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.defaultIterations = 1000;
   this.serverKey = undefined;
   this.transactions = [];
+  this.unspent = [];
   var keyPairs = [];
 
   this.loadPayloadWithLogin = function(id, password, payload) {
@@ -17,6 +18,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
     keyPairs = decrypted.keyPairs;
     this.transactions = decrypted.transactions || [];
+    this.unspent = decrypted.unspent || [];
     return true;
   };
 
@@ -83,7 +85,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   };
 
   this.encryptPayload = function() {
-    var payload = {keyPairs: keyPairs, transactions: this.transactions};
+    var payload = {keyPairs: keyPairs, transactions: this.transactions, unspent: this.unspent};
     return sjcl.encrypt(this.walletKey, JSON.stringify(payload));
   };
 
@@ -91,15 +93,37 @@ coinpunk.Wallet = function(walletKey, walletId) {
     coinpunk.database.set(this.walletKey, this.walletId);
   };
 
-  this.setUnspentTxs = function(unspentTxs) {
-    this.unspentTxs = unspentTxs;
-  };
-
   this.unspentBalance = function() {
     var amount = 0;
-    for(var i=0; i<this.unspentTxs.length; i++)
-      amount = amount + this.unspentTxs[i].amount;
+    for(var i=0; i<this.unspent.length; i++)
+      amount = amount + this.unspent[i].amount;
     return amount;
+  };
+
+  
+  this.mergeUnspent = function(newUnspent) {
+    for(var i=0;i<newUnspent.length;i++) {
+      var match = false;
+      
+      for(var j=0;j<this.unspent.length;j++) {
+        if(this.unspent[j].hash == newUnspent[i].hash)
+          match = true;
+      }
+
+      if(match == true)
+        continue;
+
+      this.unspent.push(newUnspent[i]);
+
+      // todo: time should probably not be generated here
+      this.transactions.push({
+        hash: newUnspent[i].hash,
+        type: 'receive',
+        address: newUnspent[i].address,
+        amount: newUnspent[i].amount,
+        created: new Date().getTime()
+      });
+    }
   };
 
   this.createSend = function(amtString, feeString, addressString, changeAddress) {
@@ -118,31 +142,31 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var sendTx = new Bitcoin.Transaction();
     var i;
 
-    var unspentTxs = [];
-    var unspentTxsAmt = Bitcoin.BigInteger.ZERO;
+    var unspent = [];
+    var unspentAmt = Bitcoin.BigInteger.ZERO;
 
-    for(i=0;i<this.unspentTxs.length;i++) {
-      unspentTxs.push(this.unspentTxs[i]);
-      unspentTxsAmt = unspentTxsAmt.add(new Bitcoin.BigInteger(this.unspentTxs[i].amountSatoshiString));
+    for(i=0;i<this.unspent.length;i++) {
+      unspent.push(this.unspent[i]);
+      unspentAmt = unspentAmt.add(new Bitcoin.BigInteger(this.unspent[i].amountSatoshiString));
       
       // If > -1, we have enough to send the requested amount
-      if(unspentTxsAmt.compareTo(total) > -1) {
+      if(unspentAmt.compareTo(total) > -1) {
         break;
       }
     }
 
-    if(unspentTxsAmt.compareTo(total) < 0) {
+    if(unspentAmt.compareTo(total) < 0) {
       throw "you do not have enough bitcoins to send this amount";
     }
     
-    for(i=0;i<unspentTxs.length;i++) {
-      sendTx.addInput({hash: unspentTxs[i].txid}, unspentTxs[i].vout);
+    for(i=0;i<unspent.length;i++) {
+      sendTx.addInput({hash: unspent[i].hash}, unspent[i].vout);
     }
     
     // The address you are sending to, and the amount:
     sendTx.addOutput(address, amt);
     
-    var remainder = unspentTxsAmt.subtract(total);
+    var remainder = unspentAmt.subtract(total);
     
     if(!remainder.equals(Bitcoin.BigInteger.ZERO)) {
       sendTx.addOutput(changeAddress, remainder);
@@ -152,8 +176,8 @@ coinpunk.Wallet = function(walletKey, walletId) {
     
     // Here will be the beginning of your signing for loop
 
-    for(i=0;i<unspentTxs.length;i++) {
-      var unspentOutScript = new Bitcoin.Script(Bitcoin.convert.hexToBytes(unspentTxs[i].scriptPubKey));
+    for(i=0;i<unspent.length;i++) {
+      var unspentOutScript = new Bitcoin.Script(Bitcoin.convert.hexToBytes(unspent[i].scriptPubKey));
       var hash = sendTx.hashTransactionForSignature(unspentOutScript, i, hashType);
       var pubKeyHash = unspentOutScript.simpleOutHash();
 
@@ -174,6 +198,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     
     this.transactions.push({
       hash: Bitcoin.convert.bytesToHex(sendTx.getHash()),
+      type: 'send',
       address: addressString,
       amount: Bitcoin.util.formatValue(total),
       fee: Bitcoin.util.formatValue(fee),

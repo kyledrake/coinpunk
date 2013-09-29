@@ -17,6 +17,11 @@
     </thead>
     <tbody>
       <% for(var i=0; i<data.tx.length; i++) { %>
+        <% 
+          if(data.tx[i].type == 'receive')
+            continue;
+        %>
+          
         <tr>
           <td>
             <%- coinpunk.wallet.getAddressName(data.tx[i].address) %>

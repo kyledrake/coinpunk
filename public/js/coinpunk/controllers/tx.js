@@ -3,7 +3,6 @@ coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
   $.get('/api/tx/details', {txHashes: [txHash]}, function(resp) {
-    console.log(resp);
     coinpunk.router.render('view', 'tx/details', {tx: resp[0]}, function(id) {
       $('#'+id+" [rel='tooltip']").tooltip();
     });
@@ -12,9 +11,7 @@ coinpunk.controllers.Tx.prototype.details = function(txHash) {
 
 coinpunk.controllers.Tx.prototype.send = function() {
   var self = this;
-  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
-    coinpunk.wallet.setUnspentTxs(resp.unspentTxs);
-
+  this.getUnspent(function(resp) {
     coinpunk.router.render('view', 'tx/send', resp, function(id) {
       self.updateExchangeRates(id, false);
       $('#'+id+" [rel='tooltip']").tooltip();
@@ -33,8 +30,6 @@ coinpunk.controllers.Tx.prototype.create = function() {
 
   errorsDiv.addClass('hidden');
   errorsDiv.html('');
-
-  
 
   if(address == '')
     errors.push('You cannot have a blank sending address.');
@@ -57,8 +52,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     return;
   }
 
-  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
-
+  this.getUnspent(function(resp) {
     if(resp.amount < amount) {
       errors.push('Cannot spend more bitcoins than you currently have.');
       self.displayErrors(errors, errorsDiv);
