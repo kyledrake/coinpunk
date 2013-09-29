@@ -34,9 +34,9 @@
             <% } %>
           </td>
           <td>
-            <%- humaneDate(new Date(data.tx[i].timereceived * 1000).toISOString()) %>
+            <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
             <span class="pull-right">
-              <%- coinpunk.controllers.dashboard.friendlyTimeString(data.tx[i].timereceived) %>
+              <%- coinpunk.controllers.dashboard.friendlyTimeString(data.tx[i].time) %>
             </span>
           </td>
           <td><a href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
