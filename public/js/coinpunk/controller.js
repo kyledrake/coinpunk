@@ -41,7 +41,7 @@ coinpunk.Controller.prototype.template = function(id, path, data, callback) {
 };
 
 coinpunk.Controller.prototype.friendlyTimeString = function(timestamp) {
-  var date = new Date(timestamp*1000);
+  var date = new Date(timestamp);
   return date.toLocaleString();
 };
 
