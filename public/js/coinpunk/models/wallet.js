@@ -121,7 +121,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
         type: 'receive',
         address: newUnspent[i].address,
         amount: newUnspent[i].amount,
-        created: new Date().getTime()
+        time: new Date().getTime()
       });
     }
   };
@@ -202,10 +202,14 @@ coinpunk.Wallet = function(walletKey, walletId) {
       address: addressString,
       amount: Bitcoin.util.formatValue(total),
       fee: Bitcoin.util.formatValue(fee),
-      created: new Date().getTime()
+      time: new Date().getTime()
     });
 
     var raw = Bitcoin.convert.bytesToHex(sendTx.serialize());
+
+    // Remove unspent elements now that we have a tx that uses them
+    for(var i=0;i<unspent.length;i++)
+      this.unspent.shift();
 
     return raw;
   };
