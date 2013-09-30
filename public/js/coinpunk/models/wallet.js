@@ -120,11 +120,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
       var txMatch = false;
 
       for(var k=0;k<this.transactions.length;k++) {
-        if(this.transactions[k].hash == newUnspent[i])
+        if(this.transactions[k].hash == newUnspent[i].hash)
           txMatch = true;
       }
       
-      if(txMatch == true) {
+      if(txMatch == false) {
         this.transactions.push({
           hash: newUnspent[i].hash,
           type: 'receive',

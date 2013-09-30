@@ -5,46 +5,50 @@ coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 coinpunk.controllers.Dashboard.prototype.index = function() {
   var i = 0;
   var self = this;
-  
-  coinpunk.router.render('view', 'dashboard');
-  
-  $.get('/api/dashboard', {
-    serverKey: coinpunk.wallet.serverKey, 
-    addresses: coinpunk.wallet.addressHashes(), 
-    receiveAddresses: coinpunk.wallet.receiveAddressHashes()
-  }, function(resp) {
-    $('#balance').text(resp.balance);
 
-    var receivedTransactions = self.filterTransactions(resp.transactions, 'receive');
-    var sentTransactions = self.filterTransactions(resp.transactions, 'send');
+  this.getUnspent(function(resp) {
+    
+    coinpunk.router.render('view', 'dashboard', {}, function() {
+      $('#balance').text(resp.amount);
+    });
 
-    // Get confirmations for wallet send TXes
-    var txHashes = [];
-    for(i=0;i<coinpunk.wallet.transactions.length;i++)
-      txHashes.push(coinpunk.wallet.transactions[i].hash);
+    var txHashes = [];    
+    var txs = coinpunk.wallet.transactions;
+
+    for(i=0;i<txs.length;i++) {
+      txHashes.push(txs[i].hash);
+    }
 
     $.get('/api/tx/details', {txHashes: txHashes}, function(resp) {
-      var txes = coinpunk.wallet.transactions.reverse();
-      for(i=0;i<txes.length;i++) {
+      for(i=0;i<txs.length;i++) {
         for(var j=0;j<resp.length;j++) {
-          if(txes[i].hash == resp[j].hash)
-            txes[i].confirmations = resp[j].confirmations;
+          if(txs[i].hash == resp[j].hash)
+            txs[i].confirmations = resp[j].confirmations;
         }
       }
+      
+      var stxs = [];
+      for(i=0;i<txs.length;i++)
+        if(txs[i].type == 'send')
+          stxs.push(txs[i]);
 
-      self.template('sentTransactions', 'dashboard/sent', {tx: txes}, function(id) {
+      var rtxs = [];
+      for(i=0;i<txs.length;i++)
+        if(txs[i].type == 'receive')
+          rtxs.push(txs[i]);
+
+      self.template('sentTransactions', 'dashboard/sent', {tx: stxs}, function(id) {
         $('#'+id+" [rel='tooltip']").tooltip();
         self.updateExchangeRates(id);
       });
-    });
 
-    self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: receivedTransactions}, function(id) {
-      self.updateExchangeRates('receivedTransactions');
-      $('#'+id+" [rel='tooltip']").tooltip();
+      self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: rtxs}, function(id) {
+        self.updateExchangeRates('receivedTransactions');
+        $('#'+id+" [rel='tooltip']").tooltip();
+      });
     });
 
     self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
-
   });
 };
 
@@ -60,17 +64,6 @@ coinpunk.controllers.Dashboard.prototype.updateExchangeRates = function(id) {
       $(prices[i]).append('<span class="exchangePrice pull-right"><small>'+($(prices[i]).text().split(' ')[0] * price).toFixed(2)+' ' +currency+'</small></span>');
     }
   });
-};
-
-coinpunk.controllers.Dashboard.prototype.filterTransactions = function(txs, category) {
-  var filteredTxs = [];
-  for(var i=0;i<txs.length;i++) {
-    if(txs[i].category == category) {
-      filteredTxs.push(txs[i]);
-    }
-  }
-
-  return filteredTxs.reverse();
 };
 
 coinpunk.controllers.dashboard = new coinpunk.controllers.Dashboard();
