@@ -116,13 +116,23 @@ coinpunk.Wallet = function(walletKey, walletId) {
       this.unspent.push(newUnspent[i]);
 
       // todo: time should probably not be generated here
-      this.transactions.push({
-        hash: newUnspent[i].hash,
-        type: 'receive',
-        address: newUnspent[i].address,
-        amount: newUnspent[i].amount,
-        time: new Date().getTime()
-      });
+      
+      var txMatch = false;
+
+      for(var k=0;k<this.transactions.length;k++) {
+        if(this.transactions[k].hash == newUnspent[i])
+          txMatch = true;
+      }
+      
+      if(txMatch == true) {
+        this.transactions.push({
+          hash: newUnspent[i].hash,
+          type: 'receive',
+          address: newUnspent[i].address,
+          amount: newUnspent[i].amount,
+          time: new Date().getTime()
+        });
+      }
     }
   };
 
