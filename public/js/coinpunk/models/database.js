@@ -32,6 +32,7 @@ coinpunk.Database.prototype.set = function(walletKey, walletId) {
 coinpunk.Database.prototype.reset = function() {
   this.storage.removeItem(this.walletKeyName);
   this.storage.removeItem(this.walletIdName);
+  this.storage.removeItem(this.coinpunkCurrencyName);
 };
 
 coinpunk.Database.prototype.loggedIn = function() {

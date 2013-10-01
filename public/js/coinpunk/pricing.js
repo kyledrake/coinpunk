@@ -12,6 +12,9 @@ coinpunk.pricing = {
        ((new Date().getTime()/1000) - self.cachedResponseTime) > self.cacheTimeout) {
 
       $.get(this.pricesApiUrl, function(response) {
+        if(response.error)
+          return;
+
         self.cachedResponse = JSON.parse(response);
         self.cachedResponseTime = (new Date().getTime()/1000);
         self.runCallback(callback);
