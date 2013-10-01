@@ -97,6 +97,10 @@ coinpunk.router.map('#/tx/send').to(function() {
   coinpunk.controllers.tx.send();
 });
 
+coinpunk.router.map('#/node_error').to(function() {
+  coinpunk.router.render('container', 'node_error');
+});
+
 coinpunk.router.map('#/').to(function() {
 /*
   if(window.navigator.registerProtocolHandler)

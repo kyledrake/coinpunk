@@ -4,6 +4,11 @@ coinpunk.Controller = function() {
 coinpunk.Controller.prototype.getUnspent = function(callback) {
   var self = this;
   $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+    if(resp.error) {
+      coinpunk.router.route('node_error');
+      return;
+    }
+
     coinpunk.wallet.mergeUnspent(resp.unspent);
     self.saveWallet();
 
