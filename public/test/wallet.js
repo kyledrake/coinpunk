@@ -71,14 +71,14 @@ describe('coinpunk.Wallet', function(){
 
   it('should load unspent txs', function() {
     w = new coinpunk.Wallet();
-    w.setUnspentTxs(unspentTxs);
+    w.mergeUnspent(unspentTxs);
     assert.equal(w.unspentBalance(), 0.12);
   });
 
   it('should create a transaction', function() {
     w = new coinpunk.Wallet();
     var address = w.createNewAddress('Default');
-    w.setUnspentTxs(unspentTxs);
+    w.mergeUnspent(unspentTxs);
 
     if(coinpunk.config.network == 'testnet')
       var addr = 'mhLhpH7216Gz5xbogtgtB3MgCMu3NWUx8w';
