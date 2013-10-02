@@ -9,8 +9,8 @@ coinpunk.Controller.prototype.getUnspent = function(callback) {
       return;
     }
 
-    coinpunk.wallet.mergeUnspent(resp.unspent);
-    self.saveWallet();
+    var derp = coinpunk.wallet.mergeUnspent(resp.unspent);
+    self.saveWallet({data: {override: true}});
 
     if(callback)
       callback(resp);

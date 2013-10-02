@@ -76,7 +76,6 @@ coinpunk.controllers.Tx.prototype.create = function() {
       dataType: 'json',
       success: function(response) {
         $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-          // resp here is the transaction id, which we need to hold on to somewhere.
           coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
           coinpunk.router.route('dashboard');
         });

@@ -102,6 +102,8 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
   
   this.mergeUnspent = function(newUnspent) {
+    var changed = false;
+
     for(var i=0;i<newUnspent.length;i++) {
       var match = false;
       
@@ -113,6 +115,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       if(match == true)
         continue;
 
+      changed = true;
       this.unspent.push(newUnspent[i]);
 
       // todo: time should probably not be generated here
@@ -134,6 +137,8 @@ coinpunk.Wallet = function(walletKey, walletId) {
         });
       }
     }
+
+    return changed;
   };
 
   this.createSend = function(amtString, feeString, addressString, changeAddress) {
@@ -205,7 +210,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
         }
       }
     }
-    
+
     this.transactions.push({
       hash: Bitcoin.convert.bytesToHex(sendTx.getHash()),
       type: 'send',
