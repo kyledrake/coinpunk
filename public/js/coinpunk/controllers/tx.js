@@ -63,17 +63,11 @@ coinpunk.controllers.Tx.prototype.create = function() {
     var changeAddress = coinpunk.wallet.createNewAddress('change', true);
     var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
     
-    self.saveWallet({
-      data: {
-        override:  true,
-        address: changeAddress
-      },
-      callback: function(response) {
-        $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-          coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
-          coinpunk.router.route('dashboard');
-        });
-      }
+    self.saveWallet({override: true, address: changeAddress}, function(response) {
+      $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+        coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
+        coinpunk.router.route('dashboard');
+      });
     });
   });
 };

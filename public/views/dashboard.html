@@ -29,4 +29,16 @@
   <div class="col-lg-6">
     <div id="addresses"></div>
   </div>
+  <div class="col-lg-6">
+    <h2>Generate New Address</h2>
+    <form onsubmit="coinpunk.controllers.dashboard.generateNewAddress($('#addressLabel').val()); return false;">
+      <div>
+        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-info">Generate</button>
+        <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <span id="newAddressMessage"></span>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

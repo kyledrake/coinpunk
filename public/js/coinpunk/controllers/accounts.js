@@ -92,27 +92,21 @@ coinpunk.controllers.Accounts.prototype.create = function() {
     var address   = coinpunk.wallet.createNewAddress('Default');
     var walletKey = coinpunk.wallet.createWalletKey(email, password);
     
-    this.saveWallet({
-      data: {
-        address: address,
-        email: email
-      },
-      callback: function(response) {
-        if(response.result == 'ok') {
-          coinpunk.wallet.storeCredentials();
-          coinpunk.router.route('dashboard');
-        } else if(response.result == 'exists'){
-          coinpunk.wallet.loadPayload(response.wallet);
-          coinpunk.wallet.storeCredentials();
-          coinpunk.router.route('dashboard');
-        } else {
-          errorsDiv.html('');
-          for(var i=0;i<response.messages.length;i++) {
-            errorsDiv.html(errorsDiv.html() + response.messages[i] + '<br>');
-          }
-          $('#errors').removeClass('hidden');
-          self.enableSubmitButton();
+    this.saveWallet({address: address, email: email}, function(response) {
+      if(response.result == 'ok') {
+        coinpunk.wallet.storeCredentials();
+        coinpunk.router.route('dashboard');
+      } else if(response.result == 'exists'){
+        coinpunk.wallet.loadPayload(response.wallet);
+        coinpunk.wallet.storeCredentials();
+        coinpunk.router.route('dashboard');
+      } else {
+        errorsDiv.html('');
+        for(var i=0;i<response.messages.length;i++) {
+          errorsDiv.html(errorsDiv.html() + response.messages[i] + '<br>');
         }
+        $('#errors').removeClass('hidden');
+        self.enableSubmitButton();
       }
     });
   }

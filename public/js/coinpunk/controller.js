@@ -10,17 +10,15 @@ coinpunk.Controller.prototype.getUnspent = function(callback) {
     }
 
     var derp = coinpunk.wallet.mergeUnspent(resp.unspent);
-    self.saveWallet({data: {override: true}});
-
-    if(callback)
-      callback(resp);
+    self.saveWallet({override: true}, function() {
+      if(callback)
+        callback(resp);
+    });
   });
 };
 
-coinpunk.Controller.prototype.saveWallet = function(opts) {
-  var opts = opts || {};
-  var data = opts.data || {};
-
+coinpunk.Controller.prototype.saveWallet = function(data, callback) {
+  var data = data || {};
   data.serverKey = coinpunk.wallet.serverKey;
   data.wallet = coinpunk.wallet.encryptPayload();
 
@@ -30,8 +28,8 @@ coinpunk.Controller.prototype.saveWallet = function(opts) {
     data: data,
     dataType: 'json',
     success: function(response) {
-      if(opts.callback)
-        opts.callback(response);
+      if(callback)
+        callback(response);
     }
   });
 };
