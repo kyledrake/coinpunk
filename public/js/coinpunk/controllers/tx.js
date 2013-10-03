@@ -41,6 +41,13 @@ coinpunk.controllers.Tx.prototype.create = function() {
     }
   }
 
+  var myAddresses = coinpunk.wallet.addresses();
+  
+  for(var i=0; i<myAddresses.length;i++) {
+    if(myAddresses[i].address == address)
+      errors.push('You cannot send to your own bitcoin wallet.');
+  }
+
   if(amount == '' || parseFloat(amount) == 0)
     errors.push('You must have a valid amount to send.');
   else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
