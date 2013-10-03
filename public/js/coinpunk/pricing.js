@@ -14,8 +14,7 @@ coinpunk.pricing = {
       $.get(this.pricesApiUrl, function(response) {
         if(response.error)
           return;
-
-        self.cachedResponse = JSON.parse(response);
+        self.cachedResponse = response;
         self.cachedResponseTime = (new Date().getTime()/1000);
         self.runCallback(callback);
       });
@@ -30,6 +29,11 @@ coinpunk.pricing = {
 
   runCallback: function(callback) {
     var currency = this.getCurrency();
-    callback(this.cachedResponse[currency]['24h'], currency);
+    
+    for(var i=0; i<this.cachedResponse.length; i++)
+      if(this.cachedResponse[i].code == this.defaultCurrency)
+        var rate = this.cachedResponse[i].rate;
+
+    callback(rate, currency);
   }
 };
