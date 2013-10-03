@@ -112,4 +112,48 @@ coinpunk.controllers.Accounts.prototype.create = function() {
   }
 }
 
+coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
+  var id = $('#importId').val();
+  var password = $('#importPassword').val();
+  var file = $('#importFile').get(0).files[0];
+  var self = this;
+  var reader = new FileReader();
+
+  reader.onload = (function(walletText) {
+    coinpunk.wallet = new coinpunk.Wallet();
+    try {
+      coinpunk.wallet.loadPayloadWithLogin(id, password, walletText.target.result);
+    } catch(e) {
+      $('#importErrorDialog').removeClass('hidden');
+      $('#importErrorMessage').text('Wallet import failed. Check the credentials and wallet file.');
+      return;
+    }
+
+    if(coinpunk.wallet.transactions && coinpunk.wallet.addresses()) {
+      var payload = coinpunk.wallet.encryptPayload();
+
+      self.saveWallet({importAddresses: coinpunk.wallet.addressHashes()}, function(resp) {
+        if(resp.result == 'exists') {
+          $('#importErrorDialog').removeClass('hidden');
+          $('#importErrorMessage').text('Cannot import your wallet, because the wallet already exists on this server.');
+          return;
+        } else {
+          coinpunk.wallet.storeCredentials();
+          coinpunk.router.route('dashboard');
+        }
+      });
+    } else {
+      $('#importErrorDialog').removeClass('hidden');
+      $('#importErrorMessage').text('Not a valid wallet backup file.');
+    }
+  });
+
+  try {
+    reader.readAsText(file);
+  } catch(e) {
+    $('#importErrorDialog').removeClass('hidden');
+    $('#importErrorMessage').text('You must provide a wallet backup file.');
+  }
+};
+
 coinpunk.controllers.accounts = new coinpunk.controllers.Accounts();

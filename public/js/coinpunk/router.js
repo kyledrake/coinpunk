@@ -97,6 +97,20 @@ coinpunk.router.map('#/tx/send').to(function() {
   coinpunk.controllers.tx.send();
 });
 
+coinpunk.router.map('#/accounts/import').to(function() {
+  if(coinpunk.database.loggedIn()) {
+    coinpunk.router.route('dashboard');
+  } else {
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      coinpunk.router.render('view', 'accounts/import');
+    } else {
+      alert('Importing is not supported in this browser, please upgrade.');
+      coinpunk.router.route('signin');
+    }
+  }
+});
+
 coinpunk.router.map('#/node_error').to(function() {
   coinpunk.router.render('container', 'node_error');
 });

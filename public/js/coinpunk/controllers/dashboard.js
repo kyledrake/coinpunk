@@ -76,7 +76,7 @@ coinpunk.controllers.Dashboard.prototype.generateNewAddress = function(label) {
     $('#newAddressDialog').removeClass('hidden');
     var message = 'Created new address '+address;
     if(label != '')
-      var message = message + ' with label '+label; 
+      var message = message + ' with label '+label;
     $('#newAddressMessage').html(message+'.');
   });
 };

@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <h1>Import Backup Wallet File</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <h3>If you have a Coinpunk wallet backup, this allows you to re-import it.</h3>
+    <h4>It must be a Coinpunk wallet, no other wallet formats are supported yet.</h4>
+    <h4>You will need the email and password for the previous wallet when it was exported.</h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <div id="importErrorDialog" class="alert alert-danger hidden">
+      <span id="importErrorMessage"></span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-4" style="margin-top: 20px">
+    <form class="form-horizontal" onsubmit="coinpunk.controllers.accounts.performImport(); return false;">
+      <div class="form-group">
+        <label for="importId" class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-4">
+          <input type="text" class="form-control" id="importId" placeholder="Your wallet email">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="importPassword" class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-4">
+          <input type="password" class="form-control" id="importPassword" placeholder="Your wallet password" autocomplete="off">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="importFile" class="col-lg-2 control-label">Wallet File</label>
+        <div class="col-lg-4">
+          <input id="importFile" type="file">
+        </div>
+      </div>
+      
+      <div style="margin-top: 20px">
+        <button class="btn btn-success btn-lg">Import</button>
+      </div>
+    </form>
+  </div>
+</div>
