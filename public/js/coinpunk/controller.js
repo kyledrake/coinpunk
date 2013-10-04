@@ -34,6 +34,19 @@ coinpunk.Controller.prototype.saveWallet = function(data, callback) {
   });
 };
 
+coinpunk.Controller.prototype.deleteWallet = function(serverKey, callback) {
+  $.ajax({
+    type: 'POST',
+    url: '/api/wallet/delete',
+    data: {serverKey: serverKey},
+    dataType: 'json',
+    success: function(response) {
+      if(callback)
+        callback(response);
+    }
+  });
+};
+
 coinpunk.Controller.prototype.template = function(id, path, data, callback) {
   $.get('views/'+path+'.html', function(res) {
     $('#'+id).html(_.template(res, data, {variable: 'data'}));

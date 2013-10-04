@@ -156,4 +156,47 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
   }
 };
 
+coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
+  var self = this;
+
+  if(/.+@.+\..+/.exec(id) === null) {
+    self.changeDialog('danger', 'Email is not valid.');
+    return;
+  }
+  
+  var currentId = coinpunk.database.getWalletId();
+  var currentServerKey = coinpunk.wallet.serverKey;
+  
+  var passCheckWallet = new coinpunk.Wallet();
+  passCheckWallet.createWalletKey(currentId, password);
+
+  if(passCheckWallet.serverKey != coinpunk.wallet.serverKey) {
+    self.changeDialog('danger', 'The provided password does not match. Please try again.');
+    return;
+  }
+
+  coinpunk.wallet.createWalletKey(id, password);
+
+  this.saveWallet({}, function(response) {
+    if(response.result == 'exists') {
+      self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
+      return;
+    } else if(response.result == 'ok') {
+      coinpunk.wallet.storeCredentials();
+
+      self.deleteWallet(currentServerKey, function(resp) {
+        self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
+      });
+    } else {
+      self.changeDialog('danger', 'An unknown error has occured, please try again later.');
+    }
+  });
+};
+
+coinpunk.controllers.Accounts.prototype.changeDialog = function(type, message) {
+  $('#changeDialog').addClass('alert-'+type);
+  $('#changeDialog').removeClass('hidden');
+  $('#changeMessage').text(message);
+};
+
 coinpunk.controllers.accounts = new coinpunk.controllers.Accounts();

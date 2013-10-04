@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <h1>Settings</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2">
+    <h3 style="color: #E00000" class="text-center">Warning</h3>
+    <h4>YOU MUST REMEMBER ANY CHANGES YOU MAKE HERE. If you forget your email or changed password, you will not be able to access your Bitcoin wallet, and the server admin <strong>WILL NOT</strong> be able to reset it. If you lose your login, you will lose your Bitcoins, forever. Write it down if you have to. <strong>Don't forget it.</strong></h4>
+    <h4>It is also strongly recommended that you make a <a href="#/backup">backup of your current wallet</a> before making any changes to prevent possible loss of data.</h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3 text-center">
+    <div id="changeDialog" class="alert hidden">
+      <span id="changeMessage"></span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-4 text-center">
+    <h3>Change Email</h3>
+
+    <form role="form" onsubmit="coinpunk.controllers.accounts.changeId($('#changeEmailNew').val(), $('#changeEmailPassword').val()); return false;">
+      <div class="form-group">
+        <label for="email">New email address</label>
+        <input type="email" class="form-control" id="changeEmailNew" placeholder="Your new email">
+
+        <label for="password">Confirm password</label>
+        <input type="password" class="form-control" id="changeEmailPassword" placeholder="Current password" autocomplete="off">
+      </div>
+      <button type="submit" class="btn btn-primary">Change Email</button>
+    </form>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-4 text-center">
+    <h3>Change Password</h3>
+
+    <form role="form">
+      <div class="form-group">
+        <label for="password">Current password</label>
+        <input type="password" class="form-control" id="currentPassword" placeholder="Current password" autocomplete="off">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">New password</label>
+        <input type="password" class="form-control" id="newPassword" placeholder="New password" autocomplete="off">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Confirm new password</label>
+        <input type="password" class="form-control" id="confirmNewPassword" placeholder="Re-enter new password" autocomplete="off">
+      </div>
+      <button type="submit" class="btn btn-primary">Change password</button>
+    </form>
+</div>

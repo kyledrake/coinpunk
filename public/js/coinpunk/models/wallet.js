@@ -100,7 +100,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return amount;
   };
 
-  
   this.mergeUnspent = function(newUnspent) {
     var changed = false;
 

@@ -115,6 +115,13 @@ coinpunk.router.map('#/node_error').to(function() {
   coinpunk.router.render('container', 'node_error');
 });
 
+coinpunk.router.map('#/account/settings').to(function() {
+  if(!coinpunk.router.requireSignin())
+    return false;
+  coinpunk.router.initWallet();
+  coinpunk.router.render('view', 'accounts/settings');
+});
+
 coinpunk.router.map('#/').to(function() {
 /*
   if(window.navigator.registerProtocolHandler)
