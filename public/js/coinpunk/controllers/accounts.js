@@ -163,14 +163,13 @@ coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
     self.changeDialog('danger', 'Email is not valid.');
     return;
   }
-  
-  var currentId = coinpunk.database.getWalletId();
-  var currentServerKey = coinpunk.wallet.serverKey;
-  
-  var passCheckWallet = new coinpunk.Wallet();
-  passCheckWallet.createWalletKey(currentId, password);
 
-  if(passCheckWallet.serverKey != coinpunk.wallet.serverKey) {
+  var originalWalletId = coinpunk.wallet.walletId;
+  var originalServerKey = coinpunk.wallet.serverKey;
+  var checkWallet = new coinpunk.Wallet();
+  checkWallet.createWalletKey(originalWalletId, password);
+
+  if(checkWallet.serverKey != coinpunk.wallet.serverKey) {
     self.changeDialog('danger', 'The provided password does not match. Please try again.');
     return;
   }
@@ -180,11 +179,13 @@ coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
   this.saveWallet({}, function(response) {
     if(response.result == 'exists') {
       self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
+      coinpunk.wallet.createWalletKey(originalWalletId, password);
       return;
     } else if(response.result == 'ok') {
       coinpunk.wallet.storeCredentials();
 
-      self.deleteWallet(currentServerKey, function(resp) {
+      self.deleteWallet(originalServerKey, function(resp) {
+        self.template('header', 'header');
         self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
       });
     } else {
@@ -194,6 +195,8 @@ coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
 };
 
 coinpunk.controllers.Accounts.prototype.changeDialog = function(type, message) {
+  $('#changeDialog').removeClass('alert-danger');
+  $('#changeDialog').removeClass('alert-success');
   $('#changeDialog').addClass('alert-'+type);
   $('#changeDialog').removeClass('hidden');
   $('#changeMessage').text(message);
