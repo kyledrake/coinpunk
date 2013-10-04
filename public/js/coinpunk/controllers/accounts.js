@@ -2,7 +2,7 @@ coinpunk.controllers.Accounts = function() {};
 
 coinpunk.controllers.Accounts.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Accounts.prototype.requiredPasswordLength = 1;
+coinpunk.controllers.Accounts.prototype.requiredPasswordLength = 10;
 
 coinpunk.controllers.Accounts.prototype.passwordStrength = {
   enabled: false,
