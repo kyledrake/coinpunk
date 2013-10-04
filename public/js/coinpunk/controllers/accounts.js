@@ -2,6 +2,8 @@ coinpunk.controllers.Accounts = function() {};
 
 coinpunk.controllers.Accounts.prototype = new coinpunk.Controller();
 
+coinpunk.controllers.Accounts.prototype.requiredPasswordLength = 1;
+
 coinpunk.controllers.Accounts.prototype.passwordStrength = {
   enabled: false,
 
@@ -72,7 +74,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
   if(password != passwordConfirm)
     errors.push('Passwords do not match.');
   
-  //if(password.length < 10)
+  //if(password.length < this.requiredPasswordLength)
   //  errors.push('Password must be at least 10 characters.');
 
   var errorsDiv = $('#errors');
@@ -192,6 +194,59 @@ coinpunk.controllers.Accounts.prototype.changeId = function() {
         self.template('header', 'header');
         idObj.val('');
         passwordObj.val('');
+        self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
+      });
+    } else {
+      self.changeDialog('danger', 'An unknown error has occured, please try again later.');
+    }
+  });
+};
+
+coinpunk.controllers.Accounts.prototype.changePassword = function() {
+  var self                  = this;
+  var currentPasswordObj    = $('#currentPassword');
+  var newPasswordObj        = $('#newPassword');
+  var confirmNewPasswordObj = $('#confirmNewPassword');
+
+  var currentPassword    = currentPasswordObj.val();
+  var newPassword        = newPasswordObj.val();
+  var confirmNewPassword = confirmNewPasswordObj.val();
+
+  if(newPassword != confirmNewPassword) {
+    this.changeDialog('danger', 'New passwords do not match.');
+    return;
+  }
+
+  if(newPassword < this.requiredPasswordLength) {
+    this.changeDialog('danger', 'Password must be at least '+this.requiredPasswordLength+' characters.');
+    return;
+  }
+
+  var checkWallet = new coinpunk.Wallet();
+  checkWallet.createWalletKey(coinpunk.wallet.walletId, currentPassword);
+
+  if(checkWallet.serverKey != coinpunk.wallet.serverKey) {
+    currentPasswordObj.val('');
+    this.changeDialog('danger', 'Current password is not valid, please re-enter.');
+    return;
+  }
+
+  var originalServerKey = coinpunk.wallet.serverKey;
+  coinpunk.wallet.createWalletKey(coinpunk.wallet.walletId, newPassword);
+
+  this.saveWallet({}, function(response) {
+    if(response.result == 'exists') {
+      self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
+      coinpunk.wallet.createWalletKey(coinpunk.wallet.walletId, currentPassword);
+      return;
+    } else if(response.result == 'ok') {
+      coinpunk.wallet.storeCredentials();
+
+      self.deleteWallet(originalServerKey, function(resp) {
+        self.template('header', 'header');
+        currentPasswordObj.val('');
+        newPasswordObj.val('');
+        confirmNewPasswordObj.val('');
         self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
       });
     } else {
