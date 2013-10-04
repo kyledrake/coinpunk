@@ -156,7 +156,11 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
   }
 };
 
-coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
+coinpunk.controllers.Accounts.prototype.changeId = function() {
+  var idObj = $('#changeEmailNew');
+  var passwordObj = $('#changeEmailPassword');
+  var id = idObj.val();
+  var password = passwordObj.val();
   var self = this;
 
   if(/.+@.+\..+/.exec(id) === null) {
@@ -186,6 +190,8 @@ coinpunk.controllers.Accounts.prototype.changeId = function(id, password) {
 
       self.deleteWallet(originalServerKey, function(resp) {
         self.template('header', 'header');
+        idObj.val('');
+        passwordObj.val('');
         self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
       });
     } else {
