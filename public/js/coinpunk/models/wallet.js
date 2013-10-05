@@ -194,13 +194,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
       var unspentOutScript = new Bitcoin.Script(Bitcoin.convert.hexToBytes(unspent[i].scriptPubKey));
       var hash = sendTx.hashTransactionForSignature(unspentOutScript, i, hashType);
       var pubKeyHash = unspentOutScript.simpleOutHash();
-
-      // todo refactor wallet to save public keys in keyPair, this is expensive
+      var pubKeyHashHex = Bitcoin.convert.bytesToHex(pubKeyHash);
 
       for(var j=0;j<keyPairs.length;j++) {
-        var key = new Bitcoin.Key(keyPairs[j].key);
-
-        if(_.isEqual(key.getPubKeyHash(), pubKeyHash)) {
+        if(_.isEqual(keyPairs[j].publicKey, pubKeyHashHex)) {
+          var key = new Bitcoin.Key(keyPairs[j].key);
           var signature = key.sign(hash);
           signature.push(parseInt(hashType, 10));
 

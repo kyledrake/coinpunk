@@ -11,6 +11,7 @@ coinpunk.controllers.Tx.prototype.details = function(txHash) {
 
 coinpunk.controllers.Tx.prototype.send = function() {
   var self = this;
+  
   this.getUnspent(function(resp) {
     coinpunk.router.render('view', 'tx/send', resp, function(id) {
       self.updateExchangeRates(id, false);

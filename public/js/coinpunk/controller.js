@@ -47,6 +47,11 @@ coinpunk.Controller.prototype.deleteWallet = function(serverKey, callback) {
   });
 };
 
+coinpunk.Controller.prototype.render = function(path, data, callback) {
+  this.template('header', 'header');
+  this.template('view', path, data, callback);
+};
+
 coinpunk.Controller.prototype.template = function(id, path, data, callback) {
   $.get('views/'+path+'.html', function(res) {
     $('#'+id).html(_.template(res, data, {variable: 'data'}));

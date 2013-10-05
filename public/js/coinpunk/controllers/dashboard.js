@@ -5,28 +5,26 @@ coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 coinpunk.controllers.Dashboard.prototype.index = function() {
   var i = 0;
   var self = this;
-
-  this.getUnspent(function(resp) {
-    
-    coinpunk.router.render('view', 'dashboard', {}, function() {
+  this.render('dashboard', {}, function() {
+    self.getUnspent(function(resp) {
       $('#balance').text(resp.amount);
     });
 
-    var txHashes = [];    
+    var txHashes = [];
     var txs = coinpunk.wallet.transactions;
 
     for(i=0;i<txs.length;i++) {
       txHashes.push(txs[i].hash);
     }
 
-    $.get('/api/tx/details', {txHashes: txHashes}, function(resp) {
+    $.post('/api/tx/details', {txHashes: txHashes}, function(resp) {
       for(i=0;i<txs.length;i++) {
         for(var j=0;j<resp.length;j++) {
           if(txs[i].hash == resp[j].hash)
             txs[i].confirmations = resp[j].confirmations;
         }
       }
-      
+
       var stxs = [];
       for(i=0;i<txs.length;i++)
         if(txs[i].type == 'send')
@@ -47,7 +45,7 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
         $('#'+id+" [rel='tooltip']").tooltip();
       });
     });
-
+    
     self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
   });
 };
