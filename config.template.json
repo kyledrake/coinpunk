@@ -1,5 +1,5 @@
 {
   "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:18332",
-  "pricesUrl": "http://api.bitcoincharts.com/v1/weighted_prices.json",
+  "pricesUrl": "https://bitpay.com/api/rates",
   "testnet": true
 }
