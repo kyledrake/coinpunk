@@ -94,7 +94,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
     var address   = coinpunk.wallet.createNewAddress('Default');
     var walletKey = coinpunk.wallet.createWalletKey(email, password);
     
-    this.saveWallet({address: address, email: email}, function(response) {
+    this.saveWallet({address: address, payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
         coinpunk.wallet.storeCredentials();
         coinpunk.router.route('dashboard');

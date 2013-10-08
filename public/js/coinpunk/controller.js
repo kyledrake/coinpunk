@@ -20,7 +20,15 @@ coinpunk.Controller.prototype.getUnspent = function(callback) {
 coinpunk.Controller.prototype.saveWallet = function(data, callback) {
   var data = data || {};
   data.serverKey = coinpunk.wallet.serverKey;
-  data.wallet = coinpunk.wallet.encryptPayload();
+
+  if(!data.payload)
+    data.payload = {};
+
+  if(!data.payload.email)
+    data.payload.email = coinpunk.wallet.walletId;
+
+  if(!data.payload.wallet)
+    data.payload.wallet = coinpunk.wallet.encryptPayload();
 
   $.ajax({
     type: 'POST',
