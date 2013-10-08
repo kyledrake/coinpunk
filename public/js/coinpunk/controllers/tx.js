@@ -2,8 +2,9 @@ coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
-  $.get('/api/tx/details', {txHashes: [txHash]}, function(resp) {
-    coinpunk.router.render('view', 'tx/details', {tx: resp[0]}, function(id) {
+  var self = this;
+  $.post('/api/tx/details', {txHashes: [txHash]}, function(resp) {
+    self.render('tx/details', {tx: resp[0]}, function(id) {
       $('#'+id+" [rel='tooltip']").tooltip();
     });
   });
