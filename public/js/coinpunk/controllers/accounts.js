@@ -182,7 +182,7 @@ coinpunk.controllers.Accounts.prototype.changeId = function() {
 
   coinpunk.wallet.createWalletKey(id, password);
 
-  this.saveWallet({}, function(response) {
+  this.saveWallet({payload: {email: id}}, function(response) {
     if(response.result == 'exists') {
       self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
       coinpunk.wallet.createWalletKey(originalWalletId, password);
@@ -247,7 +247,7 @@ coinpunk.controllers.Accounts.prototype.changePassword = function() {
         currentPasswordObj.val('');
         newPasswordObj.val('');
         confirmNewPasswordObj.val('');
-        self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
+        self.changeDialog('success', 'Successfully changed password. You will need to use this to login next time, don\'t forget it!');
       });
     } else {
       self.changeDialog('danger', 'An unknown error has occured, please try again later.');
