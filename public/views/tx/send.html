@@ -1,5 +1,5 @@
 <style>
- #availableBalance .exchangePrice {
+ .exchangePrice {
    padding-left: 5px;
   }
 </style>
@@ -35,6 +35,12 @@
         <label for="address" class="col-lg-5 control-label">Amount</label>
         <div class="col-lg-2">
           <input id="amount" type="text" name="amount" class="form-control" placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-lg-5 control-label"></label>
+        <div class="col-lg-5">
+          <p>A fee of <span class="addExchangePrice" style="color: #009933;"><%- coinpunk.controllers.tx.defaultFee %> BTC</span> will be added to ensure timely processing by the Bitcoin network.</p>
         </div>
       </div>
       <div class="form-group">

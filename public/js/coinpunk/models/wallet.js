@@ -212,7 +212,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       hash: Bitcoin.convert.bytesToHex(sendTx.getHash()),
       type: 'send',
       address: addressString,
-      amount: Bitcoin.util.formatValue(total),
+      amount: Bitcoin.util.formatValue(amt),
       fee: Bitcoin.util.formatValue(fee),
       time: new Date().getTime()
     });

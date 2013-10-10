@@ -1,6 +1,8 @@
 coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
+coinpunk.controllers.Tx.prototype.defaultFee = '0.0005';
+
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
   var self = this;
   $.post('/api/tx/details', {txHashes: [txHash]}, function(resp) {
@@ -70,7 +72,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     }
 
     var changeAddress = coinpunk.wallet.createNewAddress('change', true);
-    var rawtx = coinpunk.wallet.createSend(amount, '0', address, changeAddress);
+    var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
     
     self.saveWallet({override: true, address: changeAddress}, function(response) {
       $.post('/api/tx/send', {tx: rawtx}, function(resp) {

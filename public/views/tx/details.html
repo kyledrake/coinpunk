@@ -9,7 +9,11 @@
         </tr>
         <tr>
           <td>Amount</td>
-          <td><%- data.tx.amount %></td>
+          <td><%- Math.abs(data.tx.amount) %></td>
+        </tr>
+        <tr>
+          <td>Fee</td>
+          <td><%- data.tx.fee ? Math.abs(data.tx.fee) : '' %></td>
         </tr>
         <tr>
           <td>Confirmations</td>
