@@ -2,6 +2,7 @@ coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Tx.prototype.defaultFee = '0.0005';
+coinpunk.controllers.Tx.prototype.minimumConfirmationsToSpend = 1;
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
   var self = this;
@@ -15,7 +16,7 @@ coinpunk.controllers.Tx.prototype.details = function(txHash) {
 coinpunk.controllers.Tx.prototype.send = function() {
   var self = this;
   
-  this.getUnspent(function(resp) {
+  this.getUnspent(this.minimumConfirmationsToSpend, function(resp) {
     coinpunk.router.render('view', 'tx/send', resp, function(id) {
       self.updateExchangeRates(id, false);
       $('#'+id+" [rel='tooltip']").tooltip();

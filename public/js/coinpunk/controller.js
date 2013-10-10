@@ -1,9 +1,16 @@
 coinpunk.Controller = function() {
 };
 
-coinpunk.Controller.prototype.getUnspent = function(callback) {
+coinpunk.Controller.prototype.getUnspent = function(confirmations, callback) {
   var self = this;
-  $.get('/api/tx/unspent', {addresses: coinpunk.wallet.addressHashes()}, function(resp) {
+  var query = {addresses: coinpunk.wallet.addressHashes()};
+
+  if(typeof(confirmations) == 'function')
+    callback = confirmations;
+  else
+    query['confirmations'] = confirmations;
+
+  $.get('/api/tx/unspent', query, function(resp) {
     if(resp.error) {
       coinpunk.router.route('node_error');
       return;
