@@ -19,7 +19,9 @@
     "libcoin": "*",
     "bigdecimal": "*",
     "request": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "nodemailer": "*",
+    "ejs": "*"
   },
   "devDependencies": {
     "mocha": "1.8.1",
