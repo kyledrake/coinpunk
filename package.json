@@ -17,9 +17,9 @@
     "bitcoin": "*",
     "redis": "*",
     "libcoin": "*",
-    "bigdecimal": "*",
     "request": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "bignumber.js": "*"
   },
   "devDependencies": {
     "mocha": "1.8.1",

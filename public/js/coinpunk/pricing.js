@@ -32,7 +32,7 @@ coinpunk.pricing = {
     
     for(var i=0; i<this.cachedResponse.length; i++)
       if(this.cachedResponse[i].code == this.defaultCurrency)
-        var rate = this.cachedResponse[i].rate;
+        var rate = parseFloat(this.cachedResponse[i].rate).toFixed(2);
 
     callback(rate, currency);
   }

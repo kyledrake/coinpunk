@@ -6,43 +6,43 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
   var i = 0;
   var self = this;
   this.render('dashboard', {}, function() {
-    self.getUnspent(function(resp) {
+    self.getUnspent(0, function(resp) {
       $('#balance').text(resp.amount);
-    });
+      
+      var txHashes = [];
+      var txs = coinpunk.wallet.transactions;
 
-    var txHashes = [];
-    var txs = coinpunk.wallet.transactions;
-
-    for(i=0;i<txs.length;i++) {
-      txHashes.push(txs[i].hash);
-    }
-
-    $.post('/api/tx/details', {txHashes: txHashes}, function(resp) {
       for(i=0;i<txs.length;i++) {
-        for(var j=0;j<resp.length;j++) {
-          if(txs[i].hash == resp[j].hash)
-            txs[i].confirmations = resp[j].confirmations;
-        }
+        txHashes.push(txs[i].hash);
       }
 
-      var stxs = [];
-      for(i=0;i<txs.length;i++)
-        if(txs[i].type == 'send')
-          stxs.push(txs[i]);
+      $.post('/api/tx/details', {txHashes: txHashes}, function(resp) {
+        for(i=0;i<txs.length;i++) {
+          for(var j=0;j<resp.length;j++) {
+            if(txs[i].hash == resp[j].hash)
+              txs[i].confirmations = resp[j].confirmations;
+          }
+        }
 
-      var rtxs = [];
-      for(i=0;i<txs.length;i++)
-        if(txs[i].type == 'receive')
-          rtxs.push(txs[i]);
+        var stxs = [];
+        for(i=0;i<txs.length;i++)
+          if(txs[i].type == 'send')
+            stxs.push(txs[i]);
 
-      self.template('sentTransactions', 'dashboard/sent', {tx: stxs}, function(id) {
-        $('#'+id+" [rel='tooltip']").tooltip();
-        self.updateExchangeRates(id);
-      });
+        var rtxs = [];
+        for(i=0;i<txs.length;i++)
+          if(txs[i].type == 'receive')
+            rtxs.push(txs[i]);
 
-      self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: rtxs}, function(id) {
-        self.updateExchangeRates('receivedTransactions');
-        $('#'+id+" [rel='tooltip']").tooltip();
+        self.template('sentTransactions', 'dashboard/sent', {tx: stxs}, function(id) {
+          $('#'+id+" [rel='tooltip']").tooltip();
+          self.updateExchangeRates(id);
+        });
+
+        self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: rtxs}, function(id) {
+          self.updateExchangeRates('receivedTransactions');
+          $('#'+id+" [rel='tooltip']").tooltip();
+        });
       });
     });
     
