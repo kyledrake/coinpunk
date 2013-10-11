@@ -53,7 +53,7 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
 coinpunk.controllers.Dashboard.prototype.updateExchangeRates = function(id) {
   coinpunk.pricing.getLatest(function(price, currency) {
     $('#balanceExchange').text(' ≈ '+ parseFloat(price * $('#balance').text()).toFixed(2) + ' ' + currency);
-    $('#exchangePrice').html('1 BTC ≈ ' + price + ' ' + currency + '<br><small><a href="http://bitcoincharts.com" target="_blank">Bitcoin Charts</a></small>');
+    $('#exchangePrice').html('1 BTC ≈ ' + price + ' ' + currency + '<br><small><a href="https://bitpay.com/bitcoin-exchange-rates" target="_blank">BitPay exchange rate API</a></small>');
 
     $('#'+id+' .exchangePrice').remove();
 
