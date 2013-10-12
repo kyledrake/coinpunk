@@ -161,7 +161,10 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     for(i=0;i<this.unspent.length;i++) {
       unspent.push(this.unspent[i]);
-      unspentAmt = unspentAmt.add(new Bitcoin.BigInteger(this.unspent[i].amountSatoshiString));
+      
+      var amountSatoshiString = new BigNumber(this.unspent[i].amount).times(Math.pow(10,8)).toString();
+
+      unspentAmt = unspentAmt.add(new Bitcoin.BigInteger(amountSatoshiString));
       
       // If > -1, we have enough to send the requested amount
       if(unspentAmt.compareTo(total) > -1) {

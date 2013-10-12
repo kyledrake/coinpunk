@@ -7,17 +7,13 @@ describe('coinpunk.Wallet', function(){
       vout: 0,
       address: 'mpYTFdkR8ZDVDYo8XCSQZL92hiMD1UVncy',
       scriptPubKey: '76a9146301b89ec725adf0a04c37152edfcf188a1dd18d88ac',
-      amount: 0.06,
-      confirmations: 1,
-      amountSatoshiString: '6000000'
+      amount: 0.06
     }, {
       hash: 'f1f320c172e37b4e79cee3830ba9aa18a4fc513fa57d675abed46107798b88c8',
       vout: 1,
       address: 'mpYTFdkR8ZDVDYo8XCSQZL92hiMD1UVncy',
       scriptPubKey: '76a9146301b89ec725adf0a04c37152edfcf188a1dd18d88ac',
-      amount: 0.06,
-      confirmations: 3,
-      amountSatoshiString: '6000000'
+      amount: 0.06
     }];
 
   } else {
@@ -25,16 +21,12 @@ describe('coinpunk.Wallet', function(){
       "hash" : "54d5437ee8a55f25c88c836fbab7556f9088dbbdc4ffa4afbb7f1c4291a330ad",
       "vout" : 0,
       "scriptPubKey" : "76a914168e48aa5551a3ce7339dd55048b976edea3687288ac",
-      "amount" : 0.06000000,
-      "amountSatoshiString" : 6000000,
-      "confirmations" : 1164
+      "amount" : 0.06,
     }, {
       "hash" : "54d5437ee8a55f25c88c836fbab7556f9088dbbdc4ffa4afbb7f1c4291a330ad",
       "vout" : 0,
       "scriptPubKey" : "76a914168e48aa5551a3ce7339dd55048b976edea3687288ac",
-      "amount" : 0.06000000,
-      "amountSatoshiString" : 6000000,
-      "confirmations" : 1164
+      "amount" : 0.06
     }];
   }
   
