@@ -10,13 +10,13 @@ coinpunk.Controller.prototype.getUnspent = function(confirmations, callback) {
   else
     query['confirmations'] = confirmations;
 
-  $.get('/api/tx/unspent', query, function(resp) {
+  $.post('/api/tx/unspent', query, function(resp) {
     if(resp.error) {
       coinpunk.router.route('node_error');
       return;
     }
 
-    var derp = coinpunk.wallet.mergeUnspent(resp.unspent);
+    coinpunk.wallet.mergeUnspent(resp.unspent);
     self.saveWallet({override: true}, function() {
       if(callback)
         callback(resp);
