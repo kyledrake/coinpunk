@@ -1,6 +1,6 @@
-<div class="row text-center">
+<div class="row">
   <div class="col-lg-8 col-lg-offset-2">
-    <h1>Transaction Detail</h1>
+    <h1 class="text-center">Transaction Detail</h1>
     <table class="table table-bordered table-striped table-hover">
       <tbody>
         <tr>
@@ -9,11 +9,11 @@
         </tr>
         <tr>
           <td>Amount</td>
-          <td><%- Math.abs(data.tx.amount) %></td>
+          <td><%- Math.abs(data.tx.amount) %> BTC</td>
         </tr>
         <tr>
           <td>Fee</td>
-          <td><%- data.tx.fee ? Math.abs(data.tx.fee) : '' %></td>
+          <td><%- data.tx.fee ? Math.abs(data.tx.fee)+' BTC' : '' %></td>
         </tr>
         <tr>
           <td>Confirmations</td>
@@ -40,16 +40,18 @@
           <td>Blocktime</td>
           <td>
             <% if(data.tx.blocktime) { %>
-              <%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime) %>
+              <%- coinpunk.controllers.tx.friendlyTimeString(data.tx.blocktime*1000) %>
             <% } %>
           </td>
         </tr>
         <tr>
           <td>Time</td>
-          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.time) %></td>
+          <td><%- coinpunk.controllers.tx.friendlyTimeString(data.tx.time*1000) %></td>
         </tr>
     </table>
     
-    <a href="#/dashboard" class="btn btn-large btn-info">Back<a>
+    <div class="text-center">
+      <a href="#/dashboard" class="btn btn-large btn-info">Back<a>
+    </div>
   </div>
 </div>
