@@ -17,7 +17,7 @@ coinpunk.controllers.Tx.prototype.send = function() {
   var self = this;
 
   this.getUnspent(function(resp) {
-    coinpunk.router.render('view', 'tx/send', {balance: coinpunk.wallet.unspentBalance()}, function(id) {
+    coinpunk.router.render('view', 'tx/send', {balance: coinpunk.wallet.safeUnspentBalance()}, function(id) {
       self.updateExchangeRates(id, false);
       $('#'+id+" [rel='tooltip']").tooltip();
     });
@@ -57,6 +57,9 @@ coinpunk.controllers.Tx.prototype.create = function() {
     errors.push('You must have a valid amount to send.');
   else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
     errors.push('You must have a valid amount to send.');
+  else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(this.defaultFee))) {
+    errors.push('Cannot spend more bitcoins than you currently have.');
+  }
 
   if(errors.length > 0) {
     this.displayErrors(errors, errorsDiv);
@@ -64,22 +67,13 @@ coinpunk.controllers.Tx.prototype.create = function() {
     return;
   }
 
-  this.getUnspent(function(resp) {
-    if(resp.amount < amount) {
-      errors.push('Cannot spend more bitcoins than you currently have.');
-      self.displayErrors(errors, errorsDiv);
-      sendButton.removeClass('disabled');
-      return;
-    }
-
-    var changeAddress = coinpunk.wallet.createNewAddress('change', true);
-    var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
-    
-    self.saveWallet({override: true, address: changeAddress}, function(response) {
-      $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-        coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
-        coinpunk.router.route('dashboard');
-      });
+  var changeAddress = coinpunk.wallet.createNewAddress('change', true);
+  var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
+  
+  self.saveWallet({override: true, address: changeAddress}, function(response) {
+    $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+      coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
+      coinpunk.router.route('dashboard');
     });
   });
 };

@@ -6,6 +6,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.serverKey = undefined;
   this.transactions = [];
   this.unspent = [];
+  this.minimumConfirmations = 1;
   var keyPairs = [];
 
   this.loadPayloadWithLogin = function(id, password, payload) {
@@ -60,7 +61,17 @@ coinpunk.Wallet = function(walletKey, walletId) {
       if(keyPairs[i].isChange != true)
         addrHashes.push(keyPairs[i].address);
     }
-    
+
+    return addrHashes;
+  };
+  
+  this.changeAddressHashes = function() {
+    var addrHashes = [];
+    for(var i=0; i<keyPairs.length; i++) {
+      if(keyPairs[i].isChange == true)
+        addrHashes.push(keyPairs[i].address);
+    }
+
     return addrHashes;
   };
 
@@ -111,7 +122,14 @@ coinpunk.Wallet = function(walletKey, walletId) {
         continue;
 
       changed = true;
-      this.unspent.push(newUnspent[i]);
+      
+      this.unspent.push({
+        hash: newUnspent[i].hash,
+        vout: newUnspent[i].vout,
+        address: newUnspent[i].address,
+        scriptPubKey: newUnspent[i].scriptPubKey,
+        amount: newUnspent[i].amount
+      });
 
       // todo: time should probably not be generated here
       
@@ -135,17 +153,48 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     return changed;
   };
-  
-  this.unspentBalance = function(confirmations) {
+
+  this.getUnspent = function(confirmations) {
     var confirmations = confirmations || 0;
-    var amount = new BigNumber(0);
+    var unspent = [];
 
-    for(var i=0; i<this.unspent.length; i++) {
+    for(var i=0; i<this.unspent.length; i++)
       if(this.unspentConfirmations[this.unspent[i].hash] >= confirmations)
-        amount = amount.plus(this.unspent[i].amount);
-    }
+        unspent.push(this.unspent[i]);
+    return unspent;
+  };
 
-    return amount.toString();
+  this.pendingUnspentBalance = function() {
+    var unspent = this.getUnspent(0);
+    var changeAddresses = this.changeAddressHashes();
+    var balance = new BigNumber(0);
+
+    for(var u=0;u<unspent.length;u++) {
+      if(this.unspentConfirmations[unspent[u].hash] == 0 && _.contains(changeAddresses, unspent[u].address) == false)
+        balance = balance.plus(unspent[u].amount);
+    }
+    return balance;
+  };
+
+  this.safeUnspentBalance = function() {
+    var safeUnspent = this.safeUnspent();
+    var amount = new BigNumber(0);
+    for(var i=0;i<safeUnspent.length;i++)
+      amount = amount.plus(safeUnspent[i].amount);
+    return amount;
+  };
+
+  // Safe to spend unspent txs.
+  this.safeUnspent = function() {
+    var unspent = this.getUnspent();
+    var changeAddresses = this.changeAddressHashes();
+    var safeUnspent = [];
+    for(var u=0;u<unspent.length;u++) {
+      if(_.contains(changeAddresses, unspent[u].address) == true || this.unspentConfirmations[unspent[u].hash] >= this.minimumConfirmations)
+        safeUnspent.push(unspent[u]);
+    }
+    
+    return safeUnspent;
   };
 
   this.createSend = function(amtString, feeString, addressString, changeAddress) {
@@ -167,10 +216,12 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var unspent = [];
     var unspentAmt = Bitcoin.BigInteger.ZERO;
 
-    for(i=0;i<this.unspent.length;i++) {
-      unspent.push(this.unspent[i]);
+    var safeUnspent = this.safeUnspent();
+
+    for(i=0;i<safeUnspent.length;i++) {
+      unspent.push(safeUnspent[i]);
       
-      var amountSatoshiString = new BigNumber(this.unspent[i].amount).times(Math.pow(10,8)).toString();
+      var amountSatoshiString = new BigNumber(safeUnspent[i].amount).times(Math.pow(10,8)).toString();
 
       unspentAmt = unspentAmt.add(new Bitcoin.BigInteger(amountSatoshiString));
       
@@ -232,7 +283,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     // Remove unspent elements now that we have a tx that uses them
     for(var i=0;i<unspent.length;i++)
-      this.unspent.shift();
+      this.unspent = _.reject(this.unspent, function(u) { return u.hash == unspent[i].hash })
 
     return raw;
   };

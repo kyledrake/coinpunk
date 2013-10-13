@@ -7,7 +7,8 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
   var self = this;
   this.render('dashboard', {}, function() {
     self.getUnspent(function(resp) {
-      $('#balance').text(coinpunk.wallet.unspentBalance());
+      $('#balance').text(coinpunk.wallet.safeUnspentBalance());
+      $('#pendingBalance').text(coinpunk.wallet.pendingUnspentBalance());
       
       var txHashes = [];
       var txs = coinpunk.wallet.transactions;
