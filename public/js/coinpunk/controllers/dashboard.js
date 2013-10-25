@@ -2,10 +2,6 @@ coinpunk.controllers.Dashboard = function() {};
 
 coinpunk.controllers.Dashboard.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Dashboard.prototype.refreshDashboard = function() {
-  coinpunk.controllers.dashboard.renderDashboard();
-};
-
 coinpunk.controllers.Dashboard.prototype.renderDashboard = function() {
   var i = 0;
   var self = this;
@@ -56,7 +52,9 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
   this.render('dashboard', {}, function() {
     if(!self.firstDashboardLoad) {
       self.firstDashboardLoad = true;
-      self.getUnspent(self.refreshDashboard);
+      self.getUnspent(function() {
+        self.renderDashboard();
+      });
     } else {
       self.renderDashboard();
     }

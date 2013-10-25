@@ -22,6 +22,7 @@ coinpunk.router.listener = function() {
   var self = this;
 
   sock.onopen = function() {
+    console.log('open');
     coinpunk.router.listenerTimeout = setInterval(function() {
       sock.send(JSON.stringify({method: 'listUnspent', addresses: coinpunk.wallet.addressHashes()}));
     }, 30000);
@@ -33,13 +34,16 @@ coinpunk.router.listener = function() {
       coinpunk.controllers.dashboard.mergeUnspent(resData.result, function() {
         var rt = $('#receivedTransactions');
         if(rt.length == 1)
-          coinpunk.controllers.dashboard.refreshDashboard();
+          coinpunk.controllers.dashboard.renderDashboard();
       });
     }
   };
 
   sock.onclose = function() {
+    console.log('close');
     clearInterval(coinpunk.router.listenerTimeout);
+    if(coinpunk.database.loggedIn())
+      setTimeout("coinpunk.router.listener()", 5000);
   };
 };
 
