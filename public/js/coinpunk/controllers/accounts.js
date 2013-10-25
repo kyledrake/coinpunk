@@ -40,6 +40,7 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
       errorDiv.addClass('hidden');
       coinpunk.wallet.loadPayload(response.wallet);
       coinpunk.wallet.storeCredentials();
+      coinpunk.router.listener();
       coinpunk.router.route('dashboard');
     }
   });
@@ -101,6 +102,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
       } else if(response.result == 'exists'){
         coinpunk.wallet.loadPayload(response.wallet);
         coinpunk.wallet.storeCredentials();
+        coinpunk.router.listener();
         coinpunk.router.route('dashboard');
       } else {
         errorsDiv.html('');
