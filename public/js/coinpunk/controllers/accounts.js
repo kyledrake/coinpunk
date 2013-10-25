@@ -98,6 +98,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
     this.saveWallet({address: address, payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
         coinpunk.wallet.storeCredentials();
+        coinpunk.router.listener();
         coinpunk.router.route('dashboard');
       } else if(response.result == 'exists'){
         coinpunk.wallet.loadPayload(response.wallet);
