@@ -39,7 +39,7 @@ Coming soon:
 
 ## Get Started
 
-Coming soon
+See the [Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL.md).
 
 ## Coinpunk is for Advanced Users
 

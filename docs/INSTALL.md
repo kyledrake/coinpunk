@@ -2,7 +2,7 @@
 
 This guide will assist you with installing Coinpunk. This document assumes you are running Ubuntu 12.04 LTS, adjustments may need to be made for other OSes.
 
-If you don't understand how to use this document, **Coinpunk is not for you**. Coinpunk requires a commanding understanding of UNIX system administration to be run safely. If you are learning, you can use Coinpunk's testnet mode to ensure that mistakes cannot lead to loss of money.
+If you don't understand how to use this document, **Coinpunk is not for you**. Coinpunk requires a commanding understanding of UNIX system administration to be run safely. If you are learning, you can use Coinpunk's `testnet` mode to ensure that mistakes cannot lead to loss of money.
 
 ## System Requirements
 
@@ -18,7 +18,7 @@ sudo apt-get upgrade
 sudo apt-get install git autoconf libtool libdb4.8 libdb4.8-dev ntpd
 ```
 
-It is recommended you enable [https://help.ubuntu.com/community/AutomaticSecurityUpdates](Unattended Security Updates) to help protect your system from security issues:
+It is recommended you enable [unattended security updates](https://help.ubuntu.com/community/AutomaticSecurityUpdates) to help protect your system from security issues:
 
 ```
 sudo apt-get install unattended-upgrades
@@ -27,7 +27,7 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ## Install NodeJS
 
-The latest information on installing NodeJS for your platform is [https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager](Available Here), this is the current procedure for Ubuntu:
+The latest information on installing NodeJS for your platform is [available here](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager), this is the current procedure for Ubuntu:
 
 ```
 sudo apt-get install python-software-properties python g++ make
@@ -53,7 +53,7 @@ Restart redis: `sudo service redis-server restart`.
 
 ## Install and Configure Bitcoind
 
-Currently Coinpunk depends on a custom build of Bitcoind using [https://github.com/bitcoin/bitcoin/pull/2861](this patch).
+Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861).
 
 ```
 wget https://github.com/sipa/bitcoin/archive/watchonly.tar.gz
@@ -86,7 +86,7 @@ testnet=1
 
 **If your bitcoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
 
-If you want to run Coinpunk in production rather than on testnet, uncomment `testnet=1`. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [http://testnet.mojocoin.com/](the Mojocoin Testnet3 Faucet).
+If you want to run Coinpunk in production rather than on testnet, uncomment `testnet=1`. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://testnet.mojocoin.com/).
 
 Start bitcoind:
 
@@ -96,7 +96,7 @@ bitcoind &
 
 **Bitcoind will take several hours or more to download the blockchain.** Coinpunk will not be able to function properly until this has occurred. Please be patient.
 
-If you want something to monitor bitcoind to ensure it stays running and start it on system restart, take a look at [http://mmonit.com/monit/](Monit).
+If you want something to monitor bitcoind to ensure it stays running and start it on system restart, take a look at [Monit](http://mmonit.com/monit/).
 
 ## Install and Configure Coinpunk
 
@@ -130,13 +130,15 @@ Now copy the client application's config:
 cp public/config.template.json public/config.json
 ```
 
-And change `network` to `prod` instead of `testnet` if you are using in production mode.
+And change `network` to `prod` instead of `testnet` if you are using Coinpunk in production mode.
 
 ## Start Coinpunk
 
 You can start Coinpunk from the command line:
 
+```
 node start.js -p 10000
+```
 
 Where -p is the port number you want to run Coinpunk as.
 
@@ -144,4 +146,4 @@ Try to connect by going to http://YOURADDRESS.COM:10000. If it loads, then you s
 
 ## Backing up Database
 
-Redis maintains a file called `/var/lib/redis/dump.rdb`, which is a backup of your Redis database. It is safe to copy this file while Redis is running. **It is strongly recommended that you backup this file frequntly.** You can also setup a Redis slave to listen to master in real time. Ideally you should do both!
+Redis maintains a file called `/var/lib/redis/dump.rdb`, which is a backup of your Redis database. It is safe to copy this file while Redis is running. **It is strongly recommended that you backup this file frequently.** You can also setup a Redis slave to listen to master in real time. Ideally you should do both!
