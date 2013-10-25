@@ -18,7 +18,8 @@
     "redis": "*",
     "libcoin": "*",
     "request": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "sockjs": "*"
   },
   "devDependencies": {
     "mocha": "1.8.1",

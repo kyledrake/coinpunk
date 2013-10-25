@@ -16,12 +16,15 @@ coinpunk.Controller.prototype.getUnspent = function(confirmations, callback) {
       return;
     }
 
-    coinpunk.wallet.mergeUnspent(resp.unspent);
-    self.saveWallet({override: true}, function() {
-      if(callback)
-        callback(resp);
-    });
+    self.mergeUnspent(resp.unspent, callback);
   });
+};
+
+coinpunk.Controller.prototype.mergeUnspent = function(unspent, callback) {
+  if(coinpunk.wallet.mergeUnspent(unspent) == true)
+    this.saveWallet({override: true}, callback);
+  else
+    callback();
 };
 
 coinpunk.Controller.prototype.saveWallet = function(data, callback) {

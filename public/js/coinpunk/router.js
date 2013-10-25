@@ -17,6 +17,32 @@ coinpunk.router.route = function(path) {
   window.location.href = '#/'+path;
 };
 
+coinpunk.router.listener = function() {
+  var sock = new SockJS('/listener');
+  var self = this;
+
+  sock.onopen = function() {
+    coinpunk.router.listenerTimeout = setInterval(function() {
+      sock.send(JSON.stringify({method: 'listUnspent', addresses: coinpunk.wallet.addressHashes()}));
+    }, 30000);
+  };
+
+  sock.onmessage = function(res) {
+    var resData = JSON.parse(res.data);
+    if(resData.method == 'listUnspent') {
+      coinpunk.controllers.dashboard.mergeUnspent(resData.result, function() {
+        var rt = $('#receivedTransactions');
+        if(rt.length == 1)
+          coinpunk.controllers.dashboard.refreshDashboard();
+      });
+    }
+  };
+
+  sock.onclose = function() {
+    clearInterval(coinpunk.router.listenerTimeout);
+  };
+};
+
 coinpunk.router.initWallet = function() {
   if(coinpunk.wallet) {
     return coinpunk.wallet;
@@ -28,6 +54,7 @@ coinpunk.router.initWallet = function() {
       data: {serverKey: coinpunk.wallet.serverKey},
       success: function(response) {
         coinpunk.wallet.loadPayload(response.wallet);
+        coinpunk.router.listener();
       }
     });
   }
@@ -74,6 +101,8 @@ coinpunk.router.map("#/signout").to(function() {
     return false;
   coinpunk.wallet = null;
   coinpunk.database.reset();
+  clearInterval(coinpunk.router.listenerTimeout);
+  coinpunk.controllers.dashboard.firstDashboardLoad = false;
   coinpunk.router.route('signin');
 });
 

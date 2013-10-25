@@ -7,6 +7,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
   this.transactions = [];
   this.unspent = [];
   this.minimumConfirmations = 1;
+  this.unspentConfirmations = [];
   var keyPairs = [];
 
   this.loadPayloadWithLogin = function(id, password, payload) {

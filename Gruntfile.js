@@ -29,6 +29,7 @@ module.exports = function(grunt) {
             'public/js/lib/path.min.js',
             'public/js/lib/filesaver.js',
             'public/js/lib/bignumber.js',
+            'public/js/lib/sockjs.js',
             'public/js/coinpunk.js',
             'public/js/coinpunk/models/database.js',
             'public/js/coinpunk/models/wallet.js',
