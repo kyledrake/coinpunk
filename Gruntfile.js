@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
     shell: {
@@ -8,7 +9,7 @@ module.exports = function(grunt) {
         options: {
           stdout: true
         },
-        command: 'browserify -r ./lib/bitcoinjs/index.js -o public/js/lib/bitcoinjs.js'
+        command: 'browserify -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs > public/js/lib/bitcoinjs.js'
       }
     },
     
@@ -42,8 +43,22 @@ module.exports = function(grunt) {
           ]
         }
       }
-    }
+    },
+    
+    watch: {
+      scripts: {
+        files: ['public/js/**/*.js'],
+        tasks: ['uglify:coinpunk'],
+        options: {
+          spawn: false,
+        },
+      },
+    },
   });
 
-  grunt.registerTask('default', ['shell']);
+  grunt.event.on('watch', function(action, filepath) {
+    grunt.config(['uglify'], filepath);
+  });
+
+  grunt.registerTask('default', ['shell', 'uglify']);
 };
