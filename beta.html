@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>Coinpunk is in beta - DIY Bitcoin Wallet Service</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <style>
+      #header h1 {
+        font-size: 70pt;
+        font-weight: bold;
+      }
+      i {
+        font-size: 30pt;
+      }
+      span {
+        padding-left: 20px;
+        font-size: 20pt;
+      }
+    </style>
+
+    <meta property="og:title" content="Coinpunk is now in alpha">
+    <meta property="og:description" content="Coinpunk is now in alpha" />
+  </head>
+  <body>
+    <a href="https://github.com/kyledrake/coinpunk"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-lg-offset-3 text-center">
+          <img src="img/logo-filled.png" style="padding-top: 30px;">
+        </div>
+        <div class="col-lg-4 text-center" id="header" style="padding-left: 50px">
+          <h1>COIN<br>PUNK</h1>
+          <img src="img/newwave.jpg" width="300">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1>Coinpunk is now in beta</h1>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <p>
+            Coinpunk is a project to build the first fully open source, self-hosted DIY Bitcoin wallet service you can run on your own server.
+          </p>
+          <p>
+            Earlier this year, I started Coinpunk with a basic implementation that managed wallets on the server side. Since then, I have spent the summer rebuilding it from scratch to support a hybrid-wallet design that moves the encryption to your web browser, where the server can't touch it. It wasn't the easy route (the original server-based implementation only took a week), and there's plenty of new problems (HTML5 is.. still pretty wild west), but it was the route I thought was right for the project, and also for the future of Bitcoin. <strong>We need web wallet solutions that are simple and easy to use, but also build upon Bitcoin's biggest strength: decentralization</strong>.
+          </p>
+          <p>
+            I believe strongly in the notion that <strong>you should be able to truly control your own money. Not corporations, not banks (central or private), you.</strong> That means you control your private keys, and can run the wallet on your own server if you choose to.
+          </p>
+          <p>
+            I'm feeling pretty good about the state of the code now, so I'm announcing that <strong>Coinpunk is now in beta</strong>. It works, and I've never lost money using it in production. But because it's dealing with real money, <strong>I need developer help to test it</strong>. I'm asking for developers (especially those proficient with client-side HTML5/JS and node.js) to start playing with it, so we can make sure we've stamped out the bugs, code smells, and potential issues before doing a formal release. It defaults to <a href="https://en.bitcoin.it/wiki/Testnet">Testnet Mode</a> by default, so you can try it out without losing real Bitcoins!
+          </p>
+
+          <p>
+            I also want to announce that <strong>I am offering 3 bounties of 0.20 BTC each (~$40) for anyone that finds and fixes (via pull request) any bugs/code issues that potentially cause wallet data loss, are a major security bug in the Coinpunk wallet code (coinpunk/models/wallet.js), bitcoinjs-lib, or in the random number generation code</strong>. If you would like help add more bounties for developers, you can send donations to this address, and I will use them to make bounties for Coinpunk development: <strong>13PQxWUfjo1z1Y2PTL7STodBZ5V6ZsLb9M</strong>
+          </p>
+          <p>
+            Going forward, I have many other features I want to add. I want to provide better mobile support, build an internationalization framework, and put together an API for developers. But it's useful today as-is, so I'm going to defer these features to a future release so developers can start getting their feet wet.
+          </p>
+
+          <p>
+            I want to thank everyone at the <a href="https://bitcoinfoundation.org">Bitcoin Foundation</a> for providing me with a grant to allow me to work on this full time for the summer. I also want to thank <a href="http://torguard.net">TorGuard</a>, the <a href="http://www.bitcoindf.org">Bitcoin Development Fund</a>, and the many others that have contributed to the project. I also want to thank the many developers that wrote the open source code that this project would not have been possible without, especially <a href="https://github.com/justmoon">Stefan Thomas</a> for his work on <a href="http://github.com/bitcoinjs">BitcoinJS</a>, the great team at <a href="https://bitpay.com">BitPay</a>, and many others.
+          </p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <h1><a href="http://coinpunk.org">Coinpunk Web Site</a></h1>
+          <h1><a href="https://github.com/kyledrake/coinpunk">Coinpunk Source Code</a></h1>
+          <h1><a href="https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL.md">Coinpunk Install Guide</a></h1>
+          <h1><a href="https://github.com/kyledrake/coinpunk/issues?state=open">Github Issues</a></h1>
+          <h3>Help fund continuing Coinpunk development! Donate to the tip jar:</h3>
+          <h2>1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH</h2>
+          <hr>
+        </div>
+      </div>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40998598-1', 'coinpunk.org');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
