@@ -41,6 +41,10 @@ If you've never worked on your own server before, and don't know how to do thing
 
 [Kyle Drake](http://kyledrake.net). Illustration by Kyle Wilson.
 
+## Contributors
+
+[MSauce](https://github.com/MSauce)
+
 ## How You Can Help
 
 ### Donations
