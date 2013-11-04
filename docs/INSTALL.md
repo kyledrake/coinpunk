@@ -86,7 +86,7 @@ testnet=1
 
 **If your bitcoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
 
-If you want to run Coinpunk in production rather than on testnet, uncomment `testnet=1`. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://testnet.mojocoin.com/).
+If you want to run Coinpunk in production rather than on testnet, remove `testnet=1` from the config. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://testnet.mojocoin.com/). I strongly recommend this mode for testing.
 
 Start bitcoind:
 
