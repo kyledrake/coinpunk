@@ -43,7 +43,7 @@ If you've never worked on your own server before, and don't know how to do thing
 
 ## Contributors
 
-[MSauce](https://github.com/MSauce)
+[Click here](https://github.com/kyledrake/coinpunk/graphs/contributors) to see the contributor list.
 
 ## How You Can Help
 
