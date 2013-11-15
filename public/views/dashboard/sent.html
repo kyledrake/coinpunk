@@ -12,7 +12,7 @@
         <th>Recipient Address</th>
         <th>Amount</th>
         <th>Confirmations</th>
-        <th>Date Sent</th>
+        <th>Sent</th>
         <th></th>
     </thead>
     <tbody>
@@ -41,9 +41,6 @@
           </td>
           <td>
             <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
-            <span class="pull-right">
-              <%- coinpunk.controllers.dashboard.friendlyTimeString(data.tx[i].time) %>
-            </span>
           </td>
           <td><a href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
       <% } %>
