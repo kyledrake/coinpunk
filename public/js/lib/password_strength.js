@@ -53,7 +53,7 @@ var PasswordStrength = function() {
 	};
 
 	this.scoreFor = function(name) {
-		score = 0;
+		var score = 0;
 
 		switch (name) {
 			case "password_size":
