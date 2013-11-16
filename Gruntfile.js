@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         options: {
           stdout: true
         },
-        command: 'browserify -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs > public/js/lib/bitcoinjs.js'
+        command: './node_modules/browserify/bin/cmd.js -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs > public/js/lib/bitcoinjs.js'
       }
     },
     
@@ -32,6 +32,7 @@ module.exports = function(grunt) {
             'public/js/lib/bignumber.js',
             'public/js/lib/sockjs.js',
             'public/js/coinpunk.js',
+            'public/js/coinpunk/template.js',
             'public/js/coinpunk/models/database.js',
             'public/js/coinpunk/models/wallet.js',
             'public/js/coinpunk/controller.js',

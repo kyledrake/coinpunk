@@ -35,7 +35,8 @@
     "underscore": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
-    "uglify-js": "*"
+    "uglify-js": "*",
+    "browserify": "*"
   },
   "scripts": {
     "test": "NODE_ENV=test istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",

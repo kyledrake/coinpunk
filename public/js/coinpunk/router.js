@@ -1,16 +1,8 @@
 coinpunk.router = Path;
 
 coinpunk.router.render = function(id, path, data, callback) {
-  $.get('views/header.html', function(res) {
-    $('#header').html(_.template(res, data, {variable: 'data'}));
-  });
-
-  $.get('views/'+path+'.html', function(res) {
-    $('#'+id).html(_.template(res, data, {variable: 'data'}));
-
-    if(callback)
-      callback(id);
-  });
+  coinpunk.Template.draw('header', 'header', data, callback);
+  coinpunk.Template.draw(id, path, data, callback);
 };
 
 coinpunk.router.route = function(path) {

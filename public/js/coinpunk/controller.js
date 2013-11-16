@@ -71,12 +71,7 @@ coinpunk.Controller.prototype.render = function(path, data, callback) {
 };
 
 coinpunk.Controller.prototype.template = function(id, path, data, callback) {
-  $.get('views/'+path+'.html', function(res) {
-    $('#'+id).html(_.template(res, data, {variable: 'data'}));
-    
-    if(callback)
-      callback(id);
-  });
+  coinpunk.Template.draw(id, path, data, callback);
 };
 
 coinpunk.Controller.prototype.friendlyTimeString = function(timestamp) {
