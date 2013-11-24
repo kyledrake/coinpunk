@@ -1,21 +1,31 @@
-<div class="navbar">
-  <a class="navbar-brand" href="#/">Coinpunk</a>
-
-  <ul class="nav navbar-nav">
-    <% if(coinpunk.database.loggedIn()) { %>
-      <li><a href="#/dashboard">Dashboard</a></li>
-      <li><a href="#/tx/send">Send</a></li>
-      <li><a href="#/backup">Backup</a></li>
-    <% } %>
-  </ul>
-
-  <ul class="nav navbar-nav pull-right">
-    <% if(coinpunk.database.loggedIn()) { %>
-      <li class="navbar-text"><strong ><a href="#/account/settings"><%- coinpunk.database.getWalletId() %></a></strong></li>
-      <li><a href="#/signout">Signout</a></li>
-    <% } %>
-  </ul>
-</div>
+<header class="navbar navbar-inverse navbar-fixed-top" role="banner">
+  <div class="navbar-header">
+    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-collapse">
+      <span class="sr-only"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a href="#/" class="navbar-brand">Coinpunk</a>
+  </div>
+  <nav class="collapse navbar-collapse" role="navigation" id="navbar-collapse">
+    <ul class="nav navbar-nav">
+      <% if(coinpunk.database.loggedIn()) { %>
+        <li><a href="#/dashboard">Dashboard</a></li>
+        <li><a href="#/tx/send">Send</a></li>
+        <li class="hidden-xs hidden-sm"><a href="#/backup">Backup</a></li>
+      <% } %>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if(coinpunk.database.loggedIn()) { %>
+        <li><a href="#/account/settings"><strong><%- coinpunk.database.getWalletId() %></strong></a></li>
+        <li><a href="#/signout">Signout</a></li>
+      <% } else { %>
+        <li><a href="#/signup">Signup</a></li>
+      <% } %>
+    </ul>
+  </nav>
+</header>
 
 <% var successMessage = coinpunk.database.getSuccessMessage(); %>
 <% if(successMessage) { %>

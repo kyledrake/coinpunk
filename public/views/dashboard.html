@@ -1,8 +1,9 @@
 <div class="row">
-  <div class="col-lg-7">
+  <div class="col-lg-7 hidden-xs hidden-sm">
     <h1>Dashboard</h1>
   </div>
-  <div class="col-lg-5" style="height: 120px">
+  
+  <div class="col-lg-5 text-center" style="height: 120px">
     <div class="row">
       <h2><span id="balance"></span> BTC <small style="margin-left: 10px"><span id="balanceExchange"></span></small></h2>
       <h5><span id="pendingBalance"></span> BTC pending<small style="margin-left: 10px"><span id="pendingBalanceExchange"></span></small></h5>
@@ -31,7 +32,7 @@
     <div id="addresses"></div>
   </div>
   <div class="col-lg-6">
-    <h2>Generate New Address</h2>
+    <h2>New Address</h2>
     <form onsubmit="coinpunk.controllers.dashboard.generateNewAddress($('#addressLabel').val()); return false;">
       <div>
         Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-info">Generate</button>

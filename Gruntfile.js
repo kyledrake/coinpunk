@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         files: {
           'public/js/all.js': [
             'public/js/lib/jquery.js',
-            'public/js/lib/bootstrap.min.js',
+            'public/js/lib/bootstrap.js',
             'public/js/lib/underscore.js',
             'public/js/lib/password_strength.js',
             'public/js/lib/jquery.strength.js',
