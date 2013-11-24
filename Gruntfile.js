@@ -25,7 +25,7 @@ module.exports = function(grunt) {
             'public/js/lib/underscore.js',
             'public/js/lib/password_strength.js',
             'public/js/lib/jquery.strength.js',
-            'public/js/lib/sjcl/sjcl.js',
+            'public/js/lib/sjcl.js',
             'public/js/lib/humane_dates.js',
             'public/js/lib/path.min.js',
             'public/js/lib/filesaver.js',
