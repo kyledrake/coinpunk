@@ -16,7 +16,8 @@ module.exports = function(grunt) {
     uglify: {
       coinpunk: {
         options: {
-          beautify: false
+          "beautify": false,
+          "screw-ie8": true
         },
         files: {
           'public/js/all.js': [
@@ -31,6 +32,24 @@ module.exports = function(grunt) {
             'public/js/lib/filesaver.js',
             'public/js/lib/bignumber.js',
             'public/js/lib/sockjs.js',
+            'public/js/lib/URI.js',
+            'public/js/lib/jsqrcode/grid.js',
+            'public/js/lib/jsqrcode/version.js',
+            'public/js/lib/jsqrcode/detector.js',
+            'public/js/lib/jsqrcode/formatinf.js',
+            'public/js/lib/jsqrcode/errorlevel.js',
+            'public/js/lib/jsqrcode/bitmat.js',
+            'public/js/lib/jsqrcode/datablock.js',
+            'public/js/lib/jsqrcode/bmparser.js',
+            'public/js/lib/jsqrcode/datamask.js',
+            'public/js/lib/jsqrcode/rsdecoder.js',
+            'public/js/lib/jsqrcode/gf256poly.js',
+            'public/js/lib/jsqrcode/gf256.js',
+            'public/js/lib/jsqrcode/decoder.js',
+            'public/js/lib/jsqrcode/qrcode.js',
+            'public/js/lib/jsqrcode/findpat.js',
+            'public/js/lib/jsqrcode/alignpat.js',
+            'public/js/lib/jsqrcode/databr.js',
             'public/js/coinpunk.js',
             'public/js/coinpunk/template.js',
             'public/js/coinpunk/models/database.js',

@@ -92,4 +92,38 @@ coinpunk.controllers.Tx.prototype.displayErrors = function(errors, errorsDiv) {
   }
 };
 
+coinpunk.controllers.Tx.prototype.scanQR = function(event) {
+  var errorsDiv = $('#errors');
+  var self = this;
+
+  errorsDiv.addClass('hidden');
+  errorsDiv.html('');
+
+  if(event.target.files.length != 1 && event.target.files[0].type.indexOf("image/") != 0)
+    return this.displayErrors(['You must provide only one image file.'], errorsDiv);
+
+  qrcode.callback = function(result) {
+    if(result === 'error decoding QR Code')
+      return errorsDiv.removeClass('hidden').html('Could not process the QR code, the image may be blurry. Please try again.');
+
+    var uri = new URI(result);
+
+    if(uri.protocol() != 'bitcoin')
+      return errorsDiv.removeClass('hidden').html('Not a valid Bitcoin QR code.');
+    
+    var address = uri.path();
+    if(!address || address == '')
+      return errorsDiv.removeClass('hidden').html('No Bitcoin address found in QR code.');
+
+    $('#address').val(address);
+    
+    var queryHash = uri.search(true);
+    
+    if(queryHash.amount)
+      $('#amount').val(queryHash.amount);
+  }
+
+  qrcode.decode(URL.createObjectURL(event.target.files[0]));
+};
+
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();
