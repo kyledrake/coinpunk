@@ -120,7 +120,22 @@ Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8832` for
 {
   "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
   "pricesUrl": "https://bitpay.com/api/rates",
-  "testnet": true
+  "testnet": true,
+  "httpPort": 8080
+}
+```
+
+For SSL:
+
+```
+{
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
+  "pricesUrl": "https://bitpay.com/api/rates",
+  "testnet": true,
+  "httpPort": 8085,
+  "httpsPort": 8086,
+  "sslKey": "./coinpunk.key",
+  "sslCert": "./coinpunk.crt"
 }
 ```
 
