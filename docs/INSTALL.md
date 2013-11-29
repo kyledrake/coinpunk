@@ -15,7 +15,7 @@ Update your repository data and packages if this is a fresh install of Ubuntu:
 ```
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install git autoconf libtool libdb4.8 libdb4.8-dev ntp
+sudo apt-get install git autoconf libtool libdb4.8 libdb4.8-dev ntp build-essential
 ```
 
 It is recommended you enable [unattended security updates](https://help.ubuntu.com/community/AutomaticSecurityUpdates) to help protect your system from security issues:
@@ -61,7 +61,7 @@ tar -zxf watchonly.tar.gz
 cd bitcoin-watchonly
 sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get update
-sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libminiupnpc8 minissdpd
+sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libminiupnpc8 minissdpd libboost1.48-* ccache
 ./autogen.sh
 ./configure --without-qt
 make
