@@ -11,7 +11,7 @@ coinpunk.Template = {
     'node_error',
     'signin',
     'signup',
-    'settings'
+    'accounts/settings'
   ],
 
   templateCache: {},
