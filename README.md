@@ -1,3 +1,9 @@
+## NOTICE: Breaking change!
+
+Coinpunk updated to the latest version of SJCL, which has fixed a bug that caused PBKDF2 hashes to be inconsistent from the standard.
+
+This has been fixed, but it will not work with wallets created before [this commit](https://github.com/kyledrake/coinpunk/commit/26fc0ebec6ff89d2bc3ad49c9e490cf66d331844). Please be mindful of this when upgrading Coinpunk if you are already running it in production.
+
 # ![Coinpunk](http://i.imgur.com/m1diPkP.png)
 
 Run your own Bitcoin wallet service.
