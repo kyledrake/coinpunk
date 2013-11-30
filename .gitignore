@@ -2,3 +2,5 @@
 config.json
 node_modules
 public
+coinpunk.crt
+coinpunk.key
