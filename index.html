@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Coinpunk - DIY Bitcoin Wallet Service</title>
+    <title>Coinpunk.com - Free Hosted Bitcoin Wallets</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <style>
@@ -21,15 +21,18 @@
     <meta property="og:description" content="Run your own Bitcoin wallet service" />
   </head>
   <body>
-    <a href="https://github.com/kyledrake/coinpunk"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
     <div class="container">
       <div class="row">
-        <div class="col-lg-2 col-lg-offset-3 text-center">
-          <img src="img/logo-filled.png" style="padding-top: 30px;">
+        <div class="col-lg-12 hidden-xs hidden-sm text-center" id="header">
+          <h1>COINPUNK.COM</h1>
         </div>
-        <div class="col-lg-4 text-center" id="header" style="padding-left: 50px">
-          <h1>COIN<br>PUNK</h1>
-          <img src="img/newwave.jpg" width="300">
+        <div class="visible-xs visible-sm text-center" id="header">
+          <h2 style="font-size: 50px">COINPUNK.COM</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h4 style="color: red">Coinpunk.com is currently in alpha. Expect a lot of improvements, very quickly.<br>Please don't use for large sums of bitcoins until we finish getting things cleaned up.</h4>
         </div>
       </div>
       <div class="row">
@@ -39,108 +42,69 @@
       </div>
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h1>Run your own Bitcoin wallet service.</h1>
+          <h1>Free Hosted Bitcoin Wallets.</h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <p>Coinpunk is a project to build an open source, self-hosted DIY bitcoin wallet service you can run on your own server.</p>
-        </div>
-      </div>
-      
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-center">
-          <h1><a href="beta.html">Coinpunk is now in beta</a></h1>
+          <p>Coinpunk.com provides you a free, open source hosted Bitcoin wallet, which you can use to quickly get started with Bitcoin. All you need to do is <a href="https://wallet.coinpunk.com/signup">create a wallet</a>.</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center" style="margin-top: 20px; margin-bottom: 20px;">
+          <a href="https://wallet.coinpunk.com/signup" class="btn btn-success btn-lg" style="padding: 10px 24px; font-size: 36px; line-height: 1.32; border-radius: 24px">Sign Up Now</a>
+          <h3>Existing Users:</h3>
+          <a href="https://wallet.coinpunk.com" class="btn btn-primary btn-lg" style="padding: 10px 24px; font-size: 36px; line-height: 1.32; border-radius: 24px">Login</a>
         </div>
       </div>
       
       <div class="row" style="padding-top: 20px">
         <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-btc"></i> <span>Easy to Use</span>
+          <p>Simplifies using Bitcoins, so you don't have to be an expert to use Bitcoins.
+        </div>
+        <div class="col-lg-4">
           <i class="icon-lock"></i> <span>Safe, Secure</span>
           <p>
-            All encryption and transaction signing is done on the web browser, which means it is less susceptible to Bitcoin theft by hackers.
+            All encryption and transaction signing is done on the web browser, which means it is less susceptible to Bitcoin theft by hackers. And we're working to improve security all the time.
           </p>
         </div>
-        <div class="col-lg-4">
-          <i class="icon-btc"></i> <span>Easy to Use</span>
-          <p>Simplifies using Bitcoins, so that you don't have to be an expert to use Bitcoins.
-        </div>
+
       </div>
       
       <div class="row" style="padding-top: 20px">
         <div class="col-lg-4 col-lg-offset-2">
-          <i class="icon-html5"></i> <span>100% HTML5 and JS</span>
-          <p>The user interface is entirely written in HTML with JavaScript, which means that you can run it on all modern browsers, or containerize it into an offline application. The backend is built with Node.js, which makes it very easy to get started.</p>
+          <i class="icon-html5"></i> <span>100% HTML</span>
+          <p>The user interface is entirely written in HTML with JavaScript, which means that you can run it on all modern browsers and mobile phones.</p>
         </div>
         <div class="col-lg-4">
-          <i class="icon-check"></i> <span>Extensive Testing</span>
-          <p>Coinpunk tests with client-side, integration and functional tests, to help prevent bugs and streamline development.</p>
-        </div>
-      </div>
-      
-      <div class="row" style="padding-top: 20px">
-        <div class="col-lg-4 col-lg-offset-2">
-          <i class="icon-cogs"></i> <span>Bitcoin Node Agnostic</span>
-          <p>The code is written to provide future support for more Bitcoin node clients, including upcoming SPV-based wallets that require less resources to work.</p>
-        </div>
-        <div class="col-lg-4">
-          <i class="icon-usd"></i> <i class="icon-euro"></i> <i class="icon-jpy"></i> <i class="icon-cny"></i> <span>International</span>
-          <p>Allows you to see the value of your Bitcoins in multiple currencies, and future support for multiple languages is being planned.</p>
-        </div>
-      </div>
-      <div class="row" style="padding-top: 20px">
-        <div class="col-lg-4 col-lg-offset-2">
           <i class="icon-mobile-phone"></i> <span>Mobile Friendly</span>
-          <p>Uses a responsive web design, so you can use Coinpunk on a phone just as easily as on a desktop.</p>
-        </div>
-        <div class="col-lg-4">
-          <i class="icon-linux"></i> <span>Open Source</span>
-          <p>Like Bitcoin itself, Coinpunk is 100% open source. You can do whatever you want with it.</p>
+          <p>Uses a responsive web design, so you can use Coinpunk on a phone just as easily as on a desktop. Coinpunk works with all Bitcoin merchants, and it even scans QR codes from the web browser, no native app needed.</p>
         </div>
       </div>
       
-      <div class="row">
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-lg-offset-2">
+          <i class="icon-usd"></i> <i class="icon-euro"></i> <i class="icon-jpy"></i> <i class="icon-cny"></i> <span>International</span>
+          <p>Will allow you to see the value of your Bitcoins in multiple currencies, and future support for multiple languages is being planned.</p>
+        </div>
+        <div class="col-lg-4">
+          <i class="icon-linux"></i> <span>Free and Open Source</span>
+          <p>Like Bitcoin itself, Coinpunk is 100% open source. If you're a developer, you can add features and improvements and we'll merge them in. If you don't like how we're doing, <a href="https://github.com/kyledrake/coinpunk">you can run your own Coinpunk server.</a></p>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 50px">
         <div class="col-lg-8 col-lg-offset-2">
-          <h1>Source Code</h1>
+          <h1>Powered By You</h2>
           <hr>
-          <p>
-            The first version ("Old School") is still available, but is no longer under active development. You can find the original site for it <a href="oldschool/index.html">here</a>, and the source code for it <a href="https://github.com/kyledrake/coinpunk/tree/oldschool">here</a>.
+          <p>Coinpunk is not a bank. We're here to protect, simplify and enhance your Bitcoin experience. We can't spent your money, we can't loan it out without your consent, and there's no fees (except miner fees). Instead, we are a community resource that is powered by <strong>you</strong>. If you like this service, help us keep it going by promoting us and donating!
           </p>
-          <p>
-            The next version of Coinpunk ("New Wave") is a complete rewrite of the original version to support features and security enhancements not possible with the original design.
-          </p>
-          <p><b>The source code for the new Coinpunk is still under development</b> - it's currently in beta, but we're working to finish the project. You can follow our progress on the <a href="https://github.com/kyledrake/coinpunk" target="_blank">Github</a> repository.</p>
+          <p>  
+            The Coinpunk donations tipjar is <strong>1NkQFWYjADVLNC2to5cSQCCzCf312j1zEJ</strong>. And yes, it's powered by Coinpunk.</p>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <h1>Help Us Build This</h2>
-          <hr>
-          <p>If you find this project useful, I would love your support. The Coinpunk donations tipjar is <strong>1MHbxLgsgFQyvWkW1qiZs1HaXxU4S4LuWH</strong>. Yes, it's powered by Coinpunk.</p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <h1>Author</h2>
-          <hr>
-          <h3><a href="http://kyledrake.net" target="_blank">Kyle Drake</a> <small>(<a href="https://twitter.com/kyledrake" target="_blank">@kyledrake</a>)</small></h3>
-          <h3>Illustration by Kyle Wilson.</h3>
-        </div>
-      </div>
-
     </div>
-
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-40998598-1', 'coinpunk.org');
-      ga('send', 'pageview');
-
-    </script>
   </body>
 </html>
