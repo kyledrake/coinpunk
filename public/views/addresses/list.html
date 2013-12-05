@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <h1>Receive Addresses</h2>
+      <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div id="addresses">
+
+      <% if(data.addresses.length == 0) {%>
+
+        <h4>No receive addresses yet.</h4>
+
+      <% } else { %>
+
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Label</th>
+              <th>Address</th>
+              <th>
+                <span class="visible-xs visible-sm">Total</span>
+                <span class="visible-md visible-lg">Total Received</span>
+              </th>
+              <!--
+              <th>Backups</th>
+              <th>Receive QR Code</th>
+              -->
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<data.addresses.length; i++) { %>
+              <% if(!data.addresses[i].isChange) { %>
+                <tr>
+                  <td><%- data.addresses[i].name %></td>
+                  <td><%- data.addresses[i].address %></td>
+                  <td>
+                    <span class="addExchangePrice">
+                      <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> BTC
+                    </span>
+                  </td>
+                  <td>
+                    <a href="#" class="btn btn-primary">Request Payment</a>
+                    <a href="#" class="btn btn-primary">Edit Label</a>
+                    <a href="#" class="btn btn-primary">Archive</a>
+                  </td>
+                  <!--
+                  <td>Create Paper Wallet</td>
+                  <td>Generate</td>
+                  -->
+                </tr>
+              <% } %>
+            <% } %>
+          </tbody>
+        </table>
+
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <h2>New Address</h2>
+    <form onsubmit="coinpunk.controllers.dashboard.generateNewAddress($('#addressLabel').val()); return false;">
+      <div>
+        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary">Generate</button>
+        <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
+          <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <span id="newAddressMessage"></span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

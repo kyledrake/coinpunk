@@ -145,6 +145,13 @@ coinpunk.router.map('#/account/settings').to(function() {
   coinpunk.router.render('view', 'accounts/settings');
 });
 
+coinpunk.router.map('#/addresses/list').to(function() {
+  if(!coinpunk.router.requireSignin())
+    return false;
+  coinpunk.router.initWallet();
+  coinpunk.controllers.addresses.list();
+});
+
 coinpunk.router.map('#/').to(function() {
 /*
   if(window.navigator.registerProtocolHandler)

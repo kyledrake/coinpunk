@@ -58,7 +58,6 @@ coinpunk.controllers.Dashboard.prototype.index = function() {
     } else {
       self.renderDashboard();
     }
-    self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
   });
 };
 
@@ -73,21 +72,6 @@ coinpunk.controllers.Dashboard.prototype.updateExchangeRates = function(id) {
     for(var i=0;i<prices.length;i++) {
       $(prices[i]).append('<span class="exchangePrice pull-right"><small>'+($(prices[i]).text().split(' ')[0] * price).toFixed(2)+' ' +currency+'</small></span>');
     }
-  });
-};
-
-coinpunk.controllers.Dashboard.prototype.generateNewAddress = function(label) {
-  var self = this;
-  var label = label || '';
-  var address = coinpunk.wallet.createNewAddress(label, false);
-
-  this.saveWallet({address: address, override: true}, function() {
-    self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
-    $('#newAddressDialog').removeClass('hidden');
-    var message = 'Created new address '+address;
-    if(label != '')
-      var message = message + ' with label '+label;
-    $('#newAddressMessage').html(message+'.');
   });
 };
 
