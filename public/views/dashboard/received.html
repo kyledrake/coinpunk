@@ -16,10 +16,7 @@
     <table class="table table-bordered table-striped table-hover">
       <thead>
         <tr>
-          <th>
-            <span class="visible-xs visible-sm">Address</span>
-            <span class="visible-md visible-lg">Your Receiving Address</span>
-          </th>
+          <th>Address</th>
           <th>Amount</th>
           <th>Confirmations</th>
           <th>Discovered</th>
@@ -28,10 +25,7 @@
       <tbody>
         <% for(var i=0; i<data.tx.length; i++) { %>
           <tr>
-            <td>
-              <%- coinpunk.wallet.getAddressName(data.tx[i].address) %>
-              <span class="hidden-sm hidden-xs pull-right"><%- data.tx[i].address %></span>
-            </td>
+            <td><%- coinpunk.wallet.getAddressName(data.tx[i].address) %></td>
             <td><span class="addExchangePrice"><%- data.tx[i].amount %> BTC</span></td>
             <td>
               <%- data.tx[i].confirmations %>
@@ -47,7 +41,7 @@
             <td>
               <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
             </td>
-            <td><a href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
+            <td><a class="btn btn-primary" href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
         <% } %>
       </tbody>
     </table>

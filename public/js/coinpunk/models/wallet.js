@@ -41,11 +41,9 @@ coinpunk.Wallet = function(walletKey, walletId) {
   };
 
   this.getAddressName = function(address) {
-    for(var i=0;i<keyPairs.length;i++) {
-      if(keyPairs[i].address == keyPairs[i].address) {
+    for(var i=0;i<keyPairs.length;i++)
+      if(keyPairs[i].address == address)
         return keyPairs[i].name;
-      }
-    }
   };
 
   this.addresses = function() {
@@ -197,6 +195,16 @@ coinpunk.Wallet = function(walletKey, walletId) {
     
     return safeUnspent;
   };
+
+  this.receivedAmountTotal = function() {
+    var addresses = this.addresses();
+    var amount = new BigNumber(0);
+
+    for(var a=0;a<addresses.length;a++)
+      amount = amount.plus(this.addressReceivedAmount(addresses[a]));
+
+    return amount;
+  }
 
   this.addressReceivedAmount = function(address) {
     var amount = new BigNumber(0.00);

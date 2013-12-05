@@ -11,7 +11,10 @@
       <tr>
         <th>Label</th>
         <th>Address</th>
-        <th>Total Received</th>
+        <th>
+          <span class="visible-xs visible-sm">Total</span>
+          <span class="visible-md visible-lg">Total Received</span>
+        </th>
         <!--
         <th>Backups</th>
         <th>Receive QR Code</th>
@@ -28,6 +31,11 @@
               <span class="addExchangePrice">
                 <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> BTC
               </span>
+            </td>
+            <td>
+              <a href="#" class="btn btn-primary">Request Payment</a>
+              <a href="#" class="btn btn-primary">Edit Label</a>
+              <a href="#" class="btn btn-primary">Archive</a>
             </td>
             <!--
             <td>Create Paper Wallet</td>
