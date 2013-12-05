@@ -198,6 +198,16 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return safeUnspent;
   };
 
+  this.addressReceivedAmount = function(address) {
+    var amount = new BigNumber(0.00);
+
+    for(var t=0; t<this.transactions.length;t++)
+      if(this.transactions[t].address == address)
+        amount = amount.plus(this.transactions[t].amount);
+
+    return amount;
+  };
+
   this.createSend = function(amtString, feeString, addressString, changeAddress) {
     var amt = Bitcoin.util.parseValue(amtString);
     

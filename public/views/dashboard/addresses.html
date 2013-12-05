@@ -11,8 +11,8 @@
       <tr>
         <th>Label</th>
         <th>Address</th>
+        <th>Total Received</th>
         <!--
-        <th>Received</th>
         <th>Backups</th>
         <th>Receive QR Code</th>
         -->
@@ -24,8 +24,12 @@
           <tr>
             <td><%- data.addresses[i].name %></td>
             <td><%- data.addresses[i].address %></td>
+            <td>
+              <span class="addExchangePrice">
+                <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> BTC
+              </span>
+            </td>
             <!--
-            <td>TODO</td>
             <td>Create Paper Wallet</td>
             <td>Generate</td>
             -->
