@@ -44,7 +44,6 @@ coinpunk.controllers.Addresses.prototype.drawRequestQR = function(address) {
   if(label && label != '')
     uri.addQuery('label', label);
 
-  console.log(uri.toString())
   $('#qrcode').html('');
   new QRCode(document.getElementById('qrcode'), uri.toString());
 }

@@ -60,8 +60,8 @@ module.exports = function(grunt) {
             'public/js/coinpunk/controllers/addresses.js',
             'public/js/coinpunk/controllers/dashboard.js',
             'public/js/coinpunk/controllers/tx.js',
-            'public/js/coinpunk/router.js',
-            'public/js/coinpunk/pricing.js'
+            'public/js/coinpunk/pricing.js',
+            'public/js/coinpunk/router.js'
           ]
         }
       }
