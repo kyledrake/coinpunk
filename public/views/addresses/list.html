@@ -64,7 +64,7 @@
 <div class="row">
   <div class="col-lg-6">
     <h2>New Address</h2>
-    <form onsubmit="coinpunk.controllers.dashboard.generateNewAddress($('#addressLabel').val()); return false;">
+    <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
       <div>
         Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
         <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">

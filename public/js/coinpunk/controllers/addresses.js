@@ -7,14 +7,15 @@ coinpunk.controllers.Addresses.prototype.list = function() {
   });
 }
 
-// FIXME
 coinpunk.controllers.Addresses.prototype.generateNewAddress = function(label) {
   var self = this;
   var label = label || '';
   var address = coinpunk.wallet.createNewAddress(label, false);
 
   this.saveWallet({address: address, override: true}, function() {
-    self.template('addresses', 'dashboard/addresses', {addresses: coinpunk.wallet.addresses()});
+    self.render('addresses/list', {addresses: coinpunk.wallet.addresses()}, function(id) {
+      self.updateExchangeRates(id, false);
+    });
     $('#newAddressDialog').removeClass('hidden');
     var message = 'Created new address '+address;
     if(label != '')
