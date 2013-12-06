@@ -152,6 +152,13 @@ coinpunk.router.map('#/addresses/list').to(function() {
   coinpunk.controllers.addresses.list();
 });
 
+coinpunk.router.map('#/addresses/request/:address').to(function() {
+  if(!coinpunk.router.requireSignin())
+    return false;
+  coinpunk.router.initWallet();
+  coinpunk.controllers.addresses.request(this.params['address']);
+});
+
 coinpunk.router.map('#/').to(function() {
 /*
   if(window.navigator.registerProtocolHandler)
