@@ -41,7 +41,7 @@
             <td>
               <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
             </td>
-            <td><a class="btn btn-primary" href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
+            <td><a class="btn btn-primary" href="#/tx/details/<%- data.tx[i].hash %>"><i class="fa fa-info-circle"></i> Details</a></td>
         <% } %>
       </tbody>
     </table>

@@ -42,9 +42,9 @@
                     </span>
                   </td>
                   <td>
-                    <a href="#" class="btn btn-primary">Request Payment</a>
-                    <a href="#" class="btn btn-primary">Edit Label</a>
-                    <a href="#" class="btn btn-primary">Archive</a>
+                    <a href="#" class="btn btn-primary"><i class="fa fa-qrcode"></i> Request Payment</a>
+                    <a href="#" class="btn btn-info"><i class="fa fa-edit"></i> Edit Label</a>
+                    <a href="#" class="btn btn-danger"><i class="fa fa-archive"></i> Archive</a>
                   </td>
                   <!--
                   <td>Create Paper Wallet</td>
@@ -66,7 +66,7 @@
     <h2>New Address</h2>
     <form onsubmit="coinpunk.controllers.dashboard.generateNewAddress($('#addressLabel').val()); return false;">
       <div>
-        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary">Generate</button>
+        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
         <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
           <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <span id="newAddressMessage"></span>
