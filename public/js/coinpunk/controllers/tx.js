@@ -1,7 +1,7 @@
 coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Tx.prototype.defaultFee = '0.0005';
+coinpunk.controllers.Tx.prototype.defaultFee = coinpunk.config.transactionFee ||'0.0005';
 coinpunk.controllers.Tx.prototype.minimumConfirmationsToSpend = 1;
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
