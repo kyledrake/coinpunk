@@ -21,6 +21,7 @@ coinpunk.controllers.Accounts.prototype.passwordStrength = {
 }
 
 coinpunk.controllers.Accounts.prototype.signin = function() {
+  var self = this;
   var id = $('#walletId').val();
   var password = $('#password').val();
   var errorDiv = $('#errors');
@@ -57,10 +58,11 @@ coinpunk.controllers.Accounts.prototype.enableSubmitButton = function() {
   var button = $('#createAccountButton');
   button.removeAttr('disabled');
   button.addClass('btn-success');
-  button.text('Create Account');
+  button.html('<i class="fa fa-user"></i> Create Account');
 }
 
 coinpunk.controllers.Accounts.prototype.create = function() {
+  var self = this;
   var email = $('#email').val();
   var password = $('#password').val();
   var passwordConfirm = $('#password_confirm').val();
