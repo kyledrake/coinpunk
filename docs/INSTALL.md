@@ -61,7 +61,7 @@ tar -zxf watchonly.tar.gz
 cd bitcoin-watchonly
 sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get update
-sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libminiupnpc8 minissdpd libboost1.48-* ccache
+sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libminiupnpc8 minissdpd libboost1.48-* ccache
 ./autogen.sh
 ./configure --without-qt
 make
