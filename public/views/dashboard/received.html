@@ -15,13 +15,13 @@
     <% for(var i=0; i<data.tx.length; i++) { %>
       <hr>
       <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
-        <div class="col-sm-6">
+        <div class="col-md-6">
           <strong><%= humaneDate(new Date(data.tx[i].time).toISOString()) %></strong>
-          <span class="receivedExchangePrice addExchangePrice pull-right" style="color: #01DF3A; margin-right: 10px; font-size: 12px; font-weight: bold"><%= data.tx[i].amount %> BTC</span>
+          <span class="receivedExchangePrice addExchangePrice pull-right" style="color: #33CC33; margin-right: 10px; font-size: 12px; font-weight: bold"><%= data.tx[i].amount %> BTC</span>
         </div>
       </div>
       <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
-        <div class="col-sm-6">
+        <div class="col-md-6">
           <div style="font-size: 10pt">
             <strong><%- coinpunk.wallet.getAddressName(data.tx[i].address) || data.tx[i].address %></strong>
           </div>

@@ -37,15 +37,19 @@ coinpunk.controllers.Addresses.prototype.drawRequestQR = function(address) {
   
   var amount = $('#amount').val();
   var label = $('#label').val();
+  var message = $('#message').val();
 
   if(amount && amount != '' && amount != '0.00')
     uri.addQuery('amount', amount);
 
   if(label && label != '')
     uri.addQuery('label', label);
+    
+  if(message && message != '')
+    uri.addQuery('message', message);
 
   $('#qrcode').html('');
-  new QRCode(document.getElementById('qrcode'), uri.toString());
+  new QRCode(document.getElementById('qrcode'), uri.toString().replace('://', ':'));
 }
 
 coinpunk.controllers.addresses = new coinpunk.controllers.Addresses();
