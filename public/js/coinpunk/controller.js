@@ -88,7 +88,7 @@ coinpunk.Controller.prototype.updateExchangeRates = function(id) {
 
     var prices = $('#'+id+' .addExchangePrice');
     for(var i=0;i<prices.length;i++) {
-      $(prices[i]).append('<span class="exchangePrice"><small>'+($(prices[i]).text().split(' ')[0] * price).toFixed(2)+' ' +currency+'</small></span>');
+      $(prices[i]).append('<span class="exchangePrice"><small>'+($(prices[i]).text().trim().split(' ')[0] * price).toFixed(2)+' ' +currency+'</small></span>');
     }
   });
 };
