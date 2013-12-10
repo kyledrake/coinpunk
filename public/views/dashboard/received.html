@@ -1,3 +1,9 @@
+<style>
+.receivedExchangePrice small {
+  margin-left: 5px;
+}
+</style>
+
 <h2>Received</h2>
 
 <% if(data.tx.length == 0) {%>
@@ -7,8 +13,21 @@
 <% } else { %>
   <div class="visible-xs visible-sm">
     <% for(var i=0; i<data.tx.length; i++) { %>
-        <p><%= data.tx[i].amount %> sent to <%= coinpunk.wallet.getAddressName(data.tx[i].address) %> <%= humaneDate(new Date(data.tx[i].time).toISOString()) %>, with <%= data.tx[i].confirmations %> confirmations.</p>
-
+      <hr>
+      <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
+        <div class="col-sm-6">
+          <strong><%= humaneDate(new Date(data.tx[i].time).toISOString()) %></strong>
+          <span class="receivedExchangePrice addExchangePrice pull-right" style="color: #01DF3A; margin-right: 10px; font-size: 12px; font-weight: bold"><%= data.tx[i].amount %> BTC</span>
+        </div>
+      </div>
+      <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
+        <div class="col-sm-6">
+          <div style="font-size: 10pt">
+            <strong><%- coinpunk.wallet.getAddressName(data.tx[i].address) || data.tx[i].address %></strong>
+          </div>
+          <div><%= data.tx[i].confirmations%> confirmations</div>
+        </div>
+      </div>
     <% } %>
   </div>
   
@@ -25,7 +44,7 @@
       <tbody>
         <% for(var i=0; i<data.tx.length; i++) { %>
           <tr>
-            <td><%- coinpunk.wallet.getAddressName(data.tx[i].address) %></td>
+            <td><%- coinpunk.wallet.getAddressName(data.tx[i].address) || data.tx[i].address %></td>
             <td><span class="addExchangePrice"><%- data.tx[i].amount %> BTC</span></td>
             <td>
               <%- data.tx[i].confirmations %>

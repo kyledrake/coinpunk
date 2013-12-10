@@ -33,12 +33,12 @@ coinpunk.controllers.Dashboard.prototype.renderDashboard = function() {
       if(txs[i].type == 'receive')
         rtxs.push(txs[i]);
 
-    self.template('sentTransactions', 'dashboard/sent', {tx: stxs}, function(id) {
+    self.template('sentTransactions', 'dashboard/sent', {tx: stxs.reverse()}, function(id) {
       $('#'+id+" [rel='tooltip']").tooltip();
       self.updateExchangeRates(id);
     });
 
-    self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: rtxs}, function(id) {
+    self.template('receivedTransactions', 'dashboard/received', {category: 'Received', tx: rtxs.reverse()}, function(id) {
       self.updateExchangeRates('receivedTransactions');
       $('#'+id+" [rel='tooltip']").tooltip();
     });
