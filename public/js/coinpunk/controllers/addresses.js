@@ -32,6 +32,34 @@ coinpunk.controllers.Addresses.prototype.request = function(address) {
   });
 }
 
+coinpunk.controllers.Addresses.prototype.requestExchangeUpdate = function() {
+  var amount = $('#amount').val();
+  coinpunk.pricing.getLatest(function(price, currency) {
+    var newAmount = parseFloat(price * amount).toFixed(2);
+    
+    if(newAmount == "NaN")
+      return;
+    
+    $('#amountExchange').val(newAmount);
+  });
+};
+
+coinpunk.controllers.Addresses.prototype.requestBTCUpdate = function() {
+  var amountExchange = $('#amountExchange').val();
+  coinpunk.pricing.getLatest(function(price, currency) {
+    
+    if(amountExchange == 0)
+      return;
+
+    var newAmount = parseFloat(amountExchange / price).toFixed(6).replace(/0+$/, '');
+    
+    if(newAmount == "NaN")
+      return;
+    
+    $('#amount').val(newAmount);
+  });
+};
+
 coinpunk.controllers.Addresses.prototype.drawRequestQR = function(address) {
   var uri = URI({protocol: 'bitcoin', path: address});
   

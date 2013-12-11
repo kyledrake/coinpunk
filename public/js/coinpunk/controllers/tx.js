@@ -43,7 +43,7 @@ coinpunk.controllers.Tx.prototype.sendBTCUpdate = function() {
     if(amountExchange == 0)
       return;
 
-    var newAmount = parseFloat(amountExchange / price).toFixed(6).replace(/0+$/, '');
+    var newAmount = parseFloat(amountExchange / price).toFixed(6).replace(/\.0+$/, '');
     
     if(newAmount == "NaN")
       return;
