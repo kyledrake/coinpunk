@@ -7,10 +7,10 @@ js/lib/bitcoinjs.js
 css/all.css
 fonts/droidsans-bold.ttf
 fonts/droidsans.ttf
-fonts/fontawesome-webfont.eot
-fonts/fontawesome-webfont.svg
-fonts/fontawesome-webfont.ttf
-fonts/fontawesome-webfont.woff
+fonts/fontawesome-webfont.eot?v=4.0.3
+fonts/fontawesome-webfont.svg?v=4.0.3
+fonts/fontawesome-webfont.ttf?v=4.0.3
+fonts/fontawesome-webfont.woff?v=4.0.3
 fonts/FontAwesome.otf
 views/accounts/import.html
 views/accounts/settings.html
