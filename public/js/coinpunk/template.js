@@ -1,6 +1,9 @@
 coinpunk.Template = {
   preCache: [
-    'dashboard/addresses',
+    'accounts/import',
+    'accounts/settings',
+    'addresses/list',
+    'addresses/request',
     'dashboard/received',
     'dashboard/sent',
     'tx/details',
@@ -10,11 +13,9 @@ coinpunk.Template = {
     'header',
     'node_error',
     'signin',
-    'signup',
-    'accounts/settings',
-    'addresses/list'
+    'signup'
   ],
-
+ 
   templateCache: {},
 
   get: function(path, callback) {

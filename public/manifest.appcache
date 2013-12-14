@@ -1,0 +1,31 @@
+CACHE MANIFEST
+# v1
+index.html
+config.json
+js/all.js
+js/lib/bitcoinjs.js
+css/all.css
+fonts/droidsans-bold.ttf
+fonts/droidsans.ttf
+fonts/fontawesome-webfont.eot
+fonts/fontawesome-webfont.svg
+fonts/fontawesome-webfont.ttf
+fonts/fontawesome-webfont.woff
+fonts/FontAwesome.otf
+views/accounts/import.html
+views/accounts/settings.html
+views/addresses/list.html
+views/addresses/request.html
+views/dashboard/received.html
+views/dashboard/sent.html
+views/tx/details.html
+views/tx/send.html
+views/backup.html
+views/dashboard.html
+views/header.html
+views/node_error.html
+views/signin.html
+views/signup.html
+
+NETWORK:
+/api
