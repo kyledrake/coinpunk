@@ -77,8 +77,8 @@ coinpunk.controllers.Accounts.prototype.create = function() {
   if(password != passwordConfirm)
     errors.push('Passwords do not match.');
   
-  //if(password.length < this.requiredPasswordLength)
-  //  errors.push('Password must be at least 10 characters.');
+  if(password.length < this.requiredPasswordLength)
+    errors.push('Password must be at least 10 characters.');
 
   var errorsDiv = $('#errors');
 
