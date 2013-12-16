@@ -29,6 +29,11 @@ header, header * {
   color: #ffffff;
 }
 
+header .row { 
+  margin-right: 0;
+  margin-left: 0;
+}
+
 header h1 { 
   font-family: "Sintony", "Arial Black", Verdana, "Droid Sans", Arial, sans-serif;
   font-size: 74px;
