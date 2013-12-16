@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Sintony';
+    src: url('sintony-regular-webfont.eot');
+    src: local('Sintony'), 
+         url('sintony-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sintony-regular-webfont.woff') format('woff'),
+         url('sintony-regular-webfont.ttf') format('truetype'),
+         url('sintony-regular-webfont.svg#sintonyregular') format('svg');
+    font-style: normal;
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Sintony';
+    src: url('sintony-bold-webfont.eot');
+    src: local('Sintony-Bold'),
+         local('Sintony-Bold'),
+         url('sintony-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sintony-bold-webfont.woff') format('woff'),
+         url('sintony-bold-webfont.ttf') format('truetype'),
+         url('sintony-bold-webfont.svg#sintonybold') format('svg');
+    font-style: normal;
+    font-weight: 700;
+}

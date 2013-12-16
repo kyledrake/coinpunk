@@ -1,105 +1,87 @@
 <html>
   <head>
-    <title>Coinpunk.com - Free Hosted Bitcoin Wallets</title>
+    <title>Coinpunk - Free Hosted Bitcoin Wallets</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href='font/source-sans-pro/source-sans-pro.css' rel='stylesheet' type='text/css'>
+    <link href='font/sintony/sintony.css' rel='stylesheet' type='text/css'>
+    <link href="css/site.css" rel="stylesheet">
+
     <style>
-      #header h1 {
-        font-size: 70pt;
-        font-weight: bold;
-      }
-      i {
-        font-size: 30pt;
-      }
-      span {
-        padding-left: 20px;
-        font-size: 20pt;
-      }
     </style>
 
     <meta property="og:title" content="Coinpunk - Free Hosted Bitcoin Wallet">
     <meta property="og:description" content="A web-based Bitcoin wallet Apple can't ban. It works on all modern browers, desktop and mobile, and supports the same QR scanning functionality native apps do." />
   </head>
   <body>
+    <header>
+      <div class="row">
+        <div class="col-lg-12 hidden-xs hidden-sm text-center">
+          <h1><span>&cent;</span>oinpunk</h1>
+        </div>
+        <div class="visible-xs visible-sm text-center">
+          <h1 style="font-size: 50px"><span>&cent;</span>oinpunk</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2>A mobile Bitcoin wallet Apple can't ban.<br>
+            Send and receive Bitcoins securely from your browser.</h2>
+        </div>
+      </div>
+    </header>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-12 hidden-xs hidden-sm text-center" id="header">
-          <h1>COINPUNK.COM</h1>
-        </div>
-        <div class="visible-xs visible-sm text-center" id="header">
-          <h2 style="font-size: 50px">COINPUNK.COM</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h4 style="color: red">Coinpunk.com is currently in alpha. Expect a lot of changes, very quickly.</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <hr>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2>A mobile Bitcoin wallet Apple can't ban.</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 text-center">
-          <p>Coinpunk.com offers free web-based Bitcoin wallets, which you can use to quickly get started with Bitcoin. All you need to do is <a href="https://wallet.coinpunk.com/#/signup">create a wallet</a>! It works on all modern browers, desktop and mobile, and supports the same QR scanning functionality native apps do.</p>
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 text-center" style="margin-top: 20px; margin-bottom: 20px;">
-          <a href="https://wallet.coinpunk.com/#/signup" class="btn btn-success btn-lg" style="padding: 10px 24px; font-size: 36px; line-height: 1.32; border-radius: 24px">Sign Up Now</a>
-          <h3>Existing Users:</h3>
-          <a href="https://wallet.coinpunk.com" class="btn btn-primary btn-lg" style="padding: 10px 24px; font-size: 36px; line-height: 1.32; border-radius: 24px">Login</a>
-        </div>
-      </div>
-      
-      <div class="row" style="padding-top: 20px">
+
+      <div class="row front-buttons">
         <div class="col-lg-4 col-lg-offset-2">
-          <i class="icon-btc"></i> <span>Easy to Use</span>
+          <a href="https://wallet.coinpunk.com/#/signup" class="btn btn-signup visible-lg pull-right btn-large">Sign Up to Create a Wallet</a>
+          <a href="https://wallet.coinpunk.com/#/signup" class="btn btn-signup hidden-lg">Sign Up to Create a Wallet</a>
+        </div>
+        <div class="col-lg-4">
+          <a href="https://wallet.coinpunk.com" class="btn btn-signin visible-lg btn-large">Sign In</a>
+          <a href="https://wallet.coinpunk.com" class="btn btn-signin hidden-lg">Sign In</a>
+        </div>
+      </div>
+      
+      <div class="row feature">
+        <div class="col-lg-4 col-lg-offset-2">
+          <h3><i class="icon-btc"></i> Easy to Use</h3>
           <p>Simplifies using Bitcoins, so you don't have to be an expert to use Bitcoins.
         </div>
         <div class="col-lg-4">
-          <i class="icon-lock"></i> <span>Safe, Secure</span>
+          <h3><i class="icon-lock"></i> Safe, Secure</h3>
           <p>
             All encryption and transaction signing is done on the web browser, which means it is less susceptible to Bitcoin theft by hackers. And we're working to improve security all the time.
           </p>
         </div>
-
       </div>
       
-      <div class="row" style="padding-top: 20px">
+      <div class="row feature">
         <div class="col-lg-4 col-lg-offset-2">
-          <i class="icon-html5"></i> <span>100% HTML</span>
+          <h3><i class="icon-html5"></i> 100% HTML</h3>
           <p>The user interface is entirely written in HTML with JavaScript, which means that you can run it on all modern browsers and mobile phones.</p>
         </div>
         <div class="col-lg-4">
-          <i class="icon-mobile-phone"></i> <span>Mobile Friendly</span>
+          <h3><i class="icon-mobile-phone"></i> Mobile Friendly</h3>
           <p>Uses a responsive web design, so you can use Coinpunk on a phone just as easily as on a desktop. Coinpunk works with all Bitcoin merchants, and it even scans QR codes from the web browser, no native app needed.</p>
         </div>
       </div>
       
-      <div class="row" style="padding-top: 20px">
+      <div class="row feature">
         <div class="col-lg-4 col-lg-offset-2">
-          <i class="icon-usd"></i> <i class="icon-euro"></i> <i class="icon-jpy"></i> <i class="icon-cny"></i> <span>International</span>
+          <h3><i class="icon-usd"></i> <i class="icon-euro"></i> <i class="icon-jpy"></i> <i class="icon-cny"></i> International</h3>
           <p>Will allow you to see the value of your Bitcoins in multiple currencies, and future support for multiple languages is being planned.</p>
         </div>
         <div class="col-lg-4">
-          <i class="icon-linux"></i> <span>Free and Open Source</span>
+          <h3><i class="icon-linux"></i> Free and Open Source</h3>
           <p>Like Bitcoin itself, Coinpunk is 100% open source. If you're a developer, you can add features and improvements and we'll merge them in. If you don't like how we're doing, <a href="https://github.com/kyledrake/coinpunk">you can run your own Coinpunk server.</a></p>
         </div>
       </div>
 
-      <div class="row" style="margin-bottom: 50px">
+      <div class="row feature">
         <div class="col-lg-8 col-lg-offset-2">
-          <h1>Powered By You</h2>
-          <hr>
-          <p>Coinpunk.com is not a bank. We can't spend your money, we can't loan it out without your consent, and there's no fees (except small miner fees to support the Bitcoin network). We want to simplify and enhance your Bitcoin experience. Coinpunk is powered by <strong>you</strong>, and is currently donation driven. 
+          <h3><strong>Powered By You</strong></h3>
+          <p>Coinpunk is not a bank. We can't spend your money, we can't loan it out without your consent, and there's no fees (except small miner fees to support the Bitcoin network). We want to simplify and enhance your Bitcoin experience. Coinpunk is powered by <strong>you</strong>, and is currently donation driven. 
           </p>
           <p>
             If you like this service, help us out! The Coinpunk donations tipjar is <strong>1NkQFWYjADVLNC2to5cSQCCzCf312j1zEJ</strong>. And yes, it's powered by Coinpunk.</p>
