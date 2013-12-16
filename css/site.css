@@ -91,3 +91,12 @@ a.btn-large {
   color: #434343;
   margin-top: 30px;
 }
+
+footer {
+  margin: 40px 0;
+}
+
+footer span {
+  margin-left: 0;
+  margin-right: 10px;
+}
