@@ -1,0 +1,88 @@
+body {
+  font-family: "Source Sans Pro", "Arial Black", Verdana, "Droid Sans", Arial, sans-serif; 
+  color: #434343;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { 
+  font-family: "Source Sans Pro", "Arial Black", Verdana, "Droid Sans", Arial, sans-serif; 
+  color: #111111;
+}
+
+p {
+  color: #434343;
+}
+
+.logo-c { 
+  color: #23B25B;
+}
+
+a:link, a:hover, a:focus {
+  color: #23B25B;
+}
+
+header { 
+  padding: 40px 0;
+}
+
+header, header * { 
+  background: #111111;
+  color: #ffffff;
+}
+
+header h1 { 
+  font-family: "Sintony", "Arial Black", Verdana, "Droid Sans", Arial, sans-serif;
+  font-size: 74px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+header h1 span { 
+  color: #23B25B;
+}
+
+header h2 {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.btn { 
+  border-radius: 0;
+}
+
+.front-buttons { 
+  padding: 30px 0;
+}
+
+.front-buttons a { 
+  padding-left: 30px;
+  padding-right: 30px;
+  min-width: 250px;
+  width: 40%;
+  margin: 10 auto;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+a.btn-signin, a.btn-signin:visited, a.btn-signin:focus, a.btn-signin:hover { 
+  background: #9a9a9a;
+  color: #ffffff;
+}
+
+a.btn-signup, a.btn-signup:visited, a.btn-signup:focus, a.btn-signup:hover { 
+  background: #22d973;
+  color: #ebfcf4;
+}
+
+a.btn-large { 
+  width: 70%;
+  margin: 0 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.feature h3 {
+  font-weight: 600;
+  color: #434343;
+  margin-top: 30px;
+}
