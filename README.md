@@ -37,7 +37,8 @@ Coming soon:
 
 ## Get Started
 
-See the [Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL.md).
+See the [Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL.md), 
+or the [OSX Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL-OSX.md).
 
 ## Coinpunk is for Advanced Users
 
