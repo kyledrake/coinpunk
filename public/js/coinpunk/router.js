@@ -9,9 +9,17 @@ coinpunk.router.route = function(path) {
   window.location.href = '#/'+path;
 };
 
+var sock = null;
+
 coinpunk.router.listener = function() {
-  var sock = new SockJS('/listener');
+  sock = new SockJS('/listener');
   var self = this;
+
+  window.onbeforeunload = function () {
+    if(sock) {
+      sock.close();
+    }
+  }
 
   sock.onopen = function() {
     coinpunk.router.listenerTimeout = setInterval(function() {
