@@ -16,11 +16,34 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return true;
   };
 
-  this.loadPayload = function(payload) {
-    var decrypted = JSON.parse(sjcl.decrypt(this.walletKey, payload));
-    keyPairs = decrypted.keyPairs;
-    this.transactions = decrypted.transactions || [];
-    this.unspent = decrypted.unspent || [];
+  this.loadPayload = function(encryptedJSON) {
+    var payloadJSON = sjcl.decrypt(this.walletKey, encryptedJSON);
+    this.payloadHash = this.computePayloadHash(payloadJSON);
+    var payload = JSON.parse(payloadJSON);
+    keyPairs = payload.keyPairs;
+    this.transactions = payload.transactions || [];
+    this.unspent = payload.unspent || [];
+    return true;
+  };
+  
+  this.mergePayload = function(wallet) {
+    var payloadJSON = sjcl.decrypt(this.walletKey, wallet);
+    var payload = JSON.parse(payloadJSON);
+    
+    keyPairs = _.uniq(_.union(payload.keyPairs, keyPairs), false, function(item, key, a) {
+      return item.key;
+    });
+
+    this.transactions = _.uniq(_.union(payload.transactions, this.transactions), false, function(item, key, a) {
+      return item.hash;
+    });
+    
+    this.unspent = _.uniq(_.union(payload.unspent, this.unspent), false, function(item, key, a) {
+      return item.hash;
+    });
+
+    this.payloadHash  = this.computePayloadHash(payloadJSON);
+
     return true;
   };
 
@@ -94,9 +117,15 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return this.walletKey;
   };
 
+  this.computePayloadHash = function(payloadJSON) {
+    return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(payloadJSON));
+  };
+
   this.encryptPayload = function() {
     var payload = {keyPairs: keyPairs, transactions: this.transactions, unspent: this.unspent};
-    return sjcl.encrypt(this.walletKey, JSON.stringify(payload));
+    var payloadJSON = JSON.stringify(payload);
+    this.newPayloadHash = this.computePayloadHash(payloadJSON);
+    return sjcl.encrypt(this.walletKey, payloadJSON);
   };
 
   this.storeCredentials = function() {
