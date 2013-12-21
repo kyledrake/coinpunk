@@ -4,7 +4,7 @@ coinpunk.controllers.Addresses.prototype = new coinpunk.Controller();
 coinpunk.controllers.Addresses.prototype.list = function() {
   var self = this;
   this.render('addresses/list', {addresses: coinpunk.wallet.addresses()}, function(id) {
-    self.updateExchangeRates(id, false);
+    self.updateExchangeRates(id);
   });
 }
 
@@ -32,20 +32,52 @@ coinpunk.controllers.Addresses.prototype.request = function(address) {
   });
 }
 
+coinpunk.controllers.Addresses.prototype.requestExchangeUpdate = function() {
+  var amount = $('#amount').val();
+  coinpunk.pricing.getLatest(function(price, currency) {
+    var newAmount = parseFloat(price * amount).toFixed(2);
+    
+    if(newAmount == "NaN")
+      return;
+    
+    $('#amountExchange').val(newAmount);
+  });
+};
+
+coinpunk.controllers.Addresses.prototype.requestBTCUpdate = function() {
+  var amountExchange = $('#amountExchange').val();
+  coinpunk.pricing.getLatest(function(price, currency) {
+    
+    if(amountExchange == 0)
+      return;
+
+    var newAmount = parseFloat(amountExchange / price).toFixed(6).replace(/0+$/, '');
+    
+    if(newAmount == "NaN")
+      return;
+    
+    $('#amount').val(newAmount);
+  });
+};
+
 coinpunk.controllers.Addresses.prototype.drawRequestQR = function(address) {
   var uri = URI({protocol: 'bitcoin', path: address});
   
   var amount = $('#amount').val();
   var label = $('#label').val();
+  var message = $('#message').val();
 
   if(amount && amount != '' && amount != '0.00')
     uri.addQuery('amount', amount);
 
   if(label && label != '')
     uri.addQuery('label', label);
+    
+  if(message && message != '')
+    uri.addQuery('message', message);
 
   $('#qrcode').html('');
-  new QRCode(document.getElementById('qrcode'), uri.toString());
+  new QRCode(document.getElementById('qrcode'), uri.toString().replace('://', ':'));
 }
 
 coinpunk.controllers.addresses = new coinpunk.controllers.Addresses();

@@ -10,6 +10,12 @@ module.exports = function(grunt) {
           stdout: true
         },
         command: './node_modules/browserify/bin/cmd.js -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs > public/js/lib/bitcoinjs.js'
+      },
+      minifycss: {
+        options: {
+          stdout: true
+        },
+        command: 'cat public/css/bootstrap.css public/css/font-awesome.css public/css/fonts.css | ./node_modules/.bin/cleancss -o public/css/all.css'
       }
     },
     

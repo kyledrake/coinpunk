@@ -15,11 +15,17 @@
     
     <h4>Amount</h4>
     <div style="margin-top: 10px; margin-bottom: 10px">
-      <input id="amount" onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')" placeholder="0.00" style="width: 80px"> BTC
+      <input id="amount" type="text" name="amount" class="form-control" autocomplete="off" placeholder="0.00" style="display: inline; width: 100px" oninput="coinpunk.controllers.addresses.requestExchangeUpdate()" onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')"> BTC <span style="padding-left: 30px"> ≈ 
+      <input id="amountExchange" type="text" name="amountExchange" class="form-control" autocomplete="off" placeholder="0.00" style="display: inline; width: 100px" oninput="coinpunk.controllers.addresses.requestBTCUpdate()" onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')"> <%- coinpunk.pricing.getCurrency() %>
     </div>
-    <h4>Label</h4>
+    <h4>Label <small>Optional</small></h4>
     <div style="margin-top: 10px; margin-bottom: 10px">
-      <input id="label" onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')" placeholder="Description" style="width: 300px"> <small>(optional)</small>
+      <input id="label" class="form-control"  onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')" value="<%- coinpunk.wallet.getAddressName(data.address) == 'Default' ? '' : coinpunk.wallet.getAddressName(data.address) %>" style="width: 300px">
+    </div>
+    
+    <h4>Message <small>Optional</small></h4>
+    <div style="margin-top: 10px; margin-bottom: 10px">
+      <textarea id="message" class="form-control" rows="3" cols="50" placeholder="Optional Message" onchange="coinpunk.controllers.addresses.drawRequestQR('<%- data.address %>')"></textarea>
     </div>
   </div>
   <div class="col-lg-4 col-lg-offset-1 text-center">

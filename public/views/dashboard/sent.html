@@ -5,46 +5,67 @@
   <h4>No transactions yet.</h4>
 
 <% } else { %>
+  <div class="visible-xs visible-sm">
+    <% for(var i=0; i<data.tx.length; i++) { %>
+      <hr>
+      <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
+        <div class="col-md-6">
+          <strong><%= humaneDate(new Date(data.tx[i].time).toISOString()) %></strong>
+          <span class="receivedExchangePrice addExchangePrice pull-right" style="color: #FE2E2E; margin-right: 10px; font-size: 12px; font-weight: bold"><%= data.tx[i].amount %> BTC</span>
+        </div>
+      </div>
+      <div class="row" onclick="window.open('#/tx/details/<%- data.tx[i].hash %>','_self')">
+        <div class="col-md-6">
+          <div style="font-size: 10pt">
+            <strong><%- coinpunk.wallet.getAddressName(data.tx[i].address) || data.tx[i].address %></strong>
+          </div>
+          <div><%= data.tx[i].confirmations%> confirmations</div>
+        </div>
+      </div>
+    <% } %>
+  </div>
 
-  <table class="table table-bordered table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Recipient Address</th>
-        <th>Amount</th>
-        <th>Confirmations</th>
-        <th>Sent</th>
-        <th></th>
-    </thead>
-    <tbody>
-      <% for(var i=0; i<data.tx.length; i++) { %>
-        <% 
-          if(data.tx[i].type == 'receive')
-            continue;
-        %>
-          
+  <div class="visible-md visible-lg">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
         <tr>
-          <td>
-            <%- coinpunk.wallet.getAddressName(data.tx[i].address) %>
-            <span class="pull-right"><%- data.tx[i].address %></span>
-          </td>
-          <td><span class="addExchangePrice"><%- data.tx[i].amount %> BTC</span></td>
-          <td>
-            <%- data.tx[i].confirmations %>
+          <th>Recipient Address</th>
+          <th>Amount</th>
+          <th>Confirmations</th>
+          <th>Sent</th>
+          <th></th>
+      </thead>
+      <tbody>
+        <% for(var i=0; i<data.tx.length; i++) { %>
+          <% 
+            if(data.tx[i].type == 'receive')
+              continue;
+          %>
+          
+          <tr>
+            <td>
+              <%- coinpunk.wallet.getAddressName(data.tx[i].address) %>
+              <span><%- data.tx[i].address %></span>
+            </td>
+            <td><span class="addExchangePrice"><%- data.tx[i].amount %> BTC</span></td>
+            <td>
+              <%- data.tx[i].confirmations %>
 
-            <% if(data.tx[i].confirmations == 0) { %>
-              <span class="label label-warning pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has not yet been confirmed. You cannot safely spend this yet because you cannot be confident it isn't a double spend until it has been confirmed by the blockchain.">Pending (Unconfirmed)</span>
-            <% } else if(data.tx[i].confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
-              <span class="label label-info pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has had confirmations and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
-            <% } else if(data.tx[i].confirmations >= coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
-              <span class="label label-success pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
-            <% } %>
-          </td>
-          <td>
-            <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
-          </td>
-          <td><a href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
-      <% } %>
-    </tbody>
-  </table>
+              <% if(data.tx[i].confirmations == 0) { %>
+                <span class="label label-warning pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has not yet been confirmed. You cannot safely spend this yet because you cannot be confident it isn't a double spend until it has been confirmed by the blockchain.">Pending (Unconfirmed)</span>
+              <% } else if(data.tx[i].confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
+                <span class="label label-info pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has had confirmations and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
+              <% } else if(data.tx[i].confirmations >= coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
+                <span class="label label-success pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
+              <% } %>
+            </td>
+            <td>
+              <%- humaneDate(new Date(data.tx[i].time).toISOString()) %>
+            </td>
+            <td><a href="#/tx/details/<%- data.tx[i].hash %>">Details</a></td>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
 
 <% } %>

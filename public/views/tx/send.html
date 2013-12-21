@@ -41,8 +41,9 @@
       </div>
       <div class="form-group">
         <label for="address" class="col-lg-5 control-label">Amount</label>
-        <div class="col-lg-2">
-          <input id="amount" type="text" name="amount" class="form-control" autocomplete="off" placeholder="0.00">
+        <div class="col-lg-5">
+          <input id="amount" type="text" name="amount" class="form-control" autocomplete="off" placeholder="0.00" style="display: inline; width: 100px" oninput="coinpunk.controllers.tx.sendExchangeUpdate()"> BTC <span style="padding-left: 30px"> ≈ 
+          <input id="amountExchange" type="text" name="amountExchange" class="form-control" autocomplete="off" placeholder="0.00" style="display: inline; width: 100px" oninput="coinpunk.controllers.tx.sendBTCUpdate()"> <%- coinpunk.pricing.getCurrency() %>
         </div>
       </div>
       
