@@ -53,7 +53,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       key: eckey.getExportedPrivateKey(this.network),
       publicKey: Bitcoin.convert.bytesToHex(eckey.getPubKeyHash()),
       address: eckey.getBitcoinAddress(this.network).toString(),
-      isChange: (isChange || false)
+      isChange: (isChange == true)
     };
 
     if(name)
@@ -73,6 +73,15 @@ coinpunk.Wallet = function(walletKey, walletId) {
     var addrs = [];
     for(var i=0; i<keyPairs.length; i++) {
       addrs.push({address: keyPairs[i].address, name: keyPairs[i].name, isChange: keyPairs[i].isChange});
+    }
+    return addrs;
+  };
+  
+  this.receiveAddresses = function() {
+    var addrs = [];
+    for(var i=0; i<keyPairs.length; i++) {
+      if(keyPairs[i].isChange != true)
+        addrs.push({address: keyPairs[i].address, name: keyPairs[i].name});
     }
     return addrs;
   };
