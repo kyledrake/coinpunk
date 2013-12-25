@@ -6,7 +6,7 @@ coinpunk.controllers.Tx.prototype.minimumConfirmationsToSpend = 1;
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
   var self = this;
-  $.post('/api/tx/details', {txHashes: [txHash]}, function(resp) {
+  $.post('api/tx/details', {txHashes: [txHash]}, function(resp) {
     self.render('tx/details', {tx: resp[0]}, function(id) {
       $('#'+id+" [rel='tooltip']").tooltip();
     });
@@ -99,7 +99,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
   var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
   
   self.saveWallet({override: true, address: changeAddress}, function(response) {
-    $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+    $.post('api/tx/send', {tx: rawtx}, function(resp) {
       coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
       self.getUnspent(function() {

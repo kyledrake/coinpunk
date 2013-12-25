@@ -33,7 +33,7 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
   var walletKey = coinpunk.wallet.createWalletKey(id, password);
   var payload   = coinpunk.wallet.encryptPayload();
   
-  $.get('/api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
+  $.get('api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
     if(response.result == 'error') {
       errorDiv.removeClass('hidden');
       errorDiv.html(response.message);

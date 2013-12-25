@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v4
+# v5
 index.html
 config.json
 js/all.js
@@ -28,4 +28,5 @@ views/signin.html
 views/signup.html
 
 NETWORK:
-/api
+api
+listener

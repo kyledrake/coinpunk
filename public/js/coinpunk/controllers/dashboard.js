@@ -15,7 +15,7 @@ coinpunk.controllers.Dashboard.prototype.renderDashboard = function() {
     txHashes.push(txs[i].hash);
   }
 
-  $.post('/api/tx/details', {txHashes: txHashes}, function(resp) {
+  $.post('api/tx/details', {txHashes: txHashes}, function(resp) {
     for(i=0;i<txs.length;i++) {
       for(var j=0;j<resp.length;j++) {
         if(txs[i].hash == resp[j].hash)

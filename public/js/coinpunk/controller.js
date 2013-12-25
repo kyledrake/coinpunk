@@ -10,7 +10,7 @@ coinpunk.Controller.prototype.getUnspent = function(confirmations, callback) {
   else
     query['confirmations'] = confirmations;
 
-  $.post('/api/tx/unspent', query, function(resp) {
+  $.post('api/tx/unspent', query, function(resp) {
     if(resp.error) {
       coinpunk.router.route('node_error');
       return;
@@ -46,7 +46,7 @@ coinpunk.Controller.prototype.saveWallet = function(data, callback) {
 
   $.ajax({
     type: 'POST',
-    url: '/api/wallet',
+    url: 'api/wallet',
     data: data,
     dataType: 'json',
     success: function(response) {
@@ -66,7 +66,7 @@ coinpunk.Controller.prototype.saveWallet = function(data, callback) {
 coinpunk.Controller.prototype.deleteWallet = function(serverKey, callback) {
   $.ajax({
     type: 'POST',
-    url: '/api/wallet/delete',
+    url: 'api/wallet/delete',
     data: {serverKey: serverKey},
     dataType: 'json',
     success: function(response) {
