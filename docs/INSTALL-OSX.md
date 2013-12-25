@@ -126,7 +126,7 @@ Now you will need to create and configure your config.json file, one for the mai
 cp config.template.json config.json
 ```
 
-Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8832` for production. Also remove the `testnet` entry for production:
+Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8332` for production. Also remove the `testnet` entry for production:
 
 ```
 {

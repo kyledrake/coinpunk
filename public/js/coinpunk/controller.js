@@ -28,17 +28,21 @@ coinpunk.Controller.prototype.mergeUnspent = function(unspent, callback) {
 };
 
 coinpunk.Controller.prototype.saveWallet = function(data, callback) {
+  var self = this;
   var data = data || {};
   data.serverKey = coinpunk.wallet.serverKey;
 
   if(!data.payload)
     data.payload = {};
 
-  if(!data.payload.email)
-    data.payload.email = coinpunk.wallet.walletId;
+  //if(!data.payload.email)
+  //  data.payload.email = coinpunk.wallet.walletId;
 
   if(!data.payload.wallet)
     data.payload.wallet = coinpunk.wallet.encryptPayload();
+
+  data.payload.originalPayloadHash = coinpunk.wallet.payloadHash;
+  data.payload.newPayloadHash = coinpunk.wallet.newPayloadHash;
 
   $.ajax({
     type: 'POST',
@@ -46,6 +50,13 @@ coinpunk.Controller.prototype.saveWallet = function(data, callback) {
     data: data,
     dataType: 'json',
     success: function(response) {
+      if(response.result == 'outOfSync') {
+        coinpunk.wallet.mergePayload(response.wallet);
+        return self.saveWallet({override: true}, callback);
+      }
+
+      coinpunk.wallet.payloadHash = coinpunk.wallet.newPayloadHash;
+
       if(callback)
         callback(response);
     }

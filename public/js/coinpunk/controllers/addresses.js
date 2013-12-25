@@ -3,7 +3,7 @@ coinpunk.controllers.Addresses.prototype = new coinpunk.Controller();
 
 coinpunk.controllers.Addresses.prototype.list = function() {
   var self = this;
-  this.render('addresses/list', {addresses: coinpunk.wallet.addresses()}, function(id) {
+  this.render('addresses/list', {addresses: coinpunk.wallet.receiveAddresses()}, function(id) {
     self.updateExchangeRates(id);
   });
 }
