@@ -216,7 +216,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return amount;
   };
 
-  this.createSend = function(amtString, feeString, addressString, changeAddress) {
+  this.createTx = function(amtString, feeString, addressString, changeAddress) {
     var amt = Bitcoin.util.parseValue(amtString);
     
     if(amt == Bitcoin.BigInteger.ZERO)
@@ -289,22 +289,33 @@ coinpunk.Wallet = function(walletKey, walletId) {
       }
     }
 
+    return {unspentsUsed: unspent, obj: sendTx, raw: Bitcoin.convert.bytesToHex(sendTx.serialize())};
+  };
+  
+  this.calculateFee = function(amtString, addressString, changeAddress) {
+    var tx = this.createTx(amtString, 0, addressString, changeAddress);
+    var txSize = tx.raw.length / 2;
+    // console.log(txSize);
+    return Math.ceil(txSize/1000)*0.0001;
+  };
+
+  this.createSend = function(amtString, feeString, addressString, changeAddress) {
+    var tx = this.createTx(amtString, feeString, addressString, changeAddress);
+
     this.transactions.push({
-      hash: Bitcoin.convert.bytesToHex(sendTx.getHash()),
+      hash: Bitcoin.convert.bytesToHex(tx.obj.getHash()),
       type: 'send',
       address: addressString,
-      amount: Bitcoin.util.formatValue(amt),
-      fee: Bitcoin.util.formatValue(fee),
+      amount: amtString,
+      fee: feeString,
       time: new Date().getTime()
     });
 
-    var raw = Bitcoin.convert.bytesToHex(sendTx.serialize());
-
     // Remove unspent elements now that we have a tx that uses them
-    for(var i=0;i<unspent.length;i++)
-      this.unspent = _.reject(this.unspent, function(u) { return u.hash == unspent[i].hash })
+    for(var i=0;i<tx.unspentsUsed.length;i++)
+      this.unspent = _.reject(this.unspentsUsed, function(u) { return u.hash == tx.unspentsUsed[i].hash })
 
-    return raw;
+    return tx.raw;
   };
 
   if(walletKey && walletId)

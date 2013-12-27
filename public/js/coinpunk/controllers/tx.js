@@ -1,7 +1,7 @@
 coinpunk.controllers.Tx = function() {};
 coinpunk.controllers.Tx.prototype = new coinpunk.Controller();
 
-coinpunk.controllers.Tx.prototype.defaultFee = coinpunk.config.transactionFee ||'0.0005';
+coinpunk.controllers.Tx.prototype.defaultFee = '0.0001';
 coinpunk.controllers.Tx.prototype.minimumConfirmationsToSpend = 1;
 
 coinpunk.controllers.Tx.prototype.details = function(txHash) {
@@ -25,18 +25,25 @@ coinpunk.controllers.Tx.prototype.send = function() {
 };
 
 coinpunk.controllers.Tx.prototype.sendExchangeUpdate = function() {
+  var self = this;
   var amount = $('#amount').val();
   coinpunk.pricing.getLatest(function(price, currency) {
     var newAmount = parseFloat(price * amount).toFixed(2);
-    
+
     if(newAmount == "NaN")
       return;
-    
-    $('#amountExchange').val(newAmount);
+
+    var amountExchange = $('#amountExchange');
+
+    if(amountExchange.val() != newAmount) {
+      $('#amountExchange').val(newAmount);
+      self.calculateFee();
+    }
   });
 };
 
 coinpunk.controllers.Tx.prototype.sendBTCUpdate = function() {
+  var self = this;
   var amountExchange = $('#amountExchange').val();
   coinpunk.pricing.getLatest(function(price, currency) {
     
@@ -48,7 +55,12 @@ coinpunk.controllers.Tx.prototype.sendBTCUpdate = function() {
     if(newAmount == "NaN")
       return;
     
-    $('#amount').val(newAmount);
+    var amount = $('#amount');
+    
+    if(amount.val() != newAmount) {
+      amount.val(newAmount);
+      self.calculateFee();
+    }
   });
 };
 
@@ -95,9 +107,13 @@ coinpunk.controllers.Tx.prototype.create = function() {
     return;
   }
 
-  var changeAddress = coinpunk.wallet.createNewAddress('change', true);
+  var changeAddress = $('#changeAddress').val();
+
+  if(changeAddress == '')
+    changeAddress = coinpunk.wallet.createNewAddress('change', true);
+
   var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
-  
+
   self.saveWallet({override: true, address: changeAddress}, function(response) {
     $.post('/api/tx/send', {tx: rawtx}, function(resp) {
       coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
@@ -118,6 +134,33 @@ coinpunk.controllers.Tx.prototype.displayErrors = function(errors, errorsDiv) {
     }
     return;
   }
+};
+
+coinpunk.controllers.Tx.prototype.calculateFee = function() {
+  var address = $('#address').val();
+  var amount = $('#amount').val();
+  var sendAmount = $('#sendAmount');
+
+  if(amount == sendAmount.val())
+    return;
+  else
+    sendAmount.val(amount);
+
+  if(address == '' || amount == '')
+    return;
+
+  var changeAddress = $('#changeAddress').val();
+  var calculatedFee = $('#calculatedFee').val();
+
+  if(changeAddress == '') {
+    changeAddress = coinpunk.wallet.createNewAddress('change', true);
+    $('#changeAddress').val(changeAddress);
+  }
+
+  var calculatedFee = coinpunk.wallet.calculateFee(amount, address, changeAddress);
+  $('#calculatedFee').val(calculatedFee);
+  $('#fee').text(coinpunk.wallet.calculateFee(amount, address, changeAddress)+' BTC');
+  this.updateExchangeRates('container', false);
 };
 
 coinpunk.controllers.Tx.prototype.scanQR = function(event) {
