@@ -12,7 +12,7 @@ coinpunk.router.route = function(path) {
 var sock = null;
 
 coinpunk.router.listener = function() {
-  sock = new SockJS('/listener');
+  sock = new SockJS('./listener');
   var self = this;
 
   window.onbeforeunload = function () {
