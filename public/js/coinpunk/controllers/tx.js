@@ -72,6 +72,9 @@ coinpunk.controllers.Tx.prototype.create = function() {
   var amount = $('#createSendForm #amount').val();
   var errors = [];
   var errorsDiv = $('#errors');
+  
+  this.calculateFee();
+  var calculatedFee = $('#calculatedFee').val();
 
   errorsDiv.addClass('hidden');
   errorsDiv.html('');
@@ -97,7 +100,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     errors.push('You must have a valid amount to send.');
   else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
     errors.push('You must have a valid amount to send.');
-  else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(this.defaultFee))) {
+  else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
     errors.push('Cannot spend more bitcoins than you currently have.');
   }
 
@@ -112,7 +115,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
   if(changeAddress == '')
     changeAddress = coinpunk.wallet.createNewAddress('change', true);
 
-  var rawtx = coinpunk.wallet.createSend(amount, self.defaultFee, address, changeAddress);
+  var rawtx = coinpunk.wallet.createSend(amount, calculatedFee, address, changeAddress);
 
   self.saveWallet({override: true, address: changeAddress}, function(response) {
     $.post('/api/tx/send', {tx: rawtx}, function(resp) {
