@@ -1,8 +1,10 @@
-## NOTICE: Breaking change!
+## NOTICE: Breaking changes!
 
 Coinpunk updated to the latest version of SJCL, which has fixed a bug that caused PBKDF2 hashes to be inconsistent from the standard.
 
 This has been fixed, but it will not work with wallets created before [this commit](https://github.com/kyledrake/coinpunk/commit/26fc0ebec6ff89d2bc3ad49c9e490cf66d331844). Please be mindful of this when upgrading Coinpunk if you are already running it in production.
+
+Also, we are switching to a release-based system, so you should checkout one of the tagged versions instead of using master. The 0.3 series will not contain any breaking changes, but the 0.4 releases will. So please use a 0.3 release if you are using Coinpunk in production.
 
 # ![Coinpunk](http://i.imgur.com/m1diPkP.png)
 
@@ -10,9 +12,11 @@ Run your own Bitcoin wallet service.
 
 Coinpunk is a web application that allows anyone to run their own self-hosted Bitcoin wallet service that is accessible from your web browser anywhere in the world. It's free, open source, and you can install it on your server right now.
 
-## Why
+## Who uses Coinpunk
 
-Coinpunk is aimed at developers and sysadmins interested in running their own Bitcoin wallet service, or power users that want to run a web wallet on their own servers.
+Coinpunk is aimed at developers, power users, and sysadmins interested in running their own web-based Bitcoin wallet.
+
+Coinpunk is also used to power [coinpunk.com](https://coinpunk.com), the first fully open source web-based wallet service.
 
 ## Highlights
 
@@ -29,20 +33,14 @@ The latest version is a major rewrite that uses hybrid-wallets: encryption is do
 * Built with Node.js and HTML5
 * Standards compliant, easy to upgrade - Uses bitcoind via the JSON RPC
 
-Coming soon:
-
-* Development API
-* Receiving notifications when new bitcoins arrive
-* Sending bitcoins to users using e-mail (users collect the payment by getting a link to register with your service)
-
 ## Get Started
 
-See the [Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL.md), 
-or the [OSX Install Guide](https://github.com/kyledrake/coinpunk/blob/master/docs/INSTALL-OSX.md).
+See the [Install Guide](docs/INSTALL.md), 
+or the [OSX Install Guide](docs/INSTALL-OSX.md).
 
 ## Coinpunk is for Advanced Users
 
-If you've never worked on your own server before, and don't know how to do things like backup your database, I strongly recommend using a desktop client or hosted wallet provider like [blockchain.info](http://blockchain.info) instead. Coinpunk tries to be simple as possible, but like Gitlab, it does require some understanding of system administration to be run properly.
+If you've never worked on your own server before, and don't know how to do things like backup your database, I strongly recommend using a desktop client or hosted wallet provider like [coinpunk.com](https://coinpunk.com) instead. Coinpunk tries to be simple as possible, but like Gitlab, it does require a lot of knowledge to be run properly.
 
 ## Author
 
@@ -66,7 +64,7 @@ Again, thank you. :heart:
 
 ### Contributing
 
-Help us build! We're in beta right now [and seeking help to find bugs](http://coinpunk.org/beta.html). If you are interested in contributing, jump in! Anyone is welcome to send pull requests. Here's how you do it:
+Help us build! We're in beta right now [and seeking help to find bugs](http://coinpunk.org/beta.html). If you are interested in contributing, jump in! Anyone is welcome to send pull requests. Issue reports are good too, but pull requests are much better. Here's how you do it:
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -74,3 +72,7 @@ Help us build! We're in beta right now [and seeking help to find bugs](http://co
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
+
+### Coinpunk H4XX0RZ Bounty
+
+See [docs/H4XX0RZ.md](docs/H4XX0RZ.md).
