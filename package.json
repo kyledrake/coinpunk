@@ -14,9 +14,7 @@
   "dependencies": {
     "express": "~3.4.4",
     "optimist": "~0.6.0",
-    "bitcoin": "~2.0.0",
     "redis": "~0.9.0",
-    "libcoin": "~0.1.5",
     "request": "~2.27.0",
     "browserify": "~2.35.2",
     "sockjs": "~0.3.8"
@@ -32,7 +30,6 @@
     "chai": "~1.8.1",
     "phantomjs": "~1.9.2",
     "redis-mock": "~0.2.0",
-    "underscore": "~1.5.2",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-watch": "~0.5.3",
     "uglify-js": "~2.4.3"
