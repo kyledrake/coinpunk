@@ -4,7 +4,7 @@ We're hackers, we love Hackers (the movie of course), and we're strong believers
 
 If you find a major security problem: 
 
-* Send an email to `crashoverride@coinpunk.com` describing the issue. If you'd like to send discreetly, you can use [this PGP key](http://kyledrake.net/pgpkey.txt) to sign messages. A diff to fix the problem is even better, but we'll take any and all reports regarding security. Or your best recipe for a hot dish, that's cool too. We've got a hot dish pan and we really want to use it for something.
+* Send an email to `crashoverride@coinpunk.com` describing the issue. If you don't want to share your email with the NSA, you can use [this PGP key](http://kyledrake.net/pgpkey.txt) to sign messages. A diff to fix the problem is even better, but we'll take any and all reports regarding security. Or your best recipe for a hot dish, that's cool too. We've got a hot dish pan and we really want to use it for something.
 * Give us a solid amount of time to try and resolve (or more likely, understand) the problem before disclosing.
 
 If you do this, we will try to provide:
