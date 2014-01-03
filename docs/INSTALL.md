@@ -152,12 +152,11 @@ And change `network` to `prod` instead of `testnet` if you are using Coinpunk in
 You can start Coinpunk from the command line:
 
 ```
-node start.js -p 10000
+node start.js
 ```
 
-Where -p is the port number you want to run Coinpunk as.
 
-Try to connect by going to http://YOURADDRESS.COM:10000. If it loads, then you should be ready to use Coinpunk!
+Try to connect by going to http://YOURADDRESS.COM:8080  (If your useing the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
 
 ## Backing up Database
 
