@@ -9,7 +9,7 @@ If you find a major security problem:
 
 If you do this, we will try to provide:
 
-* A bounty of no less than $100 USD in BTC for a disclosure, probably higher if the security issue is really bad.
+* A bounty of no less than $100 USD in BTC for a disclosure that could have caused loss or theft of money, probably higher if the security issue is really bad.
 * A free Coinpunk t-shirt sent to you, made DIY punk style in a basement in Portland, Oregon (I'm not joking)
 * Credit on the project's documentation and/or website, if you wish. Upon request, we will make a special security page just for you and deck it out with animated gifs from [r/cyberpunk](http://reddit.com/r/cyberpunk) and stuff.
 * Even if it's just a false alarm, we might just send you a shirt anyway because they're really bad ass.
