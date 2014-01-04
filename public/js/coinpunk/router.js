@@ -11,6 +11,11 @@ coinpunk.router.route = function(path) {
 
 var sock = null;
 
+coinpunk.router.walletRequired = function() {
+  if(!coinpunk.wallet)
+    coinpunk.router.route('signup');
+};
+
 coinpunk.router.listener = function() {
   sock = new SockJS('./listener');
   var self = this;
@@ -40,51 +45,36 @@ coinpunk.router.listener = function() {
 
   sock.onclose = function() {
     clearInterval(coinpunk.router.listenerTimeout);
-    if(coinpunk.database.loggedIn())
+    if(coinpunk.wallet)
       setTimeout("coinpunk.router.listener()", 5000);
   };
 };
 
-coinpunk.router.initWallet = function() {
-  if(coinpunk.wallet) {
-    return coinpunk.wallet;
-  } else {
-    coinpunk.wallet = new coinpunk.Wallet(coinpunk.database.getWalletKey(), coinpunk.database.getWalletId());
-    $.ajax({
-      url: '/api/wallet',
-      async: false,
-      data: {serverKey: coinpunk.wallet.serverKey},
-      success: function(response) {
-        coinpunk.wallet.loadPayload(response.wallet);
-        coinpunk.router.listener();
-      }
-    });
-  }
-};
+coinpunk.router.initWallet = function(callback) {
+  if(coinpunk.wallet)
+    return callback(true);
 
-coinpunk.router.requireSignin = function() {
-  if(!coinpunk.database.loggedIn()) {
-    coinpunk.router.route('signin');
-    return false;
-  } else {
-    if(!coinpunk.wallet)
-      coinpunk.router.initWallet();
-
-    return true;
-  }
+  coinpunk.router.route('signin');
 };
 
 coinpunk.router.map('#/backup').to(function() {
-  coinpunk.router.initWallet();
-  coinpunk.router.render('view', 'backup');
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.router.render('view', 'backup');
+  });
 });
 
 coinpunk.router.map('#/backup/download').to(function() {
-  coinpunk.router.initWallet();
-  var payload = coinpunk.wallet.encryptPayload();
-  var blob = new Blob([payload], {type: "text/plain;charset=utf-8"});
-  saveAs(blob, "coinpunk-wallet.txt");
-  coinpunk.router.route('backup');
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+
+    var payload = coinpunk.wallet.encryptPayload();
+    var blob = new Blob([payload], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "coinpunk-wallet.txt");
+    coinpunk.router.route('backup');
+  });
 });
 
 coinpunk.router.map("#/signup").to(function() {
@@ -92,44 +82,49 @@ coinpunk.router.map("#/signup").to(function() {
 });
 
 coinpunk.router.map("#/signin").to(function() {
-  if(coinpunk.database.loggedIn())
-    coinpunk.router.route('dashboard');
-  else
-    coinpunk.router.render('view', 'signin');
+  if(coinpunk.wallet)
+    return coinpunk.router.render('view', 'dashboard');
+  return coinpunk.router.render('view', 'signin');
 });
 
 coinpunk.router.map("#/signout").to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.wallet = null;
-  coinpunk.database.reset();
-  clearInterval(coinpunk.router.listenerTimeout);
-  coinpunk.controllers.dashboard.firstDashboardLoad = false;
-  coinpunk.router.route('signin');
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.wallet = null;
+    coinpunk.database.reset();
+    clearInterval(coinpunk.router.listenerTimeout);
+    coinpunk.controllers.dashboard.firstDashboardLoad = false;
+    coinpunk.router.route('signin');
+  });
 });
 
 coinpunk.router.map("#/dashboard").to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.router.initWallet();
-  coinpunk.controllers.dashboard.index();
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.controllers.dashboard.index();
+  });
 });
 
 coinpunk.router.map('#/tx/details/:hash').to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.controllers.tx.details(this.params["hash"]);
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.controllers.tx.details(this.params["hash"]);
+  });
 });
 
 coinpunk.router.map('#/tx/send').to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.router.initWallet();
-  coinpunk.controllers.tx.send();
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.controllers.tx.send();
+  });
 });
 
 coinpunk.router.map('#/accounts/import').to(function() {
-  if(coinpunk.database.loggedIn()) {
+  if(coinpunk.wallet) {
     coinpunk.router.route('dashboard');
   } else {
     // Check for the various File API support.
@@ -147,24 +142,27 @@ coinpunk.router.map('#/node_error').to(function() {
 });
 
 coinpunk.router.map('#/account/settings').to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.router.initWallet();
-  coinpunk.router.render('view', 'accounts/settings');
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.router.render('view', 'accounts/settings');
+  });
 });
 
 coinpunk.router.map('#/addresses/list').to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.router.initWallet();
-  coinpunk.controllers.addresses.list();
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.controllers.addresses.list();
+  });
 });
 
 coinpunk.router.map('#/addresses/request/:address').to(function() {
-  if(!coinpunk.router.requireSignin())
-    return false;
-  coinpunk.router.initWallet();
-  coinpunk.controllers.addresses.request(this.params['address']);
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.controllers.addresses.request(this.params['address']);
+  });
 });
 
 coinpunk.router.map('#/').to(function() {
@@ -176,7 +174,11 @@ coinpunk.router.map('#/').to(function() {
       "Coinpunk"
     );
 */
-  coinpunk.router.route('dashboard');
+  coinpunk.router.initWallet(function(res) {
+    if(res == false)
+      return;
+    coinpunk.route('dashboard');
+  });
 });
 
 coinpunk.router.root("#/");

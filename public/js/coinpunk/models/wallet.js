@@ -137,10 +137,6 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return sjcl.encrypt(this.walletKey, payloadJSON);
   };
 
-  this.storeCredentials = function() {
-    coinpunk.database.set(this.walletKey, this.walletId);
-  };
-
   this.mergeUnspent = function(newUnspent) {
     var changed = false;
     this.unspentConfirmations = this.unspentConfirmations || {};

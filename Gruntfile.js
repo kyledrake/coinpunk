@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         command: 'cat public/css/bootstrap.css public/css/font-awesome.css public/css/fonts.css | ./node_modules/.bin/cleancss -o public/css/all.css'
       }
     },
-    
+
     uglify: {
       coinpunk: {
         options: {
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     watch: {
       scripts: {
         files: ['public/js/**/*.js'],

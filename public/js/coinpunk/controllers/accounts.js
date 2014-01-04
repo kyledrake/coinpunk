@@ -28,12 +28,12 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
   errorDiv.addClass('hidden');
   errorDiv.html('');
 
-  coinpunk.wallet = new coinpunk.Wallet();
+  var wallet = new coinpunk.Wallet();
 
-  var walletKey = coinpunk.wallet.createWalletKey(id, password);
-  var payload   = coinpunk.wallet.encryptPayload();
+  var walletKey = wallet.createWalletKey(id, password);
+  var payload   = wallet.encryptPayload();
 
-  var body = {serverKey: coinpunk.wallet.serverKey};
+  var body = {serverKey: wallet.serverKey};
 
   var authCode = $('#authCode');
   if(authCode)
@@ -54,11 +54,12 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
           </div>
         </div>
       ');
+      $('#authCode').focus();
 
     } else {
       errorDiv.addClass('hidden');
-      coinpunk.wallet.loadPayload(response.wallet);
-      coinpunk.wallet.storeCredentials();
+      wallet.loadPayload(response.wallet);
+      coinpunk.wallet = wallet;
       coinpunk.router.listener();
       coinpunk.router.route('dashboard');
     }
@@ -111,18 +112,18 @@ coinpunk.controllers.Accounts.prototype.create = function() {
 
     this.disableSubmitButton();
 
-    coinpunk.wallet = new coinpunk.Wallet();
-    var address   = coinpunk.wallet.createNewAddress('Default');
-    var walletKey = coinpunk.wallet.createWalletKey(email, password);
+    var wallet = new coinpunk.Wallet();
+    var address   = wallet.createNewAddress('Default');
+    var walletKey = wallet.createWalletKey(email, password);
+
+    coinpunk.wallet = wallet;
 
     this.saveWallet({address: address, payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
-        coinpunk.wallet.storeCredentials();
         coinpunk.router.listener();
         coinpunk.router.route('dashboard');
       } else if(response.result == 'exists'){
         coinpunk.wallet.loadPayload(response.wallet);
-        coinpunk.wallet.storeCredentials();
         coinpunk.router.listener();
         coinpunk.router.route('dashboard');
       } else {
@@ -145,17 +146,19 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
   var reader = new FileReader();
 
   reader.onload = (function(walletText) {
-    coinpunk.wallet = new coinpunk.Wallet();
+    var wallet = new coinpunk.Wallet();
     try {
-      coinpunk.wallet.loadPayloadWithLogin(id, password, walletText.target.result);
+      wallet.loadPayloadWithLogin(id, password, walletText.target.result);
     } catch(e) {
       $('#importErrorDialog').removeClass('hidden');
       $('#importErrorMessage').text('Wallet import failed. Check the credentials and wallet file.');
       return;
     }
 
-    if(coinpunk.wallet.transactions && coinpunk.wallet.addresses()) {
-      var payload = coinpunk.wallet.encryptPayload();
+    if(wallet.transactions && wallet.addresses()) {
+      var payload = wallet.encryptPayload();
+
+      coinpunk.wallet = wallet;
 
       self.saveWallet({importAddresses: coinpunk.wallet.addressHashes()}, function(resp) {
         if(resp.result == 'exists') {
@@ -163,7 +166,6 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
           $('#importErrorMessage').text('Cannot import your wallet, because the wallet already exists on this server.');
           return;
         } else {
-          coinpunk.wallet.storeCredentials();
           coinpunk.router.route('dashboard');
         }
       });
@@ -211,7 +213,6 @@ coinpunk.controllers.Accounts.prototype.changeId = function() {
       coinpunk.wallet.createWalletKey(originalWalletId, password);
       return;
     } else if(response.result == 'ok') {
-      coinpunk.wallet.storeCredentials();
 
       self.deleteWallet(originalServerKey, function(resp) {
         self.template('header', 'header');
@@ -263,7 +264,6 @@ coinpunk.controllers.Accounts.prototype.changePassword = function() {
       coinpunk.wallet.createWalletKey(coinpunk.wallet.walletId, currentPassword);
       return;
     } else if(response.result == 'ok') {
-      coinpunk.wallet.storeCredentials();
 
       self.deleteWallet(originalServerKey, function(resp) {
         self.template('header', 'header');
@@ -313,6 +313,7 @@ $('body').on('click', '#generateAuthQR', function() {
         <button type="submit" class="btn btn-primary">Confirm</button>
       </form>
     ');
+    $('#confirmAuthCode').focus();
   });
 });
 

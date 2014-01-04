@@ -3,7 +3,7 @@ coinpunk.Database = function() {
   this.walletKeyName = 'coinpunkWalletKey';
   this.walletIdName  = 'coinpunkWalletId';
   this.storage       = sessionStorage;
-  this.local
+  this.tempStorage   = {};
 };
 
 coinpunk.Database.prototype.setCurrency = function(currency) {
