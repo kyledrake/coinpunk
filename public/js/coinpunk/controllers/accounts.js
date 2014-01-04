@@ -27,16 +27,34 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
   var errorDiv = $('#errors');
   errorDiv.addClass('hidden');
   errorDiv.html('');
-  
+
   coinpunk.wallet = new coinpunk.Wallet();
-  
+
   var walletKey = coinpunk.wallet.createWalletKey(id, password);
   var payload   = coinpunk.wallet.encryptPayload();
-  
-  $.get('/api/wallet', {serverKey: coinpunk.wallet.serverKey}, function(response) {
+
+  var body = {serverKey: coinpunk.wallet.serverKey};
+
+  var authCode = $('#authCode');
+  if(authCode)
+    body.authCode = authCode.val();
+
+  $.get('/api/wallet', body, function(response) {
     if(response.result == 'error') {
       errorDiv.removeClass('hidden');
       errorDiv.html(response.message);
+    } else if(response.result == 'authCodeNeeded') {
+      errorDiv.removeClass('hidden');
+      errorDiv.html(response.message);
+      $('#signinPassword').after('
+        <div class="form-group">
+          <label for="authCode" class="col-lg-2 control-label">Auth Code</label>
+          <div class="col-lg-4">
+            <input id="authCode" type="password" class="form-control" placeholder="">
+          </div>
+        </div>
+      ');
+
     } else {
       errorDiv.addClass('hidden');
       coinpunk.wallet.loadPayload(response.wallet);
@@ -76,7 +94,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
 
   if(password != passwordConfirm)
     errors.push('Passwords do not match.');
-  
+
   if(password.length < this.requiredPasswordLength)
     errors.push('Password must be at least 10 characters.');
 
@@ -96,7 +114,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
     coinpunk.wallet = new coinpunk.Wallet();
     var address   = coinpunk.wallet.createNewAddress('Default');
     var walletKey = coinpunk.wallet.createWalletKey(email, password);
-    
+
     this.saveWallet({address: address, payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
         coinpunk.wallet.storeCredentials();
@@ -267,5 +285,45 @@ coinpunk.controllers.Accounts.prototype.changeDialog = function(type, message) {
   $('#changeDialog').removeClass('hidden');
   $('#changeMessage').text(message);
 };
+
+$('body').on('click', '#generateAuthQR', function() {
+  var e = $('#generateAuthQR');
+  e.addClass('hidden');
+
+  $.get('api/generateAuthKey', function(resp) {
+    e.after('<div id="authQR"></div>');
+
+    var authURI = new URI({
+      protocol: 'otpauth',
+      hostname: 'totp',
+      path: 'Coinpunk:'+coinpunk.wallet.walletId
+    });
+    authURI.setSearch({issuer: 'Coinpunk', secret: resp.key});
+
+    console.log(authURI.toString());
+    new QRCode(document.getElementById('authQR'), authURI.toString());
+    $('#authQR').after('
+      <form role="form" id="submitAuth">
+        <p>Enter code shown on Google Authenticator:</p>
+        <input type="hidden" id="authKeyValue" value="'+resp.key+'">
+        <div class="form-group">
+          <label for="confirmAuthCode">Confirm Auth Code</label>
+          <input class="form-control" type="text" id="confirmAuthCode" autocorrect="off" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+      </form>
+    ');
+  });
+});
+
+$('body').on('submit', '#submitAuth', function() {
+  var e = $('#submitAuth #confirmAuthCode');
+  $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
+    if(res.set != true)
+      $('#authKey').html('Code save failed. Please reload and try again.');
+    else
+      $('#authKey').html('Successfully saved! You will now need your device to login.');
+  });
+});
 
 coinpunk.controllers.accounts = new coinpunk.controllers.Accounts();

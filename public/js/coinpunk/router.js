@@ -181,3 +181,4 @@ coinpunk.router.map('#/').to(function() {
 
 coinpunk.router.root("#/");
 coinpunk.router.listen();
+
