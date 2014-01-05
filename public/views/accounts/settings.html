@@ -44,12 +44,12 @@
         <label for="currentPassword">Current password</label>
         <input type="password" class="form-control" id="currentPassword" placeholder="Current password" autocomplete="off">
       </div>
-      
+
       <div class="form-group">
         <label for="newPassword">New password</label>
         <input type="password" class="form-control" id="newPassword" placeholder="New password" autocomplete="off">
       </div>
-      
+
       <div class="form-group">
         <label for="confirmNewPassword">Confirm new password</label>
         <input type="password" class="form-control" id="confirmNewPassword" placeholder="Re-enter new password" autocomplete="off">
@@ -62,10 +62,24 @@
 <div class="row">
   <div class="col-lg-4 col-lg-offset-2" id="authKey">
     <h3 class="text-center">Two Factor Auth</h3>
-    
-    <p>Two factor authentication allows you to require a code from your phone from Login. Coinpunk uses Google Authenticator, which you will need to download to use this.</p>
+    <% if(coinpunk.usingAuthKey == true) { %>
+      <p>You are currently using Two Factor Authentication. If you would like to disable it, enter your auth code below and we will remove it:</p>
 
-    <a class="btn btn-primary" id="generateAuthQR">Generate QR Code to Scan</a>
+      <div id="disableAuthDialog" class="alert hidden">
+      </div>
+
+      <form id="disableAuth" role="form">
+        <div class="form-group">
+          <label for="authCode">Enter code to disable</label>
+          <input class="form-control" type="password" id="disableAuthCode" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-danger">Disable</button>
+      </form>
+    <% } else { %>
+      <p>Two factor authentication allows you to require a code from your phone from Login. Coinpunk uses Google Authenticator, which you will need to download to use this.</p>
+
+      <a class="btn btn-primary" id="generateAuthQR">Generate QR Code to Scan</a>
+    <% } %>
   </div>
 </div>
 

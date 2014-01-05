@@ -55,6 +55,7 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
         </div>
       ');
       $('#authCode').focus();
+      coinpunk.usingAuthKey = true;
 
     } else {
       errorDiv.addClass('hidden');
@@ -309,7 +310,6 @@ $('body').on('click', '#generateAuthQR', function() {
     });
     authURI.setSearch({issuer: 'Coinpunk', secret: resp.key});
 
-    console.log(authURI.toString());
     new QRCode(document.getElementById('authQR'), authURI.toString());
     $('#authQR').after('
       <form role="form" id="submitAuth">
@@ -329,10 +329,30 @@ $('body').on('click', '#generateAuthQR', function() {
 $('body').on('submit', '#submitAuth', function() {
   var e = $('#submitAuth #confirmAuthCode');
   $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
-    if(res.set != true)
+    if(res.set != true) {
       $('#authKey').html('Code save failed. Please reload and try again.');
-    else
+    } else {
+      coinpunk.usingAuthKey = true;
       $('#authKey').html('Successfully saved! You will now need your device to login.');
+    }
+  });
+});
+
+$('body').on('submit', '#disableAuth', function() {
+  var dialog = $('#disableAuthDialog');
+  dialog.addClass('hidden');
+  var authCode = $('#disableAuth #disableAuthCode').val();
+
+  $.post('api/disableAuthKey', {serverKey: coinpunk.wallet.serverKey, authCode: authCode}, function(resp) {
+    if(resp.result == 'error') {
+      dialog.text(resp.message);
+      dialog.removeClass('hidden');
+      return;
+    }
+
+    coinpunk.usingAuthKey = false;
+    coinpunk.database.setSuccessMessage('Two factor authentication has been disabled.');
+    coinpunk.router.route('dashboard', 'settings');
   });
 });
 
