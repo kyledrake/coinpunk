@@ -92,7 +92,6 @@ coinpunk.router.map("#/signout").to(function() {
     if(res == false)
       return;
     coinpunk.wallet = null;
-    coinpunk.database.reset();
     clearInterval(coinpunk.router.listenerTimeout);
     coinpunk.controllers.dashboard.firstDashboardLoad = false;
     coinpunk.router.route('signin');

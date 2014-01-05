@@ -25,11 +25,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
     this.unspent = payload.unspent || [];
     return true;
   };
-  
+
   this.mergePayload = function(wallet) {
     var payloadJSON = sjcl.decrypt(this.walletKey, wallet);
     var payload = JSON.parse(payloadJSON);
-    
+
     keyPairs = _.uniq(_.union(payload.keyPairs, keyPairs), false, function(item, key, a) {
       return item.key;
     });
@@ -37,7 +37,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     this.transactions = _.uniq(_.union(payload.transactions, this.transactions), false, function(item, key, a) {
       return item.hash;
     });
-    
+
     this.unspent = _.uniq(_.union(payload.unspent, this.unspent), false, function(item, key, a) {
       return item.hash;
     });
@@ -76,7 +76,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
     return addrs;
   };
-  
+
   this.receiveAddresses = function() {
     var addrs = [];
     for(var i=0; i<keyPairs.length; i++) {
@@ -95,7 +95,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     return addrHashes;
   };
-  
+
   this.changeAddressHashes = function() {
     var addrHashes = [];
     for(var i=0; i<keyPairs.length; i++) {
@@ -143,7 +143,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     for(var i=0;i<newUnspent.length;i++) {
       var match = false;
-      
+
       for(var j=0;j<this.unspent.length;j++) {
         if(this.unspent[j].hash == newUnspent[i].hash)
           match = true;
@@ -155,7 +155,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
         continue;
 
       changed = true;
-      
+
       this.unspent.push({
         hash: newUnspent[i].hash,
         vout: newUnspent[i].vout,
@@ -165,14 +165,14 @@ coinpunk.Wallet = function(walletKey, walletId) {
       });
 
       // todo: time should probably not be generated here
-      
+
       var txMatch = false;
 
       for(var k=0;k<this.transactions.length;k++) {
         if(this.transactions[k].hash == newUnspent[i].hash)
           txMatch = true;
       }
-      
+
       if(txMatch == false) {
         this.transactions.push({
           hash: newUnspent[i].hash,
@@ -226,7 +226,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
       if(_.contains(changeAddresses, unspent[u].address) == true || this.unspentConfirmations[unspent[u].hash] >= this.minimumConfirmations)
         safeUnspent.push(unspent[u]);
     }
-    
+
     return safeUnspent;
   };
 
@@ -252,16 +252,16 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
   this.createTx = function(amtString, feeString, addressString, changeAddress) {
     var amt = Bitcoin.util.parseValue(amtString);
-    
+
     if(amt == Bitcoin.BigInteger.ZERO)
       throw "spend amount must be greater than zero";
-      
+
     if(!changeAddress)
       throw "change address was not provided";
-    
+
     var fee = Bitcoin.util.parseValue(feeString || '0');
     var total = Bitcoin.BigInteger.ZERO.add(amt).add(fee);
-    
+
     var address = new Bitcoin.Address(addressString, this.network);
     var sendTx = new Bitcoin.Transaction();
     var i;
@@ -273,11 +273,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     for(i=0;i<safeUnspent.length;i++) {
       unspent.push(safeUnspent[i]);
-      
+
       var amountSatoshiString = new BigNumber(safeUnspent[i].amount).times(Math.pow(10,8)).toString();
 
       unspentAmt = unspentAmt.add(new Bitcoin.BigInteger(amountSatoshiString));
-      
+
       // If > -1, we have enough to send the requested amount
       if(unspentAmt.compareTo(total) > -1) {
         break;
@@ -287,22 +287,22 @@ coinpunk.Wallet = function(walletKey, walletId) {
     if(unspentAmt.compareTo(total) < 0) {
       throw "you do not have enough bitcoins to send this amount";
     }
-    
+
     for(i=0;i<unspent.length;i++) {
       sendTx.addInput({hash: unspent[i].hash}, unspent[i].vout);
     }
-    
+
     // The address you are sending to, and the amount:
     sendTx.addOutput(address, amt);
-    
+
     var remainder = unspentAmt.subtract(total);
-    
+
     if(!remainder.equals(Bitcoin.BigInteger.ZERO)) {
       sendTx.addOutput(changeAddress, remainder);
     }
-    
+
     var hashType = 1; // SIGHASH_ALL
-    
+
     // Here will be the beginning of your signing for loop
 
     for(i=0;i<unspent.length;i++) {
@@ -325,7 +325,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
 
     return {unspentsUsed: unspent, obj: sendTx, raw: Bitcoin.convert.bytesToHex(sendTx.serialize())};
   };
-  
+
   this.calculateFee = function(amtString, addressString, changeAddress) {
     var tx = this.createTx(amtString, 0, addressString, changeAddress);
     var txSize = tx.raw.length / 2;

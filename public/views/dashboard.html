@@ -1,8 +1,20 @@
 <div class="row">
+  <div class="col-lg-9 col-lg-offset-1">
+    <% var successMessage = coinpunk.database.getSuccessMessage(); %>
+    <% if(successMessage) { %>
+      <div class="alert alert-success alert-dismissable" style="margin-top: 20px">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <%= successMessage %>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-lg-7 hidden-xs hidden-sm">
     <h1>Transactions</h1>
   </div>
-  
+
   <div class="col-lg-5 text-center" style="height: 120px">
     <div class="row">
       <h2><span id="balance"></span> BTC <small style="margin-left: 10px; display: block"><span id="balanceExchange"></span></small></h2>

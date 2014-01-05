@@ -139,6 +139,8 @@ coinpunk.controllers.Accounts.prototype.create = function() {
 }
 
 coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
+  var button = $('#importButton');
+  button.attr('disabled', 'disabled');
   var id = $('#importId').val();
   var password = $('#importPassword').val();
   var file = $('#importFile').get(0).files[0];
@@ -152,6 +154,7 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
     } catch(e) {
       $('#importErrorDialog').removeClass('hidden');
       $('#importErrorMessage').text('Wallet import failed. Check the credentials and wallet file.');
+      button.removeAttr('disabled');
       return;
     }
 
@@ -164,14 +167,19 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
         if(resp.result == 'exists') {
           $('#importErrorDialog').removeClass('hidden');
           $('#importErrorMessage').text('Cannot import your wallet, because the wallet already exists on this server.');
+          button.removeAttr('disabled');
           return;
         } else {
+          var msg = 'Wallet import successful! There will be a delay in viewing your transactions'+
+                    ' until the server finishes scanning for unspent transactions on your addresses. Please be patient.';
+          coinpunk.database.setSuccessMessage(msg);
           coinpunk.router.route('dashboard');
         }
       });
     } else {
       $('#importErrorDialog').removeClass('hidden');
       $('#importErrorMessage').text('Not a valid wallet backup file.');
+      button.removeAttr('disabled');
     }
   });
 
@@ -180,6 +188,7 @@ coinpunk.controllers.Accounts.prototype.performImport = function(id, password) {
   } catch(e) {
     $('#importErrorDialog').removeClass('hidden');
     $('#importErrorMessage').text('You must provide a wallet backup file.');
+    button.removeAttr('disabled');
   }
 };
 
