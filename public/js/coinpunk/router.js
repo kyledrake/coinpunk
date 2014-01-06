@@ -107,10 +107,11 @@ coinpunk.router.map("#/dashboard").to(function() {
 });
 
 coinpunk.router.map('#/tx/details/:hash').to(function() {
+  var hash = this.params['hash'];
   coinpunk.router.initWallet(function(res) {
     if(res == false)
       return;
-    coinpunk.controllers.tx.details(this.params["hash"]);
+    coinpunk.controllers.tx.details(hash);
   });
 });
 
@@ -157,10 +158,11 @@ coinpunk.router.map('#/addresses/list').to(function() {
 });
 
 coinpunk.router.map('#/addresses/request/:address').to(function() {
+  var address = this.params['address'];
   coinpunk.router.initWallet(function(res) {
     if(res == false)
       return;
-    coinpunk.controllers.addresses.request(this.params['address']);
+    coinpunk.controllers.addresses.request(address);
   });
 });
 
