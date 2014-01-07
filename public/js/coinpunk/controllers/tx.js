@@ -133,7 +133,7 @@ coinpunk.controllers.Tx.prototype.displayErrors = function(errors, errorsDiv) {
     errorsDiv.removeClass('hidden');
     
     for(var i=0; i<errors.length; i++) {
-      $('#errors').html($('#errors').html() + errors[i]+'<br>');
+      $('#errors').html($('#errors').html()+coinpunk.utils.stripTags(errors[i])+'<br>');
     }
     return;
   }
@@ -178,16 +178,16 @@ coinpunk.controllers.Tx.prototype.scanQR = function(event) {
 
   qrcode.callback = function(result) {
     if(result === 'error decoding QR Code')
-      return errorsDiv.removeClass('hidden').html('Could not process the QR code, the image may be blurry. Please try again.');
+      return errorsDiv.removeClass('hidden').text('Could not process the QR code, the image may be blurry. Please try again.');
 
     var uri = new URI(result);
 
     if(uri.protocol() != 'bitcoin')
-      return errorsDiv.removeClass('hidden').html('Not a valid Bitcoin QR code.');
+      return errorsDiv.removeClass('hidden').text('Not a valid Bitcoin QR code.');
     
     var address = uri.path();
     if(!address || address == '')
-      return errorsDiv.removeClass('hidden').html('No Bitcoin address found in QR code.');
+      return errorsDiv.removeClass('hidden').text('No Bitcoin address found in QR code.');
 
     $('#address').val(address);
     

@@ -21,7 +21,7 @@ coinpunk.controllers.Addresses.prototype.generateNewAddress = function(label) {
     var message = 'Created new address '+address;
     if(label != '')
       var message = message + ' with label '+label;
-    $('#newAddressMessage').html(message+'.');
+    $('#newAddressMessage').text(message+'.');
   });
 };
 

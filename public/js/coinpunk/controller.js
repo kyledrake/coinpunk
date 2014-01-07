@@ -93,7 +93,7 @@ coinpunk.Controller.prototype.friendlyTimeString = function(timestamp) {
 coinpunk.Controller.prototype.updateExchangeRates = function(id) {
   coinpunk.pricing.getLatest(function(price, currency) {
     $('#balanceExchange').text(' ≈ '+ parseFloat(price * $('#balance').text()).toFixed(2) + ' ' + currency);
-    $('#exchangePrice').html('1 BTC ≈ ' + price + ' ' + currency + '<br><small><a href="http://bitcoincharts.com" target="_blank">Bitcoin Charts</a></small>');
+    $('#exchangePrice').text('1 BTC ≈ ' + price + ' ' + currency);
 
     $('#'+id+' .exchangePrice').remove();
 

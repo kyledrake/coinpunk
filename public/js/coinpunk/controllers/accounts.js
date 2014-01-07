@@ -42,10 +42,10 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
   $.get('/api/wallet', body, function(response) {
     if(response.result == 'error') {
       errorDiv.removeClass('hidden');
-      errorDiv.html(response.message);
+      errorDiv.text(response.message);
     } else if(response.result == 'authCodeNeeded') {
       errorDiv.removeClass('hidden');
-      errorDiv.html(response.message);
+      errorDiv.text(response.message);
       $('#signinPassword').after('
         <div class="form-group">
           <label for="authCode" class="col-lg-2 control-label">Auth Code</label>
@@ -105,7 +105,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
   if(errors.length > 0) {
     errorsDiv.html('');
     for(var i=0;i<errors.length;i++) {
-      errorsDiv.html(errorsDiv.html() + errors[i] + '<br>');
+      errorsDiv.html(errorsDiv.html() + coinpunk.utils.stripTags(errors[i]) + '<br>');
     }
     $('#errors').removeClass('hidden');
   } else {
@@ -130,7 +130,7 @@ coinpunk.controllers.Accounts.prototype.create = function() {
       } else {
         errorsDiv.html('');
         for(var i=0;i<response.messages.length;i++) {
-          errorsDiv.html(errorsDiv.html() + response.messages[i] + '<br>');
+          errorsDiv.html(errorsDiv.html() + coinpunk.utils.stripTags(response.messages[i]) + '<br>');
         }
         $('#errors').removeClass('hidden');
         self.enableSubmitButton();
@@ -330,10 +330,10 @@ $('body').on('submit', '#submitAuth', function() {
   var e = $('#submitAuth #confirmAuthCode');
   $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
     if(res.set != true) {
-      $('#authKey').html('Code save failed. Please reload and try again.');
+      $('#authKey').text('Code save failed. Please reload and try again.');
     } else {
       coinpunk.usingAuthKey = true;
-      $('#authKey').html('Successfully saved! You will now need your device to login.');
+      $('#authKey').text('Successfully saved! You will now need your device to login.');
     }
   });
 });
