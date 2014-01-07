@@ -1,7 +1,7 @@
 coinpunk.utils = {};
 
 // https://github.com/component/escape-html
-coinpunk.utils.stripTag = function(html) {
+coinpunk.utils.stripTags = function(html) {
   return String(html)
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
