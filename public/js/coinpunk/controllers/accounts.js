@@ -60,6 +60,7 @@ coinpunk.controllers.Accounts.prototype.signin = function() {
     } else {
       errorDiv.addClass('hidden');
       wallet.loadPayload(response.wallet);
+      wallet.sessionKey = response.sessionKey;
       coinpunk.wallet = wallet;
       coinpunk.router.listener();
       coinpunk.router.route('dashboard');
@@ -121,12 +122,14 @@ coinpunk.controllers.Accounts.prototype.create = function() {
 
     this.saveWallet({address: address, payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
+        coinpunk.wallet.sessionKey = response.sessionKey;
         coinpunk.router.listener();
         coinpunk.router.route('dashboard');
       } else if(response.result == 'exists'){
-        coinpunk.wallet.loadPayload(response.wallet);
-        coinpunk.router.listener();
-        coinpunk.router.route('dashboard');
+        delete coinpunk.wallet;
+        errorsDiv.html('Wallet already exists, perhaps you want to <a href="#/signin">sign in</a> instead?');
+        errorsDiv.removeClass('hidden');
+        self.enableSubmitButton();
       } else {
         errorsDiv.html('');
         for(var i=0;i<response.messages.length;i++) {

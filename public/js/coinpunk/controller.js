@@ -32,6 +32,9 @@ coinpunk.Controller.prototype.saveWallet = function(data, callback) {
   var data = data || {};
   data.serverKey = coinpunk.wallet.serverKey;
 
+  if(coinpunk.wallet.sessionKey)
+    data.sessionKey = coinpunk.wallet.sessionKey;
+
   if(!data.payload)
     data.payload = {};
 
