@@ -156,7 +156,7 @@ node start.js
 ```
 
 
-Try to connect by going to http://YOURADDRESS.COM:8080  (If your useing the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
+Try to connect by going to http://YOURADDRESS.COM:8080  (If you're using the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
 
 ## Backing up Database
 
