@@ -210,6 +210,7 @@ coinpunk.controllers.Accounts.prototype.changeId = function() {
 
   var originalWalletId = coinpunk.wallet.walletId;
   var originalServerKey = coinpunk.wallet.serverKey;
+  var originalPayloadHash = coinpunk.wallet.payloadHash;
   var checkWallet = new coinpunk.Wallet();
   checkWallet.createWalletKey(originalWalletId, password);
 
@@ -220,22 +221,25 @@ coinpunk.controllers.Accounts.prototype.changeId = function() {
 
   coinpunk.wallet.createWalletKey(id, password);
 
-  this.saveWallet({payload: {email: id}}, function(response) {
-    if(response.result == 'exists') {
-      self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
-      coinpunk.wallet.createWalletKey(originalWalletId, password);
-      return;
-    } else if(response.result == 'ok') {
+  var payload = {
+    originalServerKey: originalServerKey,
+    wallet: coinpunk.wallet.encryptPayload(),
+    serverKey: coinpunk.wallet.serverKey,
+    email: id,
+    payloadHash: coinpunk.wallet.payloadHash
+  };
 
-      self.deleteWallet(originalServerKey, function(resp) {
-        self.template('header', 'header');
-        idObj.val('');
-        passwordObj.val('');
-        self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
-      });
-    } else {
-      self.changeDialog('danger', 'An unknown error has occured, please try again later.');
-    }
+  if(coinpunk.wallet.sessionKey)
+    payload.sessionKey = coinpunk.wallet.sessionKey;
+
+  $.post('api/change', payload, function(response) {
+    if(response.result != 'ok')
+      return self.changeDialog('danger', 'An unknown error has occured, please try again later.');
+
+    self.template('header', 'header');
+    idObj.val('');
+    passwordObj.val('');
+    self.changeDialog('success', 'Successfully changed email. You will need to use this to login next time, don\'t forget it!');
   });
 };
 
@@ -271,23 +275,28 @@ coinpunk.controllers.Accounts.prototype.changePassword = function() {
   var originalServerKey = coinpunk.wallet.serverKey;
   coinpunk.wallet.createWalletKey(coinpunk.wallet.walletId, newPassword);
 
-  this.saveWallet({}, function(response) {
-    if(response.result == 'exists') {
-      self.changeDialog('danger', 'Wallet file matching these credentials already exists, cannot change.');
+  var payload = {
+    originalServerKey: originalServerKey,
+    wallet: coinpunk.wallet.encryptPayload(),
+    serverKey: coinpunk.wallet.serverKey,
+    payloadHash: coinpunk.wallet.payloadHash
+  };
+
+  if(coinpunk.wallet.sessionKey)
+    payload.sessionKey = coinpunk.wallet.sessionKey;
+
+  $.post('api/change', payload, function(response) {
+    if(response.result == 'error') {
+      self.changeDialog('danger', 'Error changing password');
       coinpunk.wallet.createWalletKey(coinpunk.wallet.walletId, currentPassword);
       return;
-    } else if(response.result == 'ok') {
-
-      self.deleteWallet(originalServerKey, function(resp) {
-        self.template('header', 'header');
-        currentPasswordObj.val('');
-        newPasswordObj.val('');
-        confirmNewPasswordObj.val('');
-        self.changeDialog('success', 'Successfully changed password. You will need to use this to login next time, don\'t forget it!');
-      });
-    } else {
-      self.changeDialog('danger', 'An unknown error has occured, please try again later.');
     }
+
+    self.template('header', 'header');
+    currentPasswordObj.val('');
+    newPasswordObj.val('');
+    confirmNewPasswordObj.val('');
+    self.changeDialog('success', 'Successfully changed password. You will need to use this to login next time, don\'t forget it!');
   });
 };
 
@@ -331,7 +340,7 @@ $('body').on('click', '#generateAuthQR', function() {
 
 $('body').on('submit', '#submitAuth', function() {
   var e = $('#submitAuth #confirmAuthCode');
-  $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
+  $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, sessionKey: coinpunk.wallet.sessionKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
     if(res.set != true) {
       $('#authKey').text('Code save failed. Please reload and try again.');
     } else {
@@ -346,7 +355,7 @@ $('body').on('submit', '#disableAuth', function() {
   dialog.addClass('hidden');
   var authCode = $('#disableAuth #disableAuthCode').val();
 
-  $.post('api/disableAuthKey', {serverKey: coinpunk.wallet.serverKey, authCode: authCode}, function(resp) {
+  $.post('api/disableAuthKey', {serverKey: coinpunk.wallet.serverKey, sessionKey: coinpunk.wallet.sessionKey, authCode: authCode}, function(resp) {
     if(resp.result == 'error') {
       dialog.text(resp.message);
       dialog.removeClass('hidden');
