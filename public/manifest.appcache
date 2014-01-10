@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v13
+# v14
 index.html
 config.json
 js/all.js
@@ -26,6 +26,7 @@ views/header.html
 views/node_error.html
 views/signin.html
 views/signup.html
+views/buy.html
 
 NETWORK:
 /api
