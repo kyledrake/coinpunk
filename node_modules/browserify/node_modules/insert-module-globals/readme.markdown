@@ -56,6 +56,9 @@ When `opts.always` is truthy, wrap every file with all the global variables
 without parsing. This is handy because parsing the scope can take a long time,
 so you can prioritize fast builds over saving bytes in the final output.
 
+You can use a custom `opts.commondir` parameter to use a custom normalization
+for __dirname and __filename resolving or `false` to turn normalization off.
+
 Return a through stream `insert` that expects input from the format written by
 [module-deps](https://github.com/substack/module-deps). The `insert` stream will
 output data that can be fed into

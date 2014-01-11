@@ -67,7 +67,8 @@ determines the numeric index to execute the entries in.
 
 You can specify a custom prelude with `opts.prelude` but you should really know
 what you're doing first. See the `prelude.js` file in this repo for the default
-prelude.
+prelude. If you specify a custom prelude, you must also specify a valid
+`opts.preludePath` to the prelude source file for sourcemaps to work.
 
 # install
 

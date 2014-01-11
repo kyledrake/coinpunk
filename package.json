@@ -16,7 +16,6 @@
     "optimist": "~0.6.0",
     "redis": "~0.9.0",
     "request": "~2.27.0",
-    "browserify": "~2.35.2",
     "sockjs": "~0.3.8",
     "speakeasy": "~1.0.3"
   },
@@ -33,7 +32,8 @@
     "redis-mock": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-watch": "~0.5.3",
-    "uglify-js": "~2.4.3"
+    "browserify": "3.19.1",
+    "uglify-js": "2.4.8"
   },
   "scripts": {
     "test": "NODE_ENV=test istanbul test ./node_modules/.bin/_mocha -- --reporter list test/coinpunk/*",

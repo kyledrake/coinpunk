@@ -155,8 +155,8 @@ function resolve(id, opts, cb) {
             extensions: opts.extensions,
             basedir: base,
             package: opts.package,
-            packageFilter: function(info) {
-                if (opts.packageFilter) info = opts.packageFilter(info);
+            packageFilter: function(info, pkgdir) {
+                if (opts.packageFilter) info = opts.packageFilter(info, pkgdir);
 
                 // support legacy browserify field
                 if (typeof info.browserify === 'string' && !info.browser) {

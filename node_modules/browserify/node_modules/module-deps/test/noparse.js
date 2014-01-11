@@ -1,5 +1,5 @@
 var parser = require('../');
-var test = require('tap').test;
+var test = require('tape');
 var fs = require('fs');
 
 var files = {

@@ -28,6 +28,9 @@ test('pack one file with source file field and existing sourcemap', function (t)
 
         var remainingMaps = src.match(convert.commentRegex);
 
+        // remove map for _prelude.js
+        mappings.shift();
+
         var fstMap = mappings[0];
         var fstFooMap = fooMappings[0];
         var lstMap = mappings.pop();

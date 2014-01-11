@@ -29,7 +29,12 @@ test('buffer inserts', function (t) {
     var src = '';
     s.on('data', function (buf) { src += buf });
     s.on('end', function () {
-        var c = { t: t, setTimeout: setTimeout };
+        var c = {
+            t: t,
+            setTimeout: setTimeout,
+            Uint8Array: Uint8Array,
+            DataView: DataView
+        };
         vm.runInNewContext(src, c);
     });
 });

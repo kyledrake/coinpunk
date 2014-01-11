@@ -9,13 +9,15 @@
 
   // <script>
   } else {
+    var g
     if (typeof window !== "undefined") {
-      window.{{camelcase}} = f();
+      g = window;
     } else if (typeof global !== "undefined") {
-      global.{{camelcase}} = f();
+      g = global;
     } else if (typeof self !== "undefined") {
-      self.{{camelcase}} = f();
+      g = self;
     }
+    {{defineNamespace}};
   }
 
 })(function () {

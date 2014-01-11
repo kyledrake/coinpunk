@@ -1,5 +1,5 @@
 var parser = require('../');
-var test = require('tap').test;
+var test = require('tape');
 var JSONStream = require('JSONStream');
 var packer = require('browser-pack');
 var through = require('through');
@@ -13,9 +13,11 @@ test('read from a stream', function (t) {
     p.on('error', t.fail.bind(t));
     var pack = packer();
     
-    p.pipe(JSONStream.stringify()).pipe(pack).pipe(concat(function (src) {
-        Function(['t'],src)(t);
-    }));
+    p.pipe(JSONStream.stringify()).pipe(pack)
+        .pipe(concat({ encoding: 'string' }, function (src) {
+            Function(['t'], src)(t);
+        }))
+    ;
     
     tr.queue('t.ok(true)');
     tr.queue(null);

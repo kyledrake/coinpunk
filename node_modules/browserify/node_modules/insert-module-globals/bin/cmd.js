@@ -10,4 +10,3 @@ stringify.pipe(process.stdout);
 parse.pipe(insert).pipe(stringify);
 
 process.stdin.pipe(parse);
-process.stdin.resume();
