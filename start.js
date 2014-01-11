@@ -2,10 +2,10 @@ var argv = require('optimist').argv;
 var servers = require('./lib/coinpunk/server');
 
 if(argv.httpPort)
-  server.config.httpPort = argv.httpPort;
+  servers.config.httpPort = argv.httpPort;
 
 if(argv.httpsPort)
-  server.config.httpsPort = argv.httpsPort;
+  servers.config.httpsPort = argv.httpsPort;
 
 console.log("Coinpunk and his rude boys have taken the stage");
 
