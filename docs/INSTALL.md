@@ -156,8 +156,18 @@ node start.js
 ```
 
 
-Try to connect by going to http://YOURADDRESS.COM:8080  (If your useing the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
+Try to connect by going to http://YOURADDRESS.COM:8080  (If you're using the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
 
 ## Backing up Database
 
 Redis maintains a file called `/var/lib/redis/dump.rdb`, which is a backup of your Redis database. It is safe to copy this file while Redis is running. **It is strongly recommended that you backup this file frequently.** You can also setup a Redis slave to listen to master in real time. Ideally you should do both!
+
+## Extra Steps for Contributors
+
+If you want to contribute code to this project, you will need to install Grunt. Grunt is a task-runner that presently handles minifying and uglifying Coinpunk's CSS and JS resources. To install Grunt:
+
+```
+sudo npm install -g grunt-cli
+```
+
+Once that's done, running `grunt` in your Coinpunk directory will minify and uglify everything, and running `grunt watch` will automatically uglify your JS files when they change.

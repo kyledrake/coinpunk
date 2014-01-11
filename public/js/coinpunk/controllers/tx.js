@@ -118,13 +118,21 @@ coinpunk.controllers.Tx.prototype.create = function() {
   var rawtx = coinpunk.wallet.createSend(amount, calculatedFee, address, changeAddress);
 
   self.saveWallet({override: true, address: changeAddress}, function(response) {
-    $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-      coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
+    if(response.result == 'error' && response.messages[0] == 'Invalid session key') {
+      self.displayErrors(['Fatal error: invalid session key, tx was not sent, logging out'], errorsDiv);
+      delete coinpunk.wallet;
+    } else if(response.result == 'error') {
+      self.displayErrors(['An unknown error has occured, tx was not sent. Logging out. Please try again later.'], errorsDiv);
+      delete coinpunk.wallet;
+    } else {
+      $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+        coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
-      self.getUnspent(function() {
-        coinpunk.router.route('dashboard');
+        self.getUnspent(function() {
+          coinpunk.router.route('dashboard');
+        });
       });
-    });
+    }
   });
 };
 

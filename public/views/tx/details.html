@@ -9,7 +9,7 @@
         </tr>
         <tr>
           <td>Amount</td>
-          <td><%- Math.abs(data.tx.amount) %> BTC</td>
+          <td><%- Math.abs(data.tx.amount).toFixed(8).replace(/\.?[0]+$/, "") %> BTC</td>
         </tr>
         <tr>
           <td>Fee</td>
