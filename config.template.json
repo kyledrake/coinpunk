@@ -12,8 +12,8 @@
     "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:8332",
     "pricesUrl": "https://bitpay.com/api/rates",
     "testnet": false,
-    "httpPort": 80,
-    "httpsPort": 43,
+    "httpPort": 8080,
+    "httpsPort": 4443,
     "sslKey": "./coinpunk.key",
     "sslCert": "./coinpunk.crt"
   }
