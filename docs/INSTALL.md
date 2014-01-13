@@ -164,10 +164,8 @@ Redis maintains a file called `/var/lib/redis/dump.rdb`, which is a backup of yo
 
 ## Extra Steps for Contributors
 
-If you want to contribute code to this project, you will need to install Grunt. Grunt is a task-runner that presently handles minifying and uglifying Coinpunk's CSS and JS resources. To install Grunt:
+If you want to contribute code to this project, you will need to use Grunt. Grunt is a task-runner that presently handles minifying and uglifying Coinpunk's CSS and JS resources.  Grunt is installed by the `npm install` you ran from the coinpunk directory.
 
-```
-sudo npm install -g grunt-cli
-```
+Running `./node_modules/grunt-cli/bin/grunt` in your Coinpunk directory will minify and uglify everything, and running `./node_modules/grunt-cli/bin/grunt watch` will automatically uglify your JS files when they change.
 
-Once that's done, running `grunt` in your Coinpunk directory will minify and uglify everything, and running `grunt watch` will automatically uglify your JS files when they change.
+You can also install grunt system-wide with `sudo npm install -g grunt-cli`.
