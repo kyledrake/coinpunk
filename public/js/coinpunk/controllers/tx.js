@@ -121,7 +121,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     if(response.result == 'error' && response.messages[0] == 'Invalid session key') {
       self.displayErrors(['Fatal error: invalid session key, tx was not sent, logging out'], errorsDiv);
       delete coinpunk.wallet;
-    } else if(response.result == 'error') {
+    } else if(response.result != 'ok') {
       self.displayErrors(['An unknown error has occured, tx was not sent. Logging out. Please try again later.'], errorsDiv);
       delete coinpunk.wallet;
     } else {
