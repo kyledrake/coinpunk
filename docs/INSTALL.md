@@ -61,12 +61,15 @@ tar -zxf watchonly.tar.gz
 cd bitcoin-watchonly
 sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get update
-sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libminiupnpc8 minissdpd libboost-all-dev ccache
+sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libminiupnpc8 minissdpd libboost-all-dev ccache libssl-dev
 ./autogen.sh
 ./configure --without-qt
 make
 sudo make install
 ```
+
+If you see this error when running configure: `configure: error: Could not find a version of the library!`
+Try running with this command instead: `./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu --without-qt`
 
 Now you need to configure bitcoind:
 
