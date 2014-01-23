@@ -85,6 +85,15 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
     return addrs;
   };
+  
+  this.deleteChangeAddress = function() {
+    var newKeyPairs = [];
+    for(var i=0; i<keyPairs.length; i++) {
+      if(keyPairs[i].isChange != true)
+        newKeyPairs.push(keyPairs[i]);
+    }
+    keyPairs = newKeyPairs;
+  };
 
   this.receiveAddressHashes = function() {
     var addrHashes = [];
@@ -94,6 +103,16 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
 
     return addrHashes;
+  };
+
+  this.getChangeAddress = function() {
+    var addrHashes = [];
+    for(var i=0; i<keyPairs.length; i++) {
+      if(keyPairs[i].isChange == true)
+        return keyPairs[i].address;
+    }
+
+    return null;
   };
 
   this.changeAddressHashes = function() {
