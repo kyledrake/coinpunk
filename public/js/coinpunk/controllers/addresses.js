@@ -13,10 +13,17 @@ coinpunk.controllers.Addresses.prototype.generateNewAddress = function(label) {
   var label = label || '';
   var address = coinpunk.wallet.createNewAddress(label, false);
 
-  this.saveWallet({address: address, override: true}, function() {
+  this.saveWallet({address: address, override: true}, function(response) {
+    if(response.result != 'ok') {
+      $('#newAddressDialog').removeClass('hidden');
+      $('#newAddressMessage').text('There was an error creating your address, please try again later.');
+      return;
+    }
+
     self.render('addresses/list', {addresses: coinpunk.wallet.addresses()}, function(id) {
       self.updateExchangeRates(id, false);
     });
+
     $('#newAddressDialog').removeClass('hidden');
     var message = 'Created new address '+address;
     if(label != '')
