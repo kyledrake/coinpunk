@@ -1,9 +1,20 @@
 {
-  "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:18332",
-  "pricesUrl": "https://bitpay.com/api/rates",
-  "testnet": true,
-  "httpPort": 8080,
-  "httpsPort": 8081,
-  "sslKey": "./coinpunk.key",
-  "sslCert": "./coinpunk.crt"
+  "default": {
+    "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:18332",
+    "pricesUrl": "https://bitpay.com/api/rates",
+    "testnet": true,
+    "httpPort": 8080,
+    "httpsPort": 8081,
+    "sslKey": "./coinpunk.key",
+    "sslCert": "./coinpunk.crt"
+  },
+  "production": {
+    "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:8332",
+    "pricesUrl": "https://bitpay.com/api/rates",
+    "testnet": false,
+    "httpPort": 8080,
+    "httpsPort": 4443,
+    "sslKey": "./coinpunk.key",
+    "sslCert": "./coinpunk.crt"
+  }
 }
