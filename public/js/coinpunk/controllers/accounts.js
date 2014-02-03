@@ -338,7 +338,8 @@ $('body').on('click', '#generateAuthQR', function() {
   });
 });
 
-$('body').on('submit', '#submitAuth', function() {
+$('body').on('submit', '#submitAuth', function(event) {
+  event.preventDefault();
   var e = $('#submitAuth #confirmAuthCode');
   $.post('api/setAuthKey', {serverKey: coinpunk.wallet.serverKey, sessionKey: coinpunk.wallet.sessionKey, key: $('#authKeyValue').val(), code: e.val()}, function(res) {
     if(res.set != true) {
@@ -350,7 +351,8 @@ $('body').on('submit', '#submitAuth', function() {
   });
 });
 
-$('body').on('submit', '#disableAuth', function() {
+$('body').on('submit', '#disableAuth', function(event) {
+  event.preventDefault();
   var dialog = $('#disableAuthDialog');
   dialog.addClass('hidden');
   var authCode = $('#disableAuth #disableAuthCode').val();
