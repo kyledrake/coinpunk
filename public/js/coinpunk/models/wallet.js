@@ -62,6 +62,13 @@ coinpunk.Wallet = function(walletKey, walletId) {
     keyPairs.push(newKeyPair);
     return newKeyPair.address;
   };
+  
+  this.removeAddress = function(address) {
+    var i=0;
+    for(i=0;i<keyPairs.length;i++)
+      if(keyPairs[i].address == address)
+        keyPairs.splice(i, 1)
+  };
 
   this.getAddressName = function(address) {
     for(var i=0;i<keyPairs.length;i++)

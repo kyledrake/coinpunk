@@ -15,8 +15,9 @@ coinpunk.controllers.Addresses.prototype.generateNewAddress = function(label) {
 
   this.saveWallet({address: address, override: true}, function(response) {
     if(response.result != 'ok') {
+      coinpunk.wallet.removeAddress(address);
       $('#newAddressDialog').removeClass('hidden');
-      $('#newAddressMessage').text('There was an error creating your address, please try again later.');
+      $('#newAddressMessage').text('There was an error creating your address, do not use the new address. Try logging back in, or please try again later.');
       return;
     }
 
