@@ -175,83 +175,79 @@ coinpunk.controllers.Tx.prototype.calculateFee = function() {
 };
 
 coinpunk.controllers.Tx.prototype.scanQR = function(event) {
-  var errorsDiv = $('#errors');
-  var self = this;
 
-  errorsDiv.addClass('hidden');
-  errorsDiv.html('');
+  // DOM elements
+  var errorsDiv = $("#errors");
+  var addressInput = $("#address");
+  var amountInput = $("#amount");
 
-  if(event.target.files.length != 1 && event.target.files[0].type.indexOf("image/") != 0)
-    return this.displayErrors(['You must provide only one image file.'], errorsDiv);
+  // Clear any existing info
+  errorsDiv.addClass('hidden').html('');
+  addressInput.val("");
+  amountInput.val("");
 
-  qrcode.callback = function(result) {
-    if(result === 'error decoding QR Code')
-      return errorsDiv.removeClass('hidden').text('Could not process the QR code, the image may be blurry. Please try again.');
+  // Validate the image file
+  var files = event.target.files;
+  var wrongImageCount = files.length != 1;
+  var incorrectMimetype = files[0].type.indexOf("image/") != 0
+  if(wrongImageCount || incorrectMimetype) {
+    var msg = 'You must provide only one image file.';
+    this.displayErrors([msg], errorsDiv);
+    return
+  }
 
-      console.log(result)
-
+  // Scan success handler
+  function scanSuccess(result) {
     var uri = new URI(result);
 
     if(uri.protocol() == '') {
-      $('#address').val(uri.toString());
+      addressInput.val(uri.toString());
       coinpunk.controllers.tx.calculateFee()
       return;
     }
 
-    if(uri.protocol() != 'bitcoin')
-      return errorsDiv.removeClass('hidden').text('Not a valid Bitcoin QR code.');
-    
-    var address = uri.path();
-    if(!address || address == '')
-      return errorsDiv.removeClass('hidden').text('No Bitcoin address found in QR code.');
+    if(uri.protocol() != 'bitcoin') {
+      errorsDiv
+        .removeClass('hidden')
+        .text('Not a valid Bitcoin QR code.');
+      return;
+    }
 
-    $('#address').val(address);
-    
+    var address = uri.path();
+    if(!address || address == '') {
+      errorsDiv
+        .removeClass('hidden')
+        .text('No Bitcoin address found in QR code.');
+      return;
+    }
+
+    addressInput.val(address);
+
     var queryHash = uri.search(true);
-    
+
     if(queryHash.amount) {
-      $('#amount').val(queryHash.amount);
+      amountInput.val(queryHash.amount);
       coinpunk.controllers.tx.sendExchangeUpdate();
       coinpunk.controllers.tx.calculateFee();
     }
   }
 
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
-
-  var img = new Image();
-  img.onload = function() {
-    /*
-    Helpful URLs: 
-    http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
-    http://stackoverflow.com/questions/19432269/ios-html5-canvas-drawimage-vertical-scaling-bug-even-for-small-images
-  
-    There are a lot of arbitrary things here. Help to clean this up welcome.
-    
-    context.save();
-    context.scale(1e6, 1e6);
-    context.drawImage(img, 0, 0, 1e-7, 1e-7, 0, 0, 1e-7, 1e-7);
-    context.restore();
-    */
-
-    if((img.width == 2448 && img.height == 3264) || (img.width == 3264 && img.height == 2448)) {
-      canvas.width = 1024;
-      canvas.height = 1365;
-      context.drawImage(img, 0, 0, 1024, 1365);
-    } else if(img.width > 1024 || img.height > 1024) {
-      canvas.width = img.width*0.15;
-      canvas.height = img.height*0.15;
-      context.drawImage(img, 0, 0, img.width*0.15, img.height*0.15);
-    } else {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      context.drawImage(img, 0, 0, img.width, img.height);
-    }
-
-    qrcode.decode(canvas.toDataURL('image/png'));
+  // Scan error handler
+  function scanError() {
+    errorDiv
+      .removeClass('hidden')
+      .text('Could not process the QR code, the image may be blurry. Please try again.');
+    return
   }
 
-  img.src = URL.createObjectURL(event.target.files[0]);
+  // Scan the image for a qr
+  var src = URL.createObjectURL(event.target.files[0]);
+  var img = new QrImageDecoder({
+    src: src,
+    success: scanSuccess,
+    error: scanError
+  });
+
 };
 
 coinpunk.controllers.tx = new coinpunk.controllers.Tx();
