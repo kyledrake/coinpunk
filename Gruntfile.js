@@ -57,6 +57,7 @@ module.exports = function(grunt) {
             'public/js/lib/jsqrcode/alignpat.js',
             'public/js/lib/jsqrcode/databr.js',
             'public/js/lib/qrcode.js',
+            'public/js/lib/qrimagedecoder.js',
             'public/js/coinpunk.js',
             'public/js/coinpunk/utils.js',
             'public/js/coinpunk/template.js',
