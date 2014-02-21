@@ -1,8 +1,5 @@
 coinpunk.Wallet = function(walletKey, walletId) {
-
-console.log('[wallet.js.2]', coinpunk.config); //TODO
   this.network = coinpunk.config.network || 'prod';
-console.log('[wallet.js.3]', coinpunk.config); //TODO
   this.walletKey = walletKey;
   this.walletId = walletId;
   this.defaultIterations = 1000;
