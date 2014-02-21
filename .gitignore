@@ -7,3 +7,5 @@ coinpunk.crt
 *.swp
 node_modules
 node_modules/*
+public/js/all.js
+public/js/lib/bitcoinjs.js
