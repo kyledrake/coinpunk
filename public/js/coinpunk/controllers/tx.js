@@ -16,7 +16,6 @@ coinpunk.controllers.Tx.prototype.details = function(txHash) {
 coinpunk.controllers.Tx.prototype.send = function() {
   var self = this;
 
-console.log('[tx.js.18]'); //TODO
   this.getUnspent(function(resp) {
     coinpunk.router.render('view', 'tx/send', {balance: coinpunk.wallet.safeUnspentBalance()}, function(id) {
       self.updateExchangeRates(id, false);
@@ -65,11 +64,7 @@ coinpunk.controllers.Tx.prototype.sendBTCUpdate = function() {
   });
 };
 
-console.log('[tx.js.66]'); //TODO
 coinpunk.controllers.Tx.prototype.create = function() {
-
-console.log('[tx.js.69]'); //TODO
-
   var self = this;
   var sendButton = $('#sendButton');
   sendButton.addClass('disabled');
@@ -95,44 +90,34 @@ console.log('[tx.js.69]'); //TODO
   }
 
   var myAddresses = coinpunk.wallet.addresses();
-  
+
   for(var i=0; i<myAddresses.length;i++) {
     if(myAddresses[i].address == address)
       errors.push('You cannot send to your own bitcoin wallet.');
   }
 
-console.log('[tx.js.98]'); //TODO
   if(amount == '' || parseFloat(amount) == 0) {
-console.log('[tx.js.100:amount:]',amount); //TODO
     errors.push('You must have a valid amount to send.');
   } else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null) {
-console.log('[tx.js.103:exec:]'); //TODO
     errors.push('You must have a valid amount to send.');
   } else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
-console.log('[tx.js.106:lessThan:]'); //TODO
     errors.push('Cannot spend more bitcoins than you currently have.');
   }
 
-console.log('[tx.js.110]'); //TODO
   if(errors.length > 0) {
     this.displayErrors(errors, errorsDiv);
     sendButton.removeClass('disabled');
     return;
   }
-
-console.log('[tx.js.117]'); //TODO
   var changeAddress = $('#changeAddress').val();
 
   if(changeAddress == '')
     changeAddress = coinpunk.wallet.createNewAddress('change', true);
 
-console.log('[tx.js.123]'); //TODO
   var rawtx = coinpunk.wallet.createSend(amount, calculatedFee, address, changeAddress);
 
-console.log('[tx.js.125]'); //TODO
   self.saveWallet({override: true, address: changeAddress}, function(response) {
     if(response.result == 'error' && response.messages[0] == 'Invalid session key') {
-console.log('[tx.js.127:if: ERROR]'); //TODO
       self.displayErrors(['Fatal error: invalid session key, tx was not sent, logging out'], errorsDiv);
       delete coinpunk.wallet;
     } else if(response.result != 'ok') {
@@ -140,7 +125,6 @@ console.log('[tx.js.127:if: ERROR]'); //TODO
       delete coinpunk.wallet;
     } else {
 
-console.log('[tx.js.128] SENDING'); //TODO
       $.post('/api/tx/send', {tx: rawtx}, function(resp) {
         coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
