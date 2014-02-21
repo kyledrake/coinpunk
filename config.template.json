@@ -1,6 +1,7 @@
 {
   "default": {
     "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:18332",
+    "insight": "http://127.0.0.1:3001/api",
     "pricesUrl": "https://bitpay.com/api/rates",
     "testnet": true,
     "httpPort": 8080,
@@ -10,6 +11,7 @@
   },
   "production": {
     "bitcoind": "http://rpcuser:rpcpass@127.0.0.1:8332",
+    "insight": "http://127.0.0.1:3001/api",
     "pricesUrl": "https://bitpay.com/api/rates",
     "testnet": false,
     "httpPort": 8080,
