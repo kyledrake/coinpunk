@@ -53,7 +53,7 @@
                 <span class="label label-warning pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has not yet been confirmed. You cannot safely spend this yet because you cannot be confident it isn't a double spend until it has been confirmed by the blockchain.">Pending (Unconfirmed)</span>
               <% } else if(data.tx[i].confirmations < coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
                 <span class="label label-info pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has had at least one confirmation and is likely to be successful, but will be considered even more definitive after 6 confirmations. You may want to wait if you are transferring a large sum of money, just to be safe.">Soft Confirmed</span>
-              <% } else { %>
+              <% } else if (data.tx[i].confirmations >= coinpunk.controllers.dashboard.minimumStrongSendConfirmations) { %>
                 <span class="label label-success pull-right" rel="tooltip" data-toggle="tooltip" title="Transaction has at least 6 confirmations. This is the standard most Bitcoin services use for confirming large transfers.">Strongly Confirmed</span>
               <% } %>
             </td>
