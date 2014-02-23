@@ -126,6 +126,19 @@ coinpunk.controllers.Tx.prototype.create = function() {
       delete coinpunk.wallet;
     } else {
       $.post('/api/tx/send', {tx: rawtx}, function(resp) {
+        if(resp.error) {
+          coinpunk.wallet.revertTx();
+
+          return self.saveWallet({override: true}, function(walletResponse) {
+            if(response.result != 'ok') {
+              self.displayErrors(['An unknown error has occured, tx was not sent and could not revert tx info. Logging out. Please reload and try again later.'], errorsDiv);
+              delete coinpunk.wallet;
+            }
+            self.displayErrors([resp.error.message], errorsDiv);
+            sendButton.removeClass('disabled');
+          })
+        }
+
         coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
         self.getUnspent(function() {

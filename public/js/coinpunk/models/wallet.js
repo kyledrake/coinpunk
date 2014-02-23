@@ -356,7 +356,17 @@ coinpunk.Wallet = function(walletKey, walletId) {
     for(var i=0;i<tx.unspentsUsed.length;i++)
       this.unspent = _.reject(this.unspentsUsed, function(u) { return u.hash == tx.unspentsUsed[i].hash })
 
+    this.lastUnspentsUsed = tx.unspentsUsed;
+
     return tx.raw;
+  };
+
+  this.revertTx = function() {
+    var i=0;
+    this.transactions.pop();
+    for(i=0;i<this.lastUnspentsUsed.length;i++)
+      this.unspent.push(this.lastUnspentsUsed[i])
+    // keyPairs.pop(); might be unsafe, not doing for now
   };
 
   if(walletKey && walletId)
