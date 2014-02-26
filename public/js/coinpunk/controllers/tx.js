@@ -90,17 +90,17 @@ coinpunk.controllers.Tx.prototype.create = function() {
   }
 
   var myAddresses = coinpunk.wallet.addresses();
-  
+
   for(var i=0; i<myAddresses.length;i++) {
     if(myAddresses[i].address == address)
       errors.push('You cannot send to your own bitcoin wallet.');
   }
 
-  if(amount == '' || parseFloat(amount) == 0)
+  if(amount == '' || parseFloat(amount) == 0) {
     errors.push('You must have a valid amount to send.');
-  else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
+  } else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null) {
     errors.push('You must have a valid amount to send.');
-  else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
+  } else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
     errors.push('Cannot spend more bitcoins than you currently have.');
   }
 
@@ -109,7 +109,6 @@ coinpunk.controllers.Tx.prototype.create = function() {
     sendButton.removeClass('disabled');
     return;
   }
-
   var changeAddress = $('#changeAddress').val();
 
   if(changeAddress == '')
@@ -125,6 +124,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
       self.displayErrors(['An unknown error has occured, tx was not sent. Logging out. Please try again later.'], errorsDiv);
       delete coinpunk.wallet;
     } else {
+
       $.post('/api/tx/send', {tx: rawtx}, function(resp) {
         coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
