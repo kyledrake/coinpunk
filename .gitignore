@@ -9,3 +9,4 @@ node_modules
 node_modules/*
 public/js/all.js
 public/js/lib/bitcoinjs.js
+dump.rdb
