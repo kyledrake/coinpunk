@@ -51,55 +51,10 @@ Change `appendfsync everysec` to `appendfsync always`.
 
 Restart redis: `sudo service redis-server restart`.
 
-## Install and Configure Bitcoind
+## Install and Configure Insight API
 
-Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861).
-
-```
-wget https://github.com/sipa/bitcoin/archive/watchonly.tar.gz
-tar -zxf watchonly.tar.gz
-cd bitcoin-watchonly
-sudo add-apt-repository ppa:bitcoin/bitcoin
-sudo apt-get update
-sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libminiupnpc8 minissdpd libboost-all-dev ccache libssl-dev
-./autogen.sh
-./configure --without-qt
-make
-sudo make install
-```
-
-If you see this error when running configure: `configure: error: Could not find a version of the library!`
-Try running with this command instead: `./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu --without-qt`
-
-Now you need to configure bitcoind:
-
-```
-mkdir -p ~/.bitcoin
-vi ~/.bitcoin/bitcoin.conf
-```
-
-And add the following information (set the `rpcuser` and `rpcpassword` to something else:
-
-```
-rpcuser=NEWUSERNAME
-rpcpassword=NEWPASSWORD
-txindex=1
-testnet=1
-```
-
-**If your bitcoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
-
-If you want to run Coinpunk in production rather than on testnet, remove `testnet=1` from the config. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://faucet.xeno-genesis.com/). I strongly recommend this mode for testing.
-
-Start bitcoind:
-
-```
-bitcoind &
-```
-
-**Bitcoind will take several hours or more to download the blockchain.** Coinpunk will not be able to function properly until this has occurred. Please be patient.
-
-If you want something to monitor bitcoind to ensure it stays running and start it on system restart, take a look at [Monit](http://mmonit.com/monit/).
+Please check the instructions for [installing and configuring Insight API](https://github.com/bitpay/insight-api). 
+In order to run Insight API you need to install bitcoind and download the bitcoin blockchain as described on the documentation.
 
 ## Install and Configure Coinpunk
 
