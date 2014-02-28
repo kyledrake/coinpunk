@@ -126,11 +126,18 @@ coinpunk.controllers.Tx.prototype.create = function() {
     } else {
 
       $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-        coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
+        if (resp.error) {
+          self.displayErrors(resp.messages, errorsDiv);
+          sendButton.removeClass('disabled');
+          return;
+        }
+        else {
+          coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+"." + resp);
 
-        self.getUnspent(function() {
-          coinpunk.router.route('dashboard');
-        });
+          self.getUnspent(function() {
+            coinpunk.router.route('dashboard');
+          });
+        }
       });
     }
   });
