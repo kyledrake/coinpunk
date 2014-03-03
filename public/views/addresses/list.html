@@ -87,14 +87,19 @@
 <div class="row">
   <div class="col-lg-6">
     <h2>New Address</h2>
-    <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
-      <div>
-        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
-        <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
-          <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <span id="newAddressMessage"></span>
+    <div>
+      New address creation is temporarily disabled, our apologies for the inconvenience.
+    </div>
+    <!--
+      <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
+        <div>
+          Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
+          <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
+            <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <span id="newAddressMessage"></span>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    -->
   </div>
 </div>
