@@ -18,7 +18,8 @@
     "request": "~2.27.0",
     "sockjs": "~0.3.8",
     "speakeasy": "~1.0.3",
-    "async": "*"
+    "async": "*",
+    "mongoose": "*"
   },
   "devDependencies": {
     "mocha": "~1.8.1",
