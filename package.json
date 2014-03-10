@@ -30,7 +30,6 @@
     "webdriverjs": "~0.7.14",
     "chai": "~1.8.1",
     "phantomjs": "~1.9.2",
-    "redis-mock": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-watch": "~0.5.3",
     "browserify": "3.19.1",
