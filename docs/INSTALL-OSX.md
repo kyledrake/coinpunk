@@ -37,51 +37,17 @@ Consult `brew info redis` to learn how to configure redis to start (and start au
 
 ## Install and Configure Bitcoind
 
-Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861).
+Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861) which has not yet been rebased on 0.9.0.
 
-You will need the following Homebrew packages to install bitcoind (described in the bitcoind `doc/build-osx.md`, see that document for the latest bitcoind install guide):
-
-```
-brew install boost miniupnpc openssl berkeley-db4 automake pkg-config
-```
-
-Check that the openssl version is correct:
+WyseNynja maintains a [tap](https://github.com/WyseNynja/homebrew-bitcoin) that makes installing this patched version of bitcoind easy.
 
 ```
-$ openssl version
-OpenSSL 1.0.1e 11 Feb 2013
+brew tap WyseNynja/bitcoin
+brew prune
+brew install bitcoind-sipa-watchonly
 ```
 
-If it doesn't show 1.0.1 or later, it's wrong (this is wrong):
-
-```
-$ openssl version
-OpenSSL 0.9.8y 5 Feb 2013
-```
-
-Try this first:
-
-```
-brew link openssl --force
-```
-
-Open a new terminal and run `openssl version` again. If it's still wrong, open `~/.bash_profile` and add this line:
-
-```
-PATH=/usr/local/bin:$PATH
-```
-
-Now you should be ready to compile and install:
-
-``` 
-wget https://github.com/sipa/bitcoin/archive/watchonly.tar.gz
-tar -zxf watchonly.tar.gz
-cd bitcoin-watchonly
-./autogen.sh
-./configure --without-qt
-make
-sudo make install
-```
+Be sure to follow the Caveats.  If you want to start bitcoind at login, install the launchd plist with `ln -sfv /usr/local/opt/bitcoind/*.plist ~/Library/LaunchAgents` (if brew gives something different, use what brew gave instead of this command)
 
 Now you need to configure bitcoind:
 
@@ -105,7 +71,11 @@ If you want to run Coinpunk in production rather than on testnet, remove `testne
 Start bitcoind:
 
 ```
-bitcoind &
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.bitcoind.plist
+
+OR
+
+bitcoind -daemon
 ```
 
 **Bitcoind will take several hours or more to download the blockchain in production.** Coinpunk will not be able to function properly until this has occurred. Please be patient.
