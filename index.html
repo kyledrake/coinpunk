@@ -6,6 +6,8 @@
     <link href='font/source-sans-pro/source-sans-pro.css' rel='stylesheet' type='text/css'>
     <link href='font/sintony/sintony.css' rel='stylesheet' type='text/css'>
     <link href="css/site.css" rel="stylesheet">
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <style>
     </style>
@@ -34,18 +36,11 @@
 
       <div class="row front-buttons">
         <div class="col-lg-4 col-lg-offset-2">
-          <a href="https://wallet.coinpunk.com/#/signup" class="btn btn-signup visible-lg pull-right btn-large">Sign Up to Create a Wallet</a>
-          <a href="https://wallet.coinpunk.com/#/signup" class="btn btn-signup hidden-lg">Sign Up to Create a Wallet</a>
+          <a href="#" class="btn btn-signup hidden-lg" data-toggle="modal" data-target="#myModal">Create a New Wallet</a>
         </div>
         <div class="col-lg-4">
-          <a href="https://wallet.coinpunk.com" class="btn btn-signin visible-lg btn-large">Sign In</a>
-          <a href="https://wallet.coinpunk.com" class="btn btn-signin hidden-lg">Sign In</a>
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 text-center">
-          <h1><strong><a href="http://igg.me/at/coinpunk" target="_blank">Help us Build Coinpunk</a></strong></h1>
+          <a href="#" class="btn btn-signin visible-lg btn-large" data-toggle="modal" data-target="#signin">Sign In</a>
+          <a href="https://wallet.coinpunk.com" class="btn btn-signin hidden-lg" data-toggle="modal" data-target="#signin">Sign In</a>
         </div>
       </div>
       
@@ -94,6 +89,54 @@
         </div>
       </div>
     </div>
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title" id="myModalLabel" style="color: #FF6633">NOTICE - Please Read</h3>
+          </div>
+          <div class="modal-body">
+            <p>Coinpunk is not a startup. It is an open source project run by unpaid members of the Bitcoin community. As is mentioned in our <a href="tos.html">Terms of Service</a>, <b>we can provide no guarantees for the quality of this service, and cannot compensate for lost funds if an error occurs, whether it is caused by us or not.</b></p>
+            <p>Coinpunk is a <a href="https://en.bitcoin.it/wiki/Hot_wallet" target="_blank">hot wallet</a>, and shouldn't be used for storing a large amount of Bitcoins. We recommend storing less than $300USD worth of Bitcoins in Coinpunk, and then using a <a href="https://en.bitcoin.it/wiki/Cold_storage" target="_blank">cold storage wallet</a> to store the majority of your bitcoins safely. We also recommend <b>immediately downloading a backup of your coinpunk wallet</b> after creating it, which you can do from the Backup tab.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick='document.location.href = "https://wallet.coinpunk.com/#/signup";'>OK, I understand</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="signin" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title" id="signinLabel" style="color: #FF6633">NOTICE - Please Read</h3>
+          </div>
+          <div class="modal-body">
+            <p>Coinpunk is not a startup. It is an open source project run by unpaid members of the Bitcoin community. As is mentioned in our <a href="tos.html">Terms of Service</a>, <b>we can provide no guarantees for the quality of this service, and cannot compensate for lost funds if an error occurs, whether it is caused by us or not.</b></p>
+            <p>Coinpunk is a <a href="https://en.bitcoin.it/wiki/Hot_wallet" target="_blank">hot wallet</a>, and shouldn't be used for storing a large amount of Bitcoins. We recommend storing less than $300USD worth of Bitcoins in Coinpunk, and then using a <a href="https://en.bitcoin.it/wiki/Cold_storage" target="_blank">cold storage wallet</a> to store the majority of your bitcoins safely. We also recommend <b>immediately downloading a backup of your coinpunk wallet</b> after creating it, which you can do from the Backup tab.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick='document.location.href = "https://wallet.coinpunk.com";'>OK, I understand</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
     <footer>
       <div class="container">
         <div class="row">
