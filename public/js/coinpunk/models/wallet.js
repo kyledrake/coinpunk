@@ -340,9 +340,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     return Math.ceil(txSize/1000)*0.0001;
   };
 
-  this.createSend = function(amtString, feeString, addressString, changeAddress) {
-    var tx = this.createTx(amtString, feeString, addressString, changeAddress);
-
+  this.createSend = function(amtString, feeString, addressString, tx) {
     this.transactions.push({
       hash: Bitcoin.convert.bytesToHex(tx.obj.getHash()),
       type: 'send',

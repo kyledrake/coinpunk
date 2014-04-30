@@ -90,17 +90,17 @@ coinpunk.controllers.Tx.prototype.create = function() {
   }
 
   var myAddresses = coinpunk.wallet.addresses();
-  
+
   for(var i=0; i<myAddresses.length;i++) {
     if(myAddresses[i].address == address)
       errors.push('You cannot send to your own bitcoin wallet.');
   }
 
-  if(amount == '' || parseFloat(amount) == 0)
+  if(amount == '' || parseFloat(amount) == 0) {
     errors.push('You must have a valid amount to send.');
-  else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
+  } else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null) {
     errors.push('You must have a valid amount to send.');
-  else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
+  } else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
     errors.push('Cannot spend more bitcoins than you currently have.');
   }
 
@@ -109,13 +109,10 @@ coinpunk.controllers.Tx.prototype.create = function() {
     sendButton.removeClass('disabled');
     return;
   }
-
   var changeAddress = $('#changeAddress').val();
 
   if(changeAddress == '')
     changeAddress = coinpunk.wallet.createNewAddress('change', true);
-
-  var rawtx = coinpunk.wallet.createSend(amount, calculatedFee, address, changeAddress);
 
   self.saveWallet({override: true, address: changeAddress}, function(response) {
     if(response.result == 'error' && response.messages[0] == 'Invalid session key') {
@@ -125,25 +122,22 @@ coinpunk.controllers.Tx.prototype.create = function() {
       self.displayErrors(['An unknown error has occured, tx was not sent. Logging out. Please try again later.'], errorsDiv);
       delete coinpunk.wallet;
     } else {
-      $.post('/api/tx/send', {tx: rawtx}, function(resp) {
-        if(resp.error) {
-          coinpunk.wallet.revertTx();
 
-          return self.saveWallet({override: true}, function(walletResponse) {
-            if(response.result != 'ok') {
-              self.displayErrors(['An unknown error has occured, tx was not sent and could not revert tx info. Logging out. Please reload and try again later.'], errorsDiv);
-              delete coinpunk.wallet;
-            }
-            self.displayErrors([resp.error.message], errorsDiv);
-            sendButton.removeClass('disabled');
-          })
+      var tx = coinpunk.wallet.createTx(amount, calculatedFee, address, changeAddress);
+      $.post('/api/tx/send', {tx: tx.raw}, function(resp) {
+        if (resp.error) {
+          self.displayErrors(resp.messages, errorsDiv);
+          sendButton.removeClass('disabled');
+          return;
         }
+        else {
+          coinpunk.wallet.createSend(amount, calculatedFee, address, tx);
+          coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
-        coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
-
-        self.getUnspent(function() {
-          coinpunk.router.route('dashboard');
-        });
+          self.getUnspent(function() {
+            coinpunk.router.route('dashboard');
+          });
+        }
       });
     }
   });
