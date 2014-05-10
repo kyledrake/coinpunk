@@ -41,7 +41,6 @@ Consult `brew info redis` to learn how to configure redis to start (and start au
 Please check the instructions for [installing and configuring Insight API](https://github.com/bitpay/insight-api). 
 In order to run Insight API you need to install bitcoind and download the bitcoin blockchain as described on the documentation.
 
-
 ## Install and Configure Coinpunk
 
 Go to your user's home directory (`cd ~`), clone the repository and install nodejs dependencies:

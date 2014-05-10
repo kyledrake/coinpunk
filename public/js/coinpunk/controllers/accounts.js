@@ -116,11 +116,12 @@ coinpunk.controllers.Accounts.prototype.create = function() {
 
     var wallet = new coinpunk.Wallet();
     var address   = wallet.createNewAddress('Default');
+    var change    = wallet.createNewAddress('change', true);
     var walletKey = wallet.createWalletKey(email, password);
 
     coinpunk.wallet = wallet;
 
-    this.saveWallet({address: address, payload: {email: email}}, function(response) {
+    this.saveWallet({address: address, addresses: [change], payload: {email: email}}, function(response) {
       if(response.result == 'ok') {
         coinpunk.wallet.sessionKey = response.sessionKey;
         coinpunk.router.listener();

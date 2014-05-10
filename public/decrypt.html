@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="css/all.css" rel="stylesheet">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <title>Coinpunk</title>
+    <script>
+    
+      function decrypt() {
+        try {
+          var email = document.getElementById('email').value
+          var password = document.getElementById('password').value
+          var wallet = document.getElementById('wallet').value
+          var output = document.getElementById('output')
+
+          var key = sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(password, email, 1000))
+
+          output.innerHTML = '<pre>'+JSON.stringify(JSON.parse(sjcl.decrypt(key, wallet)), null, "\t")+'</pre>'
+        } catch(e) {
+          output.innerHTML = 'error: '+e
+        }
+      }
+    
+    </script>
+  </head>
+  <body>
+    <div id="header" style="margin-bottom: 50px"></div>
+    <div id="container" class="container" style="margin-bottom: 30px">
+      <h1>Decrypt Wallet</h1>
+      
+      <form id="form" onsubmit="decrypt(); return false">
+        Email: <input id="email" type="text">
+        <br>
+        Password: <input id="password" type="password">
+        <br>
+        Encrypted Wallet:<br>
+        <textarea id="wallet" rows="10" cols="100"></textarea>
+        <br>
+        <input type="submit" value="Decrypt">
+      </div>
+      
+      <div id="output">
+      </div>
+    </div>
+
+    <script src="js/lib/bitcoinjs.js"></script>
+    <script src="js/lib/sjcl.js"></script>
+    <script>
+      var Bitcoin = require('./lib/bitcoinjs/index.js');
+    </script>
+  </body>
+</html>
