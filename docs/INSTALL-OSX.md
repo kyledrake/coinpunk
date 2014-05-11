@@ -35,50 +35,11 @@ Change `appendfsync everysec` to `appendfsync always`.
 
 Consult `brew info redis` to learn how to configure redis to start (and start automatically on reboot).
 
-## Install and Configure Bitcoind
 
-Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861) which has not yet been rebased on 0.9.0.
+## Install and Configure Insight API
 
-WyseNynja maintains a [tap](https://github.com/WyseNynja/homebrew-bitcoin) that makes installing this patched version of bitcoind easy.
-
-```
-brew tap WyseNynja/bitcoin
-brew prune
-brew install bitcoind-sipa-watchonly
-```
-
-Be sure to follow the Caveats.  If you want to start bitcoind at login, install the launchd plist with `ln -sfv /usr/local/opt/bitcoind/*.plist ~/Library/LaunchAgents` (if brew gives something different, use what brew gave instead of this command)
-
-Now you need to configure bitcoind:
-
-```
-vi ~/Library/Application\ Support/Bitcoin/bitcoin.conf
-```
-
-And add the following information (set the `rpcuser` and `rpcpassword` to something else:
-
-```
-rpcuser=NEWUSERNAME
-rpcpassword=NEWPASSWORD
-txindex=1
-testnet=1
-```
-
-**If your bitcoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
-
-If you want to run Coinpunk in production rather than on testnet, remove `testnet=1` from the config. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://testnet.mojocoin.com/). I strongly recommend this mode for testing.
-
-Start bitcoind:
-
-```
-launchctl load ~/Library/LaunchAgents/homebrew.mxcl.bitcoind.plist
-
-OR
-
-bitcoind -daemon
-```
-
-**Bitcoind will take several hours or more to download the blockchain in production.** Coinpunk will not be able to function properly until this has occurred. Please be patient.
+Please check the instructions for [installing and configuring Insight API](https://github.com/bitpay/insight-api). 
+In order to run Insight API you need to install bitcoind and download the bitcoin blockchain as described on the documentation.
 
 ## Install and Configure Coinpunk
 
@@ -100,7 +61,7 @@ Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8332` for
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
+  "insight": "http://127.0.0.1:3001/api",
   "pricesUrl": "https://bitpay.com/api/rates",
   "testnet": true,
   "httpPort": 8080
@@ -111,7 +72,7 @@ For SSL:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
+  "insight": "http://127.0.0.1:3001/api",
   "pricesUrl": "https://bitpay.com/api/rates",
   "testnet": true,
   "httpPort": 8085,

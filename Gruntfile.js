@@ -9,20 +9,24 @@ module.exports = function(grunt) {
         options: {
           stdout: true
         },
-        command: './node_modules/browserify/bin/cmd.js -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs > public/js/lib/bitcoinjs.js'
+        command: grunt.option('target') === 'dev' 
+                ? './node_modules/browserify/bin/cmd.js -r ./lib/bitcoinjs/index.js > public/js/lib/bitcoinjs.js'
+                : './node_modules/browserify/bin/cmd.js -r ./lib/bitcoinjs/index.js | ./node_modules/.bin/uglifyjs  > public/js/lib/bitcoinjs.js'
       },
       minifycss: {
         options: {
           stdout: true
         },
-        command: 'cat public/css/bootstrap.css public/css/font-awesome.css public/css/fonts.css | ./node_modules/.bin/cleancss -o public/css/all.css'
+        command: grunt.option('target') === 'dev' 
+          ? 'cat public/css/bootstrap.css public/css/font-awesome.css public/css/fonts.css > public/css/all.css'
+          : 'cat public/css/bootstrap.css public/css/font-awesome.css public/css/fonts.css | ./node_modules/.bin/cleancss -o public/css/all.css'
       }
     },
-
     uglify: {
       coinpunk: {
         options: {
-          "beautify": false,
+          "mangle": grunt.option('target') === 'dev' ? false : true,
+          "beautify": grunt.option('target') === 'dev' ? true : false,
           "screw-ie8": true
         },
         files: {
@@ -73,7 +77,6 @@ module.exports = function(grunt) {
         }
       }
     },
-
     watch: {
       scripts: {
         files: ['public/js/**/*.js'],
@@ -82,12 +85,19 @@ module.exports = function(grunt) {
           spawn: false,
         },
       },
+      scriptsBrowserify: {
+        files: ['lib/bitcoinjs/**/*.js'],
+        tasks: ['shell:browserify'],
+        options: {
+          spawn: false,
+        },
+      },
     },
   });
-
+/*
   grunt.event.on('watch', function(action, filepath) {
     grunt.config(['uglify'], filepath);
   });
-
+*/
   grunt.registerTask('default', ['shell', 'uglify']);
 };

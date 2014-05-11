@@ -12,10 +12,9 @@ coinpunk.Controller.prototype.getUnspent = function(confirmations, callback) {
 
   $.post('/api/tx/unspent', query, function(resp) {
     if(resp.error) {
-      coinpunk.router.route('node_error');
+      coinpunk.router.route('insight_error');
       return;
     }
-
     self.mergeUnspent(resp.unspent, callback);
   });
 };

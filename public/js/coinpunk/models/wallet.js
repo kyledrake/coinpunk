@@ -168,6 +168,10 @@ coinpunk.Wallet = function(walletKey, walletId) {
     this.unspentConfirmations = this.unspentConfirmations || {};
 
     for(var i=0;i<newUnspent.length;i++) {
+      if (_.any(this.lastUnspentsUsed, function (t) { return t.hash == newUnspent[i].hash })) {
+        continue;
+      }
+
       var match = false;
 
       for(var j=0;j<this.unspent.length;j++) {
@@ -371,10 +375,11 @@ coinpunk.Wallet = function(walletKey, walletId) {
       time: new Date().getTime()
     });
 
-    // Remove unspent elements now that we have a tx that uses them
-    for(var i=0;i<tx.unspentsUsed.length;i++)
-      this.unspent = _.reject(this.unspentsUsed, function(u) { return u.hash == tx.unspentsUsed[i].hash })
-
+    // Remove unspent elements now that we have a tx that uses them.
+    this.unspent = _.difference(this.unspent, tx.unspentsUsed);
+    
+    // Keep track of the transactions we just used, in case we need
+    // to rollback the spend.
     this.lastUnspentsUsed = tx.unspentsUsed;
 
     return tx.raw;
