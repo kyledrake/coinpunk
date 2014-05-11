@@ -145,11 +145,19 @@ coinpunk.controllers.Tx.prototype.create = function() {
           coinpunk.wallet.revertTx();
 
           return self.saveWallet({override: true}, function(walletResponse) {
-            if(response.result != 'ok') {
+            if(walletResponse.result != 'ok') {
               self.displayErrors(['An unknown error has occured, tx was not sent and could not revert tx info. Logging out. Please reload and try again later.'], errorsDiv);
               coinpunk.router.route('signout');
             }
-            self.displayErrors([resp.error.message], errorsDiv);
+
+            var errMsg = resp.error.message;
+
+            if (errMsg == undefined && resp.messages != undefined && resp.messages.length > 0) {
+                // RPC error strings contain the RPC username normally. Extract only the error code.
+                errMsg = "Send failed. [" + (new RegExp("Code:[ -\\d]+")).exec(resp.messages[0])[0] + "]";
+            }
+
+            self.displayErrors([errMsg], errorsDiv);
             sendButton.removeClass('disabled');
           })
 
