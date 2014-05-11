@@ -154,7 +154,6 @@ coinpunk.controllers.Tx.prototype.create = function() {
           })
 
         } else {
-          coinpunk.wallet.createSend(amount, calculatedFee, address, tx);
           coinpunk.database.setSuccessMessage("Sent "+amount+" BTC to "+address+".");
 
           self.getUnspent(function() {
