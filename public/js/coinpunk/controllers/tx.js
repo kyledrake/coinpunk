@@ -94,6 +94,10 @@ coinpunk.controllers.Tx.prototype.create = function() {
   errorsDiv.addClass('hidden');
   errorsDiv.html('');
 
+  if(address.match('^3')) {
+    errors.push('P2SH addresses are currently not supported.');
+  }
+
   if(address == '')
     errors.push('You cannot have a blank sending address.');
   else {
