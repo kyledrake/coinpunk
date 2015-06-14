@@ -1,10 +1,8 @@
-## NOTICE: Breaking changes!
+## NOTICE: End of work notice
 
-Coinpunk updated to the latest version of SJCL, which has fixed a bug that caused PBKDF2 hashes to be inconsistent from the standard.
+Due to lack of time, support, and resources, the Coinpunk project is currently not under active development. See [the announcement](http://coinpunkblog.neocities.org).
 
-This has been fixed, but it will not work with wallets created before [this commit](https://github.com/kyledrake/coinpunk/commit/26fc0ebec6ff89d2bc3ad49c9e490cf66d331844). Please be mindful of this when upgrading Coinpunk if you are already running it in production.
-
-Also, we are switching to a release-based system, so you should checkout one of the tagged versions instead of using master. The 0.3 series will not contain any breaking changes, but the 0.4 releases will. So please use a 0.3 release if you are using Coinpunk in production.
+Instead of using this code, I suggest building a new wallet based on our work improving the excellent new version of [BitcoinJS](https://github.com/bitcoinjs/bitcoinjs-lib). Coinpunk was a product of it's time, and since then many improvements to the Bitcoin code ecosystem have happened.
 
 # ![Coinpunk](http://i.imgur.com/m1diPkP.png)
 
